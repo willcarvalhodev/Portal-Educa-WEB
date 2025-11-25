@@ -1,3 +1,3 @@
-# Este arquivo garante que todas as rotas funcionem corretamente no Netlify
-# Não é necessário para sites estáticos simples, mas ajuda com SPA
-
+# Redirecionamento para SPA - apenas para rotas sem hash
+# Rotas com hash (#) são tratadas pelo JavaScript
+/*    /index.html   200

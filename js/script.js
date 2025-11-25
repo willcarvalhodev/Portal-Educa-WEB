@@ -22,12 +22,26 @@ navLinks.forEach(link => {
     });
 });
 
-// Scroll Suave
+// Scroll Suave para links com hash
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const hash = this.getAttribute('href');
+        
+        // Se for apenas #, voltar ao topo
+        if (hash === '#' || hash === '#home') {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            history.pushState(null, null, '/');
+            return;
+        }
+        
+        // Para outros hashes
+        const target = document.querySelector(hash);
         if (target) {
+            e.preventDefault();
             const headerOffset = 80;
             const elementPosition = target.getBoundingClientRect().top;
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -36,8 +50,48 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 top: offsetPosition,
                 behavior: 'smooth'
             });
+            
+            // Atualizar URL sem recarregar a página
+            history.pushState(null, null, hash);
         }
     });
+});
+
+// Tratar logo - voltar ao topo
+const logo = document.querySelector('.logo');
+if (logo) {
+    logo.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '/' || href === '#home' || href === '#') {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            history.pushState(null, null, '/');
+        }
+    });
+}
+
+// Scroll para hash quando a página carrega com hash na URL
+window.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash) {
+        const hash = window.location.hash;
+        const target = document.querySelector(hash);
+        
+        if (target) {
+            setTimeout(() => {
+                const headerOffset = 80;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    }
 });
 
 // Header com scroll dinâmico

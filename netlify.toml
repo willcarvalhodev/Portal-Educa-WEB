@@ -2,13 +2,6 @@
   # Como não há build, apenas publicamos os arquivos estáticos
   publish = "."
 
-[[redirects]]
-  # Redireciona todas as rotas para index.html (para SPA-like behavior se necessário)
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
-
 # Configurações de headers para melhor performance
 [[headers]]
   for = "/*"
@@ -32,4 +25,3 @@
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-
