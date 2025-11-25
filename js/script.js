@@ -37,37 +37,18 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Header com scroll
-let lastScroll = 0;
 const header = document.getElementById('header');
 
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
     if (currentScroll > 100) {
-        header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+        header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
     } else {
-        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+        header.style.boxShadow = 'none';
+        header.style.background = 'rgba(255, 255, 255, 0.8)';
     }
-    
-    lastScroll = currentScroll;
-});
-
-// Tabs de Soluções
-const tabButtons = document.querySelectorAll('.tab-btn');
-const tabContents = document.querySelectorAll('.tab-content');
-
-tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const targetTab = button.getAttribute('data-tab');
-        
-        // Remove active de todos
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
-        
-        // Adiciona active no selecionado
-        button.classList.add('active');
-        document.getElementById(targetTab).classList.add('active');
-    });
 });
 
 // Animação ao scroll (Intersection Observer)
@@ -87,7 +68,7 @@ const observer = new IntersectionObserver((entries) => {
 
 // Observar elementos para animação
 document.addEventListener('DOMContentLoaded', () => {
-    const animateElements = document.querySelectorAll('.feature-card, .solution-feature, .benefit-item');
+    const animateElements = document.querySelectorAll('.feature-item, .solution-card, .visual-card');
     
     animateElements.forEach(el => {
         el.style.opacity = '0';
@@ -97,33 +78,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Animação do dashboard mockup
-const dashboardMockup = document.querySelector('.dashboard-mockup');
-if (dashboardMockup) {
-    let mouseX = 0;
-    let mouseY = 0;
-    
-    dashboardMockup.addEventListener('mousemove', (e) => {
-        const rect = dashboardMockup.getBoundingClientRect();
-        mouseX = (e.clientX - rect.left) / rect.width;
-        mouseY = (e.clientY - rect.top) / rect.height;
-        
-        const rotateY = (mouseX - 0.5) * 10;
-        const rotateX = (0.5 - mouseY) * 10;
-        
-        dashboardMockup.style.transform = `perspective(1000px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-    });
-    
-    dashboardMockup.addEventListener('mouseleave', () => {
-        dashboardMockup.style.transform = 'perspective(1000px) rotateY(-5deg) rotateX(5deg)';
-    });
-}
+// Animação dos cards flutuantes
+const floatingCards = document.querySelectorAll('.floating-card');
+floatingCards.forEach((card, index) => {
+    card.style.animationDelay = `${index * 2}s`;
+});
 
-// Animação dos nós de IA
-const aiNodes = document.querySelectorAll('.ai-node');
-if (aiNodes.length > 0) {
-    aiNodes.forEach((node, index) => {
-        node.style.animation = `float ${3 + index}s infinite ease-in-out`;
-        node.style.animationDelay = `${index * 0.5}s`;
-    });
-}
+// Animação das barras do gráfico
+const itemBars = document.querySelectorAll('.item-bar');
+itemBars.forEach((bar, index) => {
+    setTimeout(() => {
+        bar.style.animation = `growUp 1s ease`;
+    }, index * 200);
+});
