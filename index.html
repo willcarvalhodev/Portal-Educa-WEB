@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Educa - O Futuro da Gestão Escolar com IA</title>
+    <title>Portal Educa - CRM Educacional com IA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Header Fixo -->
+    <!-- Header -->
     <header class="header" id="header">
         <div class="header-container">
             <a href="#home" class="logo">
-                <h1>Portal Educa</h1>
+                <span class="logo-icon">🎓</span>
+                <span class="logo-text">Portal Educa</span>
             </a>
             <nav class="nav" id="nav">
-                <a href="#home" class="nav-link">Início</a>
                 <a href="#recursos" class="nav-link">Recursos</a>
+                <a href="#solucoes" class="nav-link">Soluções</a>
                 <a href="#ia" class="nav-link">IA</a>
                 <a href="#contato" class="nav-link">Contato</a>
                 <a href="#contato" class="btn-cta-header">Experimente Grátis</a>
@@ -31,52 +32,122 @@
         </div>
     </header>
 
-    <!-- Seção Hero -->
+    <!-- Hero Section -->
     <section class="hero" id="home">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+        </div>
         <div class="container">
             <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">✨</span>
+                    <span>Powered by AI</span>
+                </div>
                 <h1 class="hero-title">
-                    Portal Educa: O Futuro da Gestão Escolar com IA
+                    O CRM Educacional que <span class="gradient-text">Revoluciona</span> a Gestão Escolar
                 </h1>
                 <p class="hero-subtitle">
-                    Transforme a experiência educacional com inteligência artificial. 
-                    Professores economizam tempo, alunos recebem feedback instantâneo e 
-                    transparente. A educação nunca foi tão inteligente.
+                    Plataforma omnichannel alimentada por IA que conecta professores, alunos e gestores. 
+                    Automatize processos, ganhe insights inteligentes e transforme a experiência educacional.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#contato" class="btn btn-primary">Agende uma Demonstração</a>
-                    <a href="#recursos" class="btn btn-secondary">Conheça os Recursos</a>
+                    <a href="#contato" class="btn btn-primary">
+                        <span>Começar Agora</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="#recursos" class="btn btn-secondary">
+                        <span>Ver Demonstração</span>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10k+</div>
+                        <div class="stat-label">Escolas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">500k+</div>
+                        <div class="stat-label">Usuários</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="mockup-container">
-                    <div class="mockup-screen">
-                        <div class="mockup-header">
-                            <div class="mockup-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+            <div class="hero-visual">
+                <div class="dashboard-mockup">
+                    <div class="dashboard-header">
+                        <div class="dashboard-controls">
+                            <span class="control-dot"></span>
+                            <span class="control-dot"></span>
+                            <span class="control-dot"></span>
+                        </div>
+                        <div class="dashboard-title">Portal Educa Dashboard</div>
+                    </div>
+                    <div class="dashboard-content">
+                        <div class="dashboard-sidebar">
+                            <div class="sidebar-item active">
+                                <span class="sidebar-icon">📊</span>
+                                <span>Dashboard</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <span class="sidebar-icon">👥</span>
+                                <span>Alunos</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <span class="sidebar-icon">📚</span>
+                                <span>Cursos</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <span class="sidebar-icon">🤖</span>
+                                <span>IA Assistant</span>
                             </div>
                         </div>
-                        <div class="mockup-content">
-                            <div class="ai-assistant">
-                                <div class="ai-avatar">🤖</div>
-                                <div class="ai-message">
-                                    <p>Olá! Sou seu assistente virtual. Como posso ajudar hoje?</p>
+                        <div class="dashboard-main">
+                            <div class="dashboard-cards">
+                                <div class="dashboard-card">
+                                    <div class="card-icon">📈</div>
+                                    <div class="card-content">
+                                        <div class="card-value">1,234</div>
+                                        <div class="card-label">Alunos Ativos</div>
+                                    </div>
+                                </div>
+                                <div class="dashboard-card">
+                                    <div class="card-icon">✅</div>
+                                    <div class="card-content">
+                                        <div class="card-value">98%</div>
+                                        <div class="card-label">Taxa de Aprovação</div>
+                                    </div>
+                                </div>
+                                <div class="dashboard-card">
+                                    <div class="card-icon">⚡</div>
+                                    <div class="card-content">
+                                        <div class="card-value">70%</div>
+                                        <div class="card-label">Economia de Tempo</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="ai-features">
-                                <div class="ai-feature-item">
-                                    <span class="ai-icon">✨</span>
-                                    <span>Correção Inteligente</span>
+                            <div class="ai-chat-widget">
+                                <div class="chat-header">
+                                    <div class="chat-avatar">🤖</div>
+                                    <div class="chat-info">
+                                        <div class="chat-name">Assistente IA</div>
+                                        <div class="chat-status">Online</div>
+                                    </div>
                                 </div>
-                                <div class="ai-feature-item">
-                                    <span class="ai-icon">💬</span>
-                                    <span>Chat 24h</span>
-                                </div>
-                                <div class="ai-feature-item">
-                                    <span class="ai-icon">📊</span>
-                                    <span>Análise de Desempenho</span>
+                                <div class="chat-messages">
+                                    <div class="chat-message ai-message">
+                                        <p>Olá! Como posso ajudar hoje?</p>
+                                    </div>
+                                    <div class="chat-message user-message">
+                                        <p>Preciso de ajuda com correção de provas</p>
+                                    </div>
+                                    <div class="chat-message ai-message">
+                                        <p>Posso ajudar! Envie os arquivos e processarei automaticamente.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -86,82 +157,197 @@
         </div>
     </section>
 
-    <!-- Recursos por Usuário -->
-    <section class="recursos" id="recursos">
+    <!-- Features Grid -->
+    <section class="features" id="recursos">
         <div class="container">
-            <h2 class="section-title">Recursos que Transformam a Educação</h2>
-            <div class="recursos-grid">
-                <!-- Para Professores -->
-                <div class="recursos-column">
-                    <div class="recursos-header">
-                        <div class="recursos-icon">👨‍🏫</div>
-                        <h3>Para Professores</h3>
+            <div class="section-header">
+                <div class="section-badge">Recursos</div>
+                <h2 class="section-title">Tudo que você precisa em uma plataforma</h2>
+                <p class="section-subtitle">Ferramentas poderosas alimentadas por IA para transformar sua escola</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 2L20.09 11.26L30 12.27L22.5 19.14L24.18 29.02L16 24.77L7.82 29.02L9.5 19.14L2 12.27L11.91 11.26L16 2Z" fill="currentColor"/>
+                        </svg>
                     </div>
-                    <div class="recursos-list">
-                        <div class="recurso-item">
-                            <div class="recurso-icon">✨</div>
-                            <div class="recurso-content">
-                                <h4>Correção Inteligente</h4>
-                                <p>IA corrige provas e trabalhos automaticamente, economizando horas de trabalho</p>
+                    <h3>Correção Inteligente</h3>
+                    <p>IA corrige provas e trabalhos automaticamente com precisão de 95%, economizando horas de trabalho dos professores.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 2C8.27 2 2 8.27 2 16C2 23.73 8.27 30 16 30C23.73 30 30 23.73 30 16C30 8.27 23.73 2 16 2ZM16 28C9.37 28 4 22.63 4 16C4 9.37 9.37 4 16 4C22.63 4 28 9.37 28 16C28 22.63 22.63 28 16 28Z" fill="currentColor"/>
+                            <path d="M16 8V16L22 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Chat 24/7</h3>
+                    <p>Assistente virtual disponível a qualquer momento para alunos e professores, respondendo dúvidas instantaneamente.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M4 4H28V28H4V4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 12H28" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 4V28" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3>Analytics Avançado</h3>
+                    <p>Dashboards inteligentes com insights em tempo real sobre desempenho, engajamento e métricas educacionais.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 2L20.09 11.26L30 12.27L22.5 19.14L24.18 29.02L16 24.77L7.82 29.02L9.5 19.14L2 12.27L11.91 11.26L16 2Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Notas Transparentes</h3>
+                    <p>Alunos acompanham notas e feedback em tempo real, com explicações detalhadas sobre cada avaliação.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 2C8.27 2 2 8.27 2 16C2 23.73 8.27 30 16 30C23.73 30 30 23.73 30 16C30 8.27 23.73 2 16 2Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Planejamento Automático</h3>
+                    <p>Gere planos de aula personalizados baseados no currículo e necessidades individuais dos alunos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 2L20.09 11.26L30 12.27L22.5 19.14L24.18 29.02L16 24.77L7.82 29.02L9.5 19.14L2 12.27L11.91 11.26L16 2Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Integração Total</h3>
+                    <p>Conecte-se com todas as ferramentas que você já usa. API aberta para integrações personalizadas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions" id="solucoes">
+        <div class="container">
+            <div class="solutions-content">
+                <div class="solutions-text">
+                    <div class="section-badge">Soluções</div>
+                    <h2 class="section-title">Feito para cada perfil</h2>
+                    <p class="section-subtitle">Plataforma omnichannel que se adapta às necessidades de professores, alunos e gestores.</p>
+                    
+                    <div class="solution-tabs">
+                        <button class="tab-btn active" data-tab="professores">
+                            <span class="tab-icon">👨‍🏫</span>
+                            <span>Professores</span>
+                        </button>
+                        <button class="tab-btn" data-tab="alunos">
+                            <span class="tab-icon">🎓</span>
+                            <span>Alunos</span>
+                        </button>
+                        <button class="tab-btn" data-tab="gestores">
+                            <span class="tab-icon">👔</span>
+                            <span>Gestores</span>
+                        </button>
+                    </div>
+
+                    <div class="tab-content active" id="professores">
+                        <div class="solution-features">
+                            <div class="solution-feature">
+                                <div class="feature-check">✓</div>
+                                <div>
+                                    <h4>Correção Automática</h4>
+                                    <p>Economize até 70% do tempo com correções automáticas de provas e trabalhos</p>
+                                </div>
+                            </div>
+                            <div class="solution-feature">
+                                <div class="feature-check">✓</div>
+                                <div>
+                                    <h4>Relatórios Inteligentes</h4>
+                                    <p>Análise profunda do desempenho da turma com insights acionáveis</p>
+                                </div>
+                            </div>
+                            <div class="solution-feature">
+                                <div class="feature-check">✓</div>
+                                <div>
+                                    <h4>Planejamento Assistido</h4>
+                                    <p>IA sugere planos de aula baseados no currículo e histórico da turma</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="recurso-item">
-                            <div class="recurso-icon">📝</div>
-                            <div class="recurso-content">
-                                <h4>Planejamento Automático</h4>
-                                <p>Gere planos de aula personalizados com base no currículo e necessidades dos alunos</p>
+                    </div>
+
+                    <div class="tab-content" id="alunos">
+                        <div class="solution-features">
+                            <div class="solution-feature">
+                                <div class="feature-check">✓</div>
+                                <div>
+                                    <h4>Assistente Virtual 24/7</h4>
+                                    <p>Tire dúvidas a qualquer momento com nosso assistente inteligente</p>
+                                </div>
+                            </div>
+                            <div class="solution-feature">
+                                <div class="feature-check">✓</div>
+                                <div>
+                                    <h4>Feedback Instantâneo</h4>
+                                    <p>Receba correções e explicações detalhadas imediatamente após avaliações</p>
+                                </div>
+                            </div>
+                            <div class="solution-feature">
+                                <div class="feature-check">✓</div>
+                                <div>
+                                    <h4>Rota de Aprendizado</h4>
+                                    <p>Plano de estudos personalizado adaptado ao seu ritmo e dificuldades</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="recurso-item">
-                            <div class="recurso-icon">📊</div>
-                            <div class="recurso-content">
-                                <h4>Relatórios Detalhados</h4>
-                                <p>Análise completa do desempenho da turma com insights acionáveis</p>
+                    </div>
+
+                    <div class="tab-content" id="gestores">
+                        <div class="solution-features">
+                            <div class="solution-feature">
+                                <div class="feature-check">✓</div>
+                                <div>
+                                    <h4>Dashboard Executivo</h4>
+                                    <p>Visão completa da instituição com métricas em tempo real</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="recurso-item">
-                            <div class="recurso-icon">⏱️</div>
-                            <div class="recurso-content">
-                                <h4>Economia de Tempo</h4>
-                                <p>Reduza em até 70% o tempo gasto com tarefas administrativas</p>
+                            <div class="solution-feature">
+                                <div class="feature-check">✓</div>
+                                <div>
+                                    <h4>Gestão Financeira</h4>
+                                    <p>Controle completo de mensalidades, pagamentos e inadimplência</p>
+                                </div>
+                            </div>
+                            <div class="solution-feature">
+                                <div class="feature-check">✓</div>
+                                <div>
+                                    <h4>Comunicação Unificada</h4>
+                                    <p>Canal único para comunicação com toda a comunidade escolar</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Para Alunos -->
-                <div class="recursos-column">
-                    <div class="recursos-header">
-                        <div class="recursos-icon">🎓</div>
-                        <h3>Para Alunos</h3>
-                    </div>
-                    <div class="recursos-list">
-                        <div class="recurso-item">
-                            <div class="recurso-icon">💬</div>
-                            <div class="recurso-content">
-                                <h4>Chat 24 Horas</h4>
-                                <p>Assistente virtual disponível a qualquer momento para tirar dúvidas</p>
+                <div class="solutions-visual">
+                    <div class="solutions-mockup">
+                        <div class="mockup-card">
+                            <div class="card-header">
+                                <div class="card-avatar">👨‍🏫</div>
+                                <div class="card-info">
+                                    <div class="card-name">Prof. Maria Silva</div>
+                                    <div class="card-role">Matemática</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="recurso-item">
-                            <div class="recurso-icon">📈</div>
-                            <div class="recurso-content">
-                                <h4>Notas Transparentes</h4>
-                                <p>Acompanhe suas notas e desempenho em tempo real, com feedback detalhado</p>
-                            </div>
-                        </div>
-                        <div class="recurso-item">
-                            <div class="recurso-icon">🎯</div>
-                            <div class="recurso-content">
-                                <h4>Plano de Estudos Personalizado</h4>
-                                <p>IA cria rotas de aprendizado adaptadas ao seu ritmo e dificuldades</p>
-                            </div>
-                        </div>
-                        <div class="recurso-item">
-                            <div class="recurso-icon">📚</div>
-                            <div class="recurso-content">
-                                <h4>Material de Apoio Inteligente</h4>
-                                <p>Receba recomendações de conteúdo baseadas nas suas necessidades</p>
+                            <div class="card-stats">
+                                <div class="stat-mini">
+                                    <div class="stat-value">45</div>
+                                    <div class="stat-desc">Provas corrigidas hoje</div>
+                                </div>
+                                <div class="stat-mini">
+                                    <div class="stat-value">2h</div>
+                                    <div class="stat-desc">Tempo economizado</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -170,118 +356,161 @@
         </div>
     </section>
 
-    <!-- Diferencial: IA e Inovação -->
+    <!-- IA Section -->
     <section class="ia-section" id="ia">
         <div class="container">
             <div class="ia-content">
-                <div class="ia-text">
-                    <h2 class="section-title">A Inteligência Artificial a Serviço da Educação</h2>
-                    <p class="ia-description">
-                        Nossa plataforma utiliza algoritmos avançados de machine learning para 
-                        personalizar a experiência educacional. A IA analisa padrões de aprendizado, 
-                        identifica dificuldades individuais e oferece soluções adaptadas para cada 
-                        estudante e educador.
-                    </p>
-                    <p class="ia-description">
-                        Professores ganham tempo valioso com correções automáticas e análises 
-                        inteligentes, enquanto alunos recebem feedback imediato e transparente, 
-                        promovendo um aprendizado mais eficiente e engajador.
-                    </p>
-                    <div class="ia-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">70%</div>
-                            <div class="stat-label">Economia de Tempo</div>
+                <div class="ia-visual">
+                    <div class="ai-visualization">
+                        <div class="ai-core-center">
+                            <div class="ai-pulse-ring"></div>
+                            <div class="ai-pulse-ring"></div>
+                            <div class="ai-core">🧠</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">Disponibilidade</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">95%</div>
-                            <div class="stat-label">Precisão na Correção</div>
+                        <div class="ai-nodes">
+                            <div class="ai-node node-1">
+                                <div class="node-icon">📚</div>
+                                <div class="node-label">Aprendizado</div>
+                            </div>
+                            <div class="ai-node node-2">
+                                <div class="node-icon">📊</div>
+                                <div class="node-label">Análise</div>
+                            </div>
+                            <div class="ai-node node-3">
+                                <div class="node-icon">⚡</div>
+                                <div class="node-label">Automação</div>
+                            </div>
+                            <div class="ai-node node-4">
+                                <div class="node-icon">🎯</div>
+                                <div class="node-label">Personalização</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="ia-visual">
-                    <div class="ai-graphic">
-                        <div class="ai-core">
-                            <div class="ai-pulse"></div>
-                            <div class="ai-pulse"></div>
-                            <div class="ai-pulse"></div>
-                            <span class="ai-symbol">🧠</span>
+                <div class="ia-text">
+                    <div class="section-badge">Inteligência Artificial</div>
+                    <h2 class="section-title">IA que entende educação</h2>
+                    <p class="ia-description">
+                        Nossa plataforma utiliza algoritmos avançados de machine learning treinados 
+                        especificamente para o contexto educacional. A IA não apenas automatiza tarefas, 
+                        mas aprende com cada interação para oferecer experiências cada vez mais personalizadas.
+                    </p>
+                    <div class="ia-benefits">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🎯</div>
+                            <div>
+                                <h4>Precisão de 95%</h4>
+                                <p>Taxa de acerto em correções automáticas</p>
+                            </div>
                         </div>
-                        <div class="ai-connections">
-                            <div class="connection connection-1"></div>
-                            <div class="connection connection-2"></div>
-                            <div class="connection connection-3"></div>
-                            <div class="connection connection-4"></div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">⚡</div>
+                            <div>
+                                <h4>70% Mais Rápido</h4>
+                                <p>Economia de tempo em processos administrativos</p>
+                            </div>
                         </div>
-                        <div class="ai-nodes">
-                            <div class="node node-1">📚</div>
-                            <div class="node node-2">👨‍🏫</div>
-                            <div class="node node-3">🎓</div>
-                            <div class="node node-4">📊</div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">📈</div>
+                            <div>
+                                <h4>Insights em Tempo Real</h4>
+                                <p>Análise instantânea de dados educacionais</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contato">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Pronto para transformar sua escola?</h2>
+                <p class="cta-subtitle">Junte-se a milhares de escolas que já estão revolucionando a educação com IA</p>
+                <div class="cta-buttons">
+                    <a href="#contato" class="btn btn-primary btn-large">
+                        <span>Começar Agora - Grátis</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="#contato" class="btn btn-secondary btn-large">
+                        <span>Agendar Demonstração</span>
+                    </a>
+                </div>
+                <div class="cta-features">
+                    <div class="cta-feature">✓ Sem cartão de crédito</div>
+                    <div class="cta-feature">✓ Teste grátis por 30 dias</div>
+                    <div class="cta-feature">✓ Suporte 24/7</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer" id="contato">
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h3 class="footer-logo">Portal Educa</h3>
-                    <p>O futuro da gestão escolar com inteligência artificial.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="LinkedIn">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                        </a>
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="logo">
+                            <span class="logo-icon">🎓</span>
+                            <span class="logo-text">Portal Educa</span>
+                        </div>
+                        <p>O CRM educacional alimentado por IA que conecta toda a comunidade escolar.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link" aria-label="Facebook">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link" aria-label="Instagram">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="footer-links">
+                        <div class="footer-column">
+                            <h4>Produto</h4>
+                            <ul>
+                                <li><a href="#recursos">Recursos</a></li>
+                                <li><a href="#solucoes">Soluções</a></li>
+                                <li><a href="#ia">IA</a></li>
+                                <li><a href="#contato">Preços</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Empresa</h4>
+                            <ul>
+                                <li><a href="#">Sobre</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Carreiras</a></li>
+                                <li><a href="#">Contato</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="#">Privacidade</a></li>
+                                <li><a href="#">Termos</a></li>
+                                <li><a href="#">LGPD</a></li>
+                                <li><a href="#">Cookies</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="footer-section">
-                    <h4>Mapa do Site</h4>
-                    <ul class="footer-links">
-                        <li><a href="#home">Início</a></li>
-                        <li><a href="#recursos">Recursos</a></li>
-                        <li><a href="#ia">Inteligência Artificial</a></li>
-                        <li><a href="#contato">Contato</a></li>
-                    </ul>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 Portal Educa. Todos os direitos reservados.</p>
                 </div>
-                <div class="footer-section">
-                    <h4>Políticas</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Política de Privacidade</a></li>
-                        <li><a href="#">Termos de Uso</a></li>
-                        <li><a href="#">LGPD</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contato</h4>
-                    <ul class="footer-links">
-                        <li>📧 contato@portaleduca.com.br</li>
-                        <li>📞 (11) 3000-0000</li>
-                        <li>💬 WhatsApp: (11) 99999-9999</li>
-                    </ul>
-                    <a href="#contato" class="btn-cta-footer">Experimente Grátis</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Portal Educa. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
