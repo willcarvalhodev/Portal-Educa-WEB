@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portal Escolar</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <h1>Portal Escolar</h1>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="funcionalidades.html" class="nav-link">Funcionalidades</a>
+                <a href="sobre.html" class="nav-link">Sobre</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="cotacoes.html" class="nav-link">Cotações</a>
+                <a href="login.html" class="nav-link login-btn active">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="login">
+        <div class="login-container">
+            <div class="login-box">
+                <div class="login-header">
+                    <h1>Bem-vindo de volta!</h1>
+                    <p>Faça login para acessar sua conta</p>
+                </div>
+
+                <form class="login-form" onsubmit="event.preventDefault(); alert('Funcionalidade de login será implementada em breve!');">
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            placeholder="seu@email.com"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha">Senha</label>
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            required
+                            placeholder="Sua senha"
+                        />
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="lembrar" name="lembrar">
+                            <span>Lembrar-me</span>
+                        </label>
+                        <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large btn-block">
+                        Entrar
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    <p>
+                        Não tem uma conta? 
+                        <a href="cotacoes.html" class="link-primary">Solicite uma cotação</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="login-info">
+                <h2>Portal Escolar</h2>
+                <p>
+                    Acesse todas as funcionalidades do sistema de gestão escolar mais 
+                    completo do mercado.
+                </p>
+                <ul class="features-list">
+                    <li>✓ Gestão acadêmica completa</li>
+                    <li>✓ Controle financeiro</li>
+                    <li>✓ Portal do aluno e responsável</li>
+                    <li>✓ Relatórios e analytics</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+
