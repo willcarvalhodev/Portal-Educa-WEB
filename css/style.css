@@ -113,7 +113,7 @@ body {
     }
 }
 
-/* Cursor Personalizado */
+/* Cursor Personalizado - Apenas Desktop */
 .custom-cursor {
     position: fixed;
     width: 20px;
@@ -125,6 +125,14 @@ body {
     transform: translate(-50%, -50%);
     transition: width 0.2s, height 0.2s, border-width 0.2s;
     mix-blend-mode: difference;
+    display: none; /* Oculto por padrão */
+}
+
+/* Mostrar cursor apenas em dispositivos com mouse */
+@media (hover: hover) and (pointer: fine) {
+    .custom-cursor {
+        display: block;
+    }
 }
 
 .custom-cursor.cursor-hover {

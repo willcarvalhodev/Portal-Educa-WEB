@@ -252,26 +252,28 @@ if (visualScreen) {
     });
 }
 
-// Cursor personalizado (opcional)
-const cursor = document.createElement('div');
-cursor.className = 'custom-cursor';
-document.body.appendChild(cursor);
+// Cursor personalizado - Apenas Desktop (não mobile)
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
 
-document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-});
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
 
-// Adicionar classe hover em elementos interativos
-const interactiveElements = document.querySelectorAll('a, button, .feature-item, .visual-card');
-interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        cursor.classList.add('cursor-hover');
+    // Adicionar classe hover em elementos interativos
+    const interactiveElements = document.querySelectorAll('a, button, .feature-item, .visual-card');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('cursor-hover');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('cursor-hover');
+        });
     });
-    el.addEventListener('mouseleave', () => {
-        cursor.classList.remove('cursor-hover');
-    });
-});
+}
 
 // Animação de texto typewriter (opcional)
 function typeWriter(element, text, speed = 100) {

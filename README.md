@@ -1,115 +1,91 @@
-# Portal Escolar - Sistema de Gestão Educacional
+# 🎓 Portal Educa - Gestão Escolar Inteligente
 
-Site institucional para apresentação do Portal Escolar, um sistema completo de gestão educacional.
+Site institucional moderno para apresentação do Portal Educa, uma plataforma completa de gestão educacional alimentada por IA.
 
-## 🚀 Funcionalidades
+## ✨ Características
 
-- **Home**: Página principal com apresentação do produto
-- **Funcionalidades**: Detalhamento de todas as funcionalidades do sistema
-- **Sobre**: Informações sobre a empresa, missão, visão e valores
-- **Blog**: Artigos e notícias sobre gestão educacional
-- **Cotações**: Formulário para solicitação de cotação
-- **Login**: Página de acesso ao sistema
+- **Design Moderno**: Interface limpa e elegante com animações suaves
+- **CSS Avançado**: Efeitos 3D, glassmorphism, gradientes animados e partículas
+- **Totalmente Responsivo**: Funciona perfeitamente em desktop, tablet e mobile
+- **Performance Otimizada**: Carregamento rápido e animações fluidas
+- **Single Page Application**: Navegação suave entre seções
 
-## 🛠️ Tecnologias
+## 🚀 Tecnologias
 
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
-
-## 📦 Como Usar
-
-**Não é necessário instalar nada!** Este site funciona apenas com HTML, CSS e JavaScript puro.
-
-### Opção 1: Abrir diretamente no navegador
-1. Abra o arquivo `index.html` no seu navegador
-2. Pronto! O site está funcionando
-
-### Opção 2: Usar um servidor local (recomendado)
-
-#### Com Python:
-```bash
-# Python 3
-python -m http.server 8000
-
-# Python 2
-python -m SimpleHTTPServer 8000
-```
-
-#### Com PHP:
-```bash
-php -S localhost:8000
-```
-
-#### Com Node.js (se tiver instalado):
-```bash
-npx http-server
-```
-
-Depois acesse `http://localhost:8000` no navegador.
+- **HTML5**: Estrutura semântica
+- **CSS3**: Animações avançadas, efeitos 3D, glassmorphism
+- **JavaScript**: Interatividade e animações ao scroll
+- **GitHub Pages**: Hospedagem gratuita e ilimitada
 
 ## 📁 Estrutura do Projeto
 
 ```
 .
-├── index.html              # Página inicial
-├── funcionalidades.html    # Página de funcionalidades
-├── sobre.html              # Página sobre
-├── blog.html               # Página do blog
-├── cotacoes.html           # Página de cotações
-├── login.html              # Página de login
+├── index.html          # Página principal (single-page)
 ├── css/
-│   └── style.css          # Estilos do site
+│   └── style.css      # Estilos e animações avançadas
 ├── js/
-│   └── script.js          # Scripts JavaScript
-└── README.md
+│   └── script.js      # JavaScript para interatividade
+└── README.md          # Este arquivo
 ```
 
-## 🎨 Personalização
+## 🌐 Acesso
 
-Os estilos podem ser personalizados através das variáveis CSS em `css/style.css`:
+Site hospedado no GitHub Pages:
+**https://willcarvalhodev.github.io/Portal-Educa-WEB**
 
-- `--primary-color`: Cor primária do site
-- `--primary-dark`: Cor primária escura
-- `--secondary-color`: Cor secundária
-- `--text-dark`: Cor do texto escuro
-- `--text-light`: Cor do texto claro
+## 🎨 Recursos CSS Implementados
 
-## 🚀 Deploy no Netlify
+- ✅ Animações keyframes personalizadas
+- ✅ Efeitos 3D com transform e perspective
+- ✅ Glassmorphism (backdrop-filter)
+- ✅ Gradientes animados
+- ✅ Partículas e efeitos de fundo
+- ✅ Hover effects avançados
+- ✅ Scroll animations
+- ✅ Responsive design mobile-first
 
-Este site está pronto para ser publicado no Netlify! Veja o arquivo `DEPLOY_NETLIFY.md` para instruções detalhadas.
+## 📱 Responsividade
 
-### Resumo Rápido:
-1. Acesse [netlify.com](https://app.netlify.com)
-2. Arraste e solte a pasta do projeto
-3. Personalize o nome do site
-4. Pronto! Seu site estará online
+O site é totalmente responsivo e otimizado para:
+- 📱 Mobile (320px+)
+- 📱 Tablet (768px+)
+- 💻 Desktop (1024px+)
+- 🖥️ Large screens (1440px+)
 
-### QR Code:
-- O QR code aponta para a URL do seu site
-- **Atualizações não quebram o QR code** - a URL permanece a mesma
-- Personalize o nome do site ANTES de criar o QR code
+## 🔄 Como Atualizar
 
-## 📝 Próximos Passos
+1. Faça suas alterações nos arquivos
+2. Commit e push:
+```bash
+git add .
+git commit -m "Descrição da atualização"
+git push origin main
+```
 
-- Implementar autenticação real
-- Conectar formulário de cotações a um backend
-- Adicionar mais conteúdo ao blog
-- Implementar busca no blog
-- Adicionar área administrativa
+O GitHub Pages atualiza automaticamente em 1-2 minutos! 🎉
 
-## 🌐 Compatibilidade
+## 📝 Seções do Site
 
-O site é compatível com todos os navegadores modernos:
-- Chrome
-- Firefox
-- Safari
-- Edge
-- Opera
+- **Hero**: Apresentação principal com animações
+- **Recursos**: Grid de funcionalidades com efeitos hover
+- **Sobre**: Informações da plataforma com estatísticas
+- **CTA**: Call-to-action para conversão
+- **Footer**: Links e informações de contato
 
-## 📱 Responsivo
+## 🎯 Funcionalidades JavaScript
 
-O site é totalmente responsivo e funciona perfeitamente em:
-- Desktop
-- Tablet
-- Mobile
+- Scroll suave entre seções
+- Animações ao scroll (Intersection Observer)
+- Contadores animados
+- Menu mobile responsivo
+- Efeitos parallax
+- Cursor personalizado (apenas desktop)
+
+## 📄 Licença
+
+Este projeto é de uso educacional.
+
+---
+
+Desenvolvido com ❤️ para transformar a gestão educacional

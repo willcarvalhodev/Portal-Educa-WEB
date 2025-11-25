@@ -1,3 +1,0 @@
-# Redirecionamento para SPA - apenas para rotas sem hash
-# Rotas com hash (#) são tratadas pelo JavaScript
-/*    /index.html   200
