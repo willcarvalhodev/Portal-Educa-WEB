@@ -208,6 +208,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// ============================================
+// ATIVAÇÃO AUTOMÁTICA DE SEÇÕES NO MOBILE
+// ============================================
+
+// Observer para detectar qual feature está visível e ativar automaticamente
+const featureObserverOptions = {
+    threshold: 0.6, // Quando 60% do elemento está visível
+    rootMargin: '-20% 0px -20% 0px' // Margem para centralizar melhor
+};
+
+const featureObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // Remover active de todos
+            document.querySelectorAll('.feature-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            // Adicionar active no elemento visível
+            entry.target.classList.add('active');
+        }
+    });
+}, featureObserverOptions);
+
+// Observar todos os feature-items
+document.addEventListener('DOMContentLoaded', () => {
+    const featureItems = document.querySelectorAll('.feature-item');
+    
+    featureItems.forEach(item => {
+        featureObserver.observe(item);
+    });
+});
+
 // Efeito parallax no hero
 let lastScroll = 0;
 const hero = document.querySelector('.hero');
@@ -230,25 +262,83 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 
-// Efeito 3D no visual screen
+// Efeito 3D no visual screen - Desktop e Mobile
 const visualScreen = document.querySelector('.visual-screen');
 if (visualScreen) {
-    visualScreen.addEventListener('mousemove', (e) => {
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let currentRotateX = 5;
+    let currentRotateY = -5;
+    
+    // Função para aplicar rotação
+    function applyRotation(x, y) {
         const rect = visualScreen.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
         const rotateX = (y - centerY) / 10;
         const rotateY = (centerX - x) / 10;
         
+        currentRotateX = rotateX;
+        currentRotateY = rotateY;
+        
         visualScreen.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+    
+    // Desktop - Mouse
+    visualScreen.addEventListener('mousemove', (e) => {
+        if (!isDragging) {
+            const rect = visualScreen.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            applyRotation(x, y);
+        }
     });
     
     visualScreen.addEventListener('mouseleave', () => {
-        visualScreen.style.transform = 'perspective(1000px) rotateY(-5deg) rotateX(5deg)';
+        if (!isDragging) {
+            visualScreen.style.transform = 'perspective(1000px) rotateY(-5deg) rotateX(5deg)';
+            currentRotateX = 5;
+            currentRotateY = -5;
+        }
+    });
+    
+    // Mobile - Touch
+    visualScreen.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        const rect = visualScreen.getBoundingClientRect();
+        startX = touch.clientX - rect.left;
+        startY = touch.clientY - rect.top;
+        e.preventDefault();
+    }, { passive: false });
+    
+    visualScreen.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+            const touch = e.touches[0];
+            const rect = visualScreen.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            applyRotation(x, y);
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    visualScreen.addEventListener('touchend', () => {
+        isDragging = false;
+        // Retornar suavemente à posição inicial
+        setTimeout(() => {
+            if (!isDragging) {
+                visualScreen.style.transition = 'transform 0.5s ease-out';
+                visualScreen.style.transform = 'perspective(1000px) rotateY(-5deg) rotateX(5deg)';
+                currentRotateX = 5;
+                currentRotateY = -5;
+                setTimeout(() => {
+                    visualScreen.style.transition = '';
+                }, 500);
+            }
+        }, 100);
     });
 }
 
