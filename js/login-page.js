@@ -9,7 +9,7 @@ const LoginPageModule = (function() {
     
     let loginForm = null;
     let solicitarForm = null;
-    let activeFlow = 'solicitar'; // 'solicitar' ou 'login'
+    let activeFlow = 'login'; // 'login' ou 'solicitar'
     
     /**
      * Inicializa o módulo da página de login
@@ -21,6 +21,7 @@ const LoginPageModule = (function() {
             
             setupFlowTabs();
             setupEventListeners();
+            setupPasswordToggle();
             console.log('✅ LoginPageModule inicializado');
             
         } catch (error) {
@@ -32,35 +33,54 @@ const LoginPageModule = (function() {
      * Configura os painéis lado a lado
      */
     function setupFlowTabs() {
-        const loginPanel = document.querySelector('.login-flow__panel--login');
-        const solicitarPanel = document.querySelector('.login-flow__panel--solicitar');
+        const tealSide = document.querySelector('.login-flow__side--teal');
+        const formSide = document.querySelector('.login-flow__side--form');
+        const formSolicitar = document.querySelector('.login-flow__side--form-solicitar');
+        const tealRight = document.querySelector('.login-flow__side--teal-right');
+        const loginCard = document.querySelector('.login-card');
         
-        // Clique no painel de login
-        if (loginPanel) {
-            loginPanel.style.cursor = 'pointer';
-            loginPanel.addEventListener('click', function(e) {
-                // Não alterna se clicar em elementos interativos do formulário
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'LABEL') {
-                    return;
-                }
-                switchFlow('login');
-            });
-        }
-        
-        // Clique no painel de solicitar
-        if (solicitarPanel) {
-            solicitarPanel.style.cursor = 'pointer';
-            solicitarPanel.addEventListener('click', function(e) {
-                // Não alterna se clicar em elementos interativos do formulário
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'LABEL' || e.target.tagName === 'TEXTAREA') {
-                    return;
-                }
+        // Botão "Solicitar Acesso" no painel teal
+        const solicitarButton = tealSide?.querySelector('.login-flow__side-button');
+        if (solicitarButton) {
+            solicitarButton.addEventListener('click', function(e) {
+                e.stopPropagation();
                 switchFlow('solicitar');
             });
         }
         
-        // Define o flow inicial como 'solicitar'
-        switchFlow('solicitar');
+        // Clique no painel teal esquerdo
+        if (tealSide) {
+            tealSide.addEventListener('click', function(e) {
+                if (e.target === tealSide || e.target.closest('.login-flow__side-content')) {
+                    if (e.target.tagName !== 'BUTTON') {
+                        switchFlow('solicitar');
+                    }
+                }
+            });
+        }
+        
+        // Botão "Entrar" no painel teal direito
+        const loginBackButton = tealRight?.querySelector('.login-flow__side-button');
+        if (loginBackButton) {
+            loginBackButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                switchFlow('login');
+            });
+        }
+        
+        // Clique no painel teal direito
+        if (tealRight) {
+            tealRight.addEventListener('click', function(e) {
+                if (e.target === tealRight || e.target.closest('.login-flow__side-content')) {
+                    if (e.target.tagName !== 'BUTTON') {
+                        switchFlow('login');
+                    }
+                }
+            });
+        }
+        
+        // Define o flow inicial como 'login'
+        switchFlow('login');
     }
     
     /**
@@ -72,15 +92,52 @@ const LoginPageModule = (function() {
         
         activeFlow = flow;
         const loginCard = document.querySelector('.login-card');
+        const formSide = document.querySelector('.login-flow__side--form');
+        const formSolicitar = document.querySelector('.login-flow__side--form-solicitar');
+        const tealSide = document.querySelector('.login-flow__side--teal');
+        const tealRight = document.querySelector('.login-flow__side--teal-right');
         
-        if (flow === 'login') {
-            loginCard?.classList.add('login-active');
+        if (flow === 'solicitar') {
+            loginCard?.classList.add('solicitar-active');
+            
+            // Mostra formulário de solicitar e painel teal direito
+            if (formSide) formSide.style.display = 'none';
+            if (formSolicitar) formSolicitar.style.display = 'flex';
+            if (tealSide) tealSide.style.display = 'none';
+            if (tealRight) tealRight.style.display = 'flex';
         } else {
-            loginCard?.classList.remove('login-active');
+            loginCard?.classList.remove('solicitar-active');
+            
+            // Mostra formulário de login e painel teal esquerdo
+            if (formSide) formSide.style.display = 'flex';
+            if (formSolicitar) formSolicitar.style.display = 'none';
+            if (tealSide) tealSide.style.display = 'flex';
+            if (tealRight) tealRight.style.display = 'none';
         }
         
         // Limpa erros ao alternar
         clearAllErrors();
+    }
+    
+    /**
+     * Configura toggle de senha
+     */
+    function setupPasswordToggle() {
+        const toggleButton = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('login-password');
+        
+        if (toggleButton && passwordInput) {
+            toggleButton.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Altera o ícone
+                const eyeIcon = toggleButton.querySelector('.login-flow__eye-icon');
+                if (eyeIcon) {
+                    eyeIcon.textContent = type === 'password' ? '👁️' : '🙈';
+                }
+            });
+        }
     }
     
     /**
@@ -135,15 +192,20 @@ const LoginPageModule = (function() {
         
         // Faz login
         try {
-            await window.AuthModule.login(email, password);
+            const result = await window.AuthModule.login(email, password);
             
             // Remove loading
             setLoading(false, 'login');
             
-            // Sucesso - redireciona para seleção de perfil
-            // Por enquanto, redireciona para a página de escolha
-            // Na FASE 6 será redirecionado para perfil.html
-            window.location.href = 'index.html';
+            if (result.success) {
+                // Sucesso - redireciona para seleção de perfil
+                // Por enquanto, redireciona para a página de escolha
+                // Na FASE 6 será redirecionado para perfil.html
+                window.location.href = 'index.html';
+            } else {
+                // Mostra erro
+                showError(result.error || 'Erro ao fazer login. Tente novamente.', 'general', 'login');
+            }
         } catch (error) {
             // Remove loading
             setLoading(false, 'login');
@@ -168,7 +230,6 @@ const LoginPageModule = (function() {
         const email = document.getElementById('solicitar-email').value.trim();
         const telefone = document.getElementById('solicitar-telefone').value.trim();
         const instituicao = document.getElementById('solicitar-instituicao').value.trim();
-        const mensagem = document.getElementById('solicitar-mensagem').value.trim();
         
         if (!validateSolicitarForm(nome, email, telefone, instituicao)) {
             return;

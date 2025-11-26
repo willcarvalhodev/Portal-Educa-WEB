@@ -42,6 +42,12 @@
     --circle-gradient-start: #667eea;
     --circle-gradient-end: #764ba2;
     
+    /* Cores Teal para Login */
+    --color-teal: #14b8a6;
+    --color-teal-dark: #0d9488;
+    --color-teal-light: #5eead4;
+    --color-bg-beige: #fef3e2;
+    
     /* Espaçamentos */
     --spacing-xs: 0.5rem;    /* 8px */
     --spacing-sm: 1rem;      /* 16px */
@@ -1852,16 +1858,16 @@ button {
    ============================================ */
 
 .login-card {
-    background: var(--color-bg);
+    background: transparent;
     border-radius: var(--radius-lg);
-    padding: var(--spacing-xl);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     animation: fadeIn var(--transition-slow) ease-out;
     overflow: hidden;
     position: relative;
     max-width: 1000px;
     margin: 0 auto;
-    height: 550px;
+    height: 600px;
     display: flex;
     align-items: center;
 }
@@ -1870,22 +1876,22 @@ button {
 .animated-circle {
     content: "";
     position: absolute;
-    width: 1500px;
-    height: 1500px;
+    width: 1200px;
+    height: 1200px;
     border-radius: 50%;
-    background: linear-gradient(-45deg, var(--circle-gradient-start), var(--circle-gradient-end));
+    background: linear-gradient(-45deg, var(--color-teal), var(--color-teal-dark));
     top: 50%;
-    left: 0;
+    left: 40%;
     transform: translate(-50%, -50%);
     z-index: 7;
     transition: 1.2s cubic-bezier(0.68, -0.25, 0.265, 1.35);
     pointer-events: none;
-    opacity: 0.2;
-    filter: blur(60px);
+    opacity: 0.25;
+    filter: blur(80px);
 }
 
-.login-card.login-active .animated-circle {
-    left: 100%;
+.login-card.solicitar-active .animated-circle {
+    left: 60%;
     transform: translate(-50%, -50%);
 }
 
@@ -1896,73 +1902,139 @@ button {
     position: relative;
     z-index: 10;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 40% 60%;
     gap: 0;
 }
 
-/* Tabs removidas - agora usamos painéis lado a lado clicáveis */
-
-/* Login Flow Panel - Lado a Lado */
-.login-flow__panel {
+/* Painéis Laterais */
+.login-flow__side {
     width: 100%;
     height: 100%;
-    padding: var(--spacing-lg);
     position: relative;
     z-index: 5;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
     transition: all 0.4s ease;
+    cursor: pointer;
 }
 
-.login-flow__panel--login {
-    border-right: 1px solid var(--color-border);
+/* Painel Teal Esquerdo (Solicitar Acesso) */
+.login-flow__side--teal {
+    background: var(--color-teal);
+    padding: var(--spacing-xl);
+    color: white;
 }
 
-.login-flow__panel--solicitar {
-    /* Painel direita */
+/* Painel Teal Direito (Já tem conta) */
+.login-flow__side--teal-right {
+    background: var(--color-teal);
+    padding: var(--spacing-xl);
+    color: white;
+    display: none;
 }
 
-/* Quando login ativo, sobrepõe solicitar */
-.login-card.login-active .login-flow__panel--login {
+.login-card.solicitar-active .login-flow__side--teal-right {
+    display: flex;
+}
+
+/* Painel de Formulário (Direita) */
+.login-flow__side--form {
+    background: var(--color-bg-beige);
+    padding: var(--spacing-xl);
     z-index: 8;
 }
 
-.login-card.login-active .login-flow__panel--solicitar {
-    z-index: 4;
-    opacity: 0.3;
-    pointer-events: none;
-}
-
-/* Quando solicitar ativo, sobrepõe login */
-.login-card:not(.login-active) .login-flow__panel--solicitar {
+/* Painel de Formulário Solicitar */
+.login-flow__side--form-solicitar {
+    background: var(--color-bg-beige);
+    padding: var(--spacing-xl);
+    display: none;
     z-index: 8;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.login-card:not(.login-active) .login-flow__panel--login {
-    z-index: 4;
-    opacity: 0.3;
-    pointer-events: none;
+.login-card.solicitar-active .login-flow__side--form-solicitar {
+    display: flex;
 }
 
-.login-flow__panel-header {
+/* Conteúdo do Painel Teal */
+.login-flow__side-content {
     text-align: center;
-    margin-bottom: var(--spacing-md);
-    animation: fadeIn 0.4s ease-out;
-    position: relative;
-    z-index: 10;
+    max-width: 300px;
 }
 
-.login-flow__panel-title {
-    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+.login-flow__side-title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
     font-weight: 700;
-    margin-bottom: var(--spacing-xs);
-    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    color: white;
 }
 
-.login-flow__panel-subtitle {
+.login-flow__side-description {
     font-size: var(--font-size-base);
-    color: var(--color-text-light);
+    margin-bottom: var(--spacing-xl);
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.6;
+}
+
+.login-flow__side-button {
+    padding: var(--spacing-sm) var(--spacing-xl);
+    background: transparent;
+    border: 2px solid white;
+    border-radius: var(--radius-base);
+    color: white;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.login-flow__side-button:hover {
+    background: white;
+    color: var(--color-teal);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Quando solicitar ativo */
+.login-card.solicitar-active .login-flow__side--form {
+    display: none;
+}
+
+.login-card.solicitar-active .login-flow__side--teal {
+    display: none;
+}
+
+/* Quando login ativo */
+.login-card:not(.solicitar-active) .login-flow__side--form {
+    display: flex;
+}
+
+.login-card:not(.solicitar-active) .login-flow__side--form-solicitar {
+    display: none;
+}
+
+.login-card:not(.solicitar-active) .login-flow__side--teal-right {
+    display: none;
+}
+
+/* Conteúdo do Formulário */
+.login-flow__side-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.login-flow__form-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text);
+    text-align: center;
 }
 
 .login-flow__form {
@@ -2009,17 +2081,59 @@ button {
     color: var(--color-text);
 }
 
+/* Input Wrapper com Ícone */
+.login-flow__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.login-flow__input-icon {
+    position: absolute;
+    left: var(--spacing-sm);
+    font-size: 1.2rem;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.login-flow__password-toggle {
+    position: absolute;
+    right: var(--spacing-sm);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-flow__eye-icon {
+    font-size: 1.2rem;
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+}
+
+.login-flow__password-toggle:hover .login-flow__eye-icon {
+    opacity: 1;
+}
+
 .login-flow__input {
-    padding: var(--spacing-sm) var(--spacing-md);
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm) 3rem;
     font-size: var(--font-size-base);
-    border: 2px solid var(--color-border);
+    border: 2px solid transparent;
     border-radius: var(--radius-base);
     font-family: var(--font-family-base);
-    background: var(--color-bg);
+    background: rgba(255, 255, 255, 0.8);
     color: var(--color-text);
     transition: all var(--transition-fast);
-    min-height: 44px;
-    resize: vertical;
+    min-height: 50px;
+}
+
+.login-flow__input--has-toggle {
+    padding-right: 3rem;
 }
 
 .login-flow__input--textarea {
@@ -2033,8 +2147,9 @@ button {
 
 .login-flow__input:focus {
     outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: var(--color-teal);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
 }
 
 .login-flow__input--error {
@@ -2061,28 +2176,48 @@ button {
     border-radius: var(--radius-base);
 }
 
+.login-flow__forgot {
+    text-align: left;
+    margin: var(--spacing-xs) 0 var(--spacing-sm);
+}
+
+.login-flow__forgot-link {
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.login-flow__forgot-link:hover {
+    color: var(--color-teal);
+    text-decoration: underline;
+}
+
 .login-flow__submit {
     width: 100%;
     padding: var(--spacing-sm) var(--spacing-md);
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-    color: var(--color-bg);
+    background: var(--color-teal);
+    color: white;
     border: none;
     border-radius: var(--radius-base);
     font-size: var(--font-size-base);
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-base);
-    margin-top: var(--spacing-sm);
-    min-height: 44px;
+    margin-top: var(--spacing-md);
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--spacing-xs);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .login-flow__submit:hover:not(:disabled) {
+    background: var(--color-teal-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);
 }
 
 .login-flow__submit:disabled {
@@ -2174,7 +2309,7 @@ button {
     align-items: center;
     justify-content: center;
     padding: var(--spacing-lg) var(--spacing-md);
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: var(--color-bg-beige);
 }
 
 .login-container {
