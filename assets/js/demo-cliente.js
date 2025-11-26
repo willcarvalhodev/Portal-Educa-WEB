@@ -142,6 +142,10 @@ const DemoCliente = (() => {
     
     container.innerHTML = `
       <section class="demo-app">
+        <button class="demo-sidebar-toggle" aria-label="Abrir menu" title="Menu">
+          <span>☰</span>
+        </button>
+        <div class="demo-sidebar-overlay"></div>
         <aside class="demo-sidebar">
           <div class="demo-sidebar__logo">
             <img src="assets/images/icon.ico" alt="Portal Educa" width="40" height="40">
@@ -180,12 +184,59 @@ const DemoCliente = (() => {
 
     attachNavEvents();
     attachHeaderActions();
+    attachSidebarToggle();
     
     // Expor funções globalmente para os botões de voltar
     window.DemoCliente = {
       goBack,
       goBackToModule,
     };
+  }
+
+  function attachSidebarToggle() {
+    const toggleBtn = document.querySelector('.demo-sidebar-toggle');
+    const sidebar = document.querySelector('.demo-sidebar');
+    const overlay = document.querySelector('.demo-sidebar-overlay');
+    
+    if (!toggleBtn || !sidebar || !overlay) return;
+
+    // Toggle sidebar
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('is-open');
+      overlay.classList.toggle('is-active');
+      document.body.style.overflow = sidebar.classList.contains('is-open') ? 'hidden' : '';
+    });
+
+    // Fechar ao clicar no overlay
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('is-open');
+      overlay.classList.remove('is-active');
+      document.body.style.overflow = '';
+    });
+
+    // Fechar ao clicar em um item do menu (mobile)
+    const navItems = document.querySelectorAll('.demo-sidebar__item');
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 1024) {
+          sidebar.classList.remove('is-open');
+          overlay.classList.remove('is-active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Fechar ao clicar em ações do footer (mobile)
+    const footerActions = document.querySelectorAll('.demo-sidebar__action');
+    footerActions.forEach(action => {
+      action.addEventListener('click', () => {
+        if (window.innerWidth <= 1024) {
+          sidebar.classList.remove('is-open');
+          overlay.classList.remove('is-active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
   }
 
   function getInitials(perfil) {
@@ -642,8 +693,8 @@ const DemoCliente = (() => {
             ${state.dados.professores.length > 0 
               ? state.dados.professores.map(prof => `
                 <div class="demo-row">
-                  <span>${prof.nome}</span>
-                  <span>${prof.email}</span>
+                  <span data-label="Nome">${prof.nome}</span>
+                  <span data-label="E-mail">${prof.email}</span>
                 </div>
               `).join('')
               : '<div class="demo-row"><span colspan="2">Nenhum professor cadastrado.</span></div>'
@@ -665,10 +716,10 @@ const DemoCliente = (() => {
             ${state.dados.alunos.length > 0
               ? state.dados.alunos.map(aluno => `
                 <div class="demo-row">
-                  <span>${aluno.nome}</span>
-                  <span>${aluno.email}</span>
-                  <span>${aluno.matricula}</span>
-                  <span>${aluno.turma}</span>
+                  <span data-label="Nome">${aluno.nome}</span>
+                  <span data-label="E-mail">${aluno.email}</span>
+                  <span data-label="Matrícula">${aluno.matricula}</span>
+                  <span data-label="Turma">${aluno.turma}</span>
                 </div>
               `).join('')
               : '<div class="demo-row"><span colspan="4">Nenhum aluno cadastrado.</span></div>'
@@ -708,9 +759,9 @@ const DemoCliente = (() => {
             ${state.dados.turmas.length > 0
               ? state.dados.turmas.map(turma => `
                 <div class="demo-row">
-                  <span>${turma.nome}</span>
-                  <span>${turma.curso || 'N/A'}</span>
-                  <span>${turma.alunos || 0}</span>
+                  <span data-label="Nome">${turma.nome}</span>
+                  <span data-label="Curso">${turma.curso || 'N/A'}</span>
+                  <span data-label="Alunos">${turma.alunos || 0}</span>
                 </div>
               `).join('')
               : '<div class="demo-row"><span colspan="3">Nenhuma turma cadastrada.</span></div>'
