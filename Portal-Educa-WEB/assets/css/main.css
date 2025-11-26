@@ -2802,9 +2802,17 @@ body.is-flight {
     }
 
     .cliente-theme .demo-app__header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
         padding: var(--spacing-md);
+        gap: var(--spacing-sm);
+    }
+
+    /* Garantir que o botão toggle apareça no mobile */
+    .cliente-theme .demo-sidebar-toggle {
+        display: flex !important;
+        position: relative;
+        z-index: 1001;
     }
 
     .cliente-theme .demo-card {
