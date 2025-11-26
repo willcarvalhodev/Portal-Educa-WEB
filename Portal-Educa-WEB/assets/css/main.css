@@ -2660,7 +2660,7 @@ body.is-flight {
         position: fixed;
         top: var(--spacing-md);
         left: var(--spacing-md);
-        z-index: 999;
+        z-index: 1001;
         width: 48px;
         height: 48px;
         border-radius: 12px;
@@ -2673,6 +2673,53 @@ body.is-flight {
         align-items: center;
         justify-content: center;
         font-size: 1.5rem;
+        transition: transform var(--transition-base);
+    }
+
+    .cliente-theme .demo-sidebar-toggle:hover {
+        transform: scale(1.05);
+    }
+
+    .cliente-theme .demo-sidebar-toggle__icon {
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+
+    /* Overlay para fechar sidebar no mobile */
+    .cliente-theme .demo-sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--transition-base), visibility var(--transition-base);
+    }
+
+    .cliente-theme .demo-sidebar-overlay.is-active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Header do app */
+    .cliente-theme .demo-app__header {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(33, 150, 243, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .cliente-theme .demo-app__title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--color-brand);
+        margin: 0;
     }
 }
 

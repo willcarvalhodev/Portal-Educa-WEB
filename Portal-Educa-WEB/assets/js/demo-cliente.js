@@ -172,7 +172,14 @@ const DemoCliente = (() => {
             </a>
           </div>
         </aside>
+        <div class="demo-sidebar-overlay"></div>
         <section class="demo-app__content" id="demo-content">
+          <header class="demo-app__header">
+            <button class="demo-sidebar-toggle" aria-label="Abrir menu">
+              <span class="demo-sidebar-toggle__icon">☰</span>
+            </button>
+            <h1 class="demo-app__title">Portal Educa</h1>
+          </header>
           ${renderDashboard()}
         </section>
       </section>
@@ -180,6 +187,7 @@ const DemoCliente = (() => {
 
     attachNavEvents();
     attachHeaderActions();
+    attachSidebarToggle();
     
     // Expor funções globalmente para os botões de voltar
     window.DemoCliente = {
@@ -314,6 +322,62 @@ const DemoCliente = (() => {
 
     document.querySelector('[data-action="open-manual"]')?.addEventListener('click', () => {
       alert(`Manual do sistema para ${state.perfil} ainda será detalhado nesta demo.`);
+    });
+  }
+
+  function attachSidebarToggle() {
+    const toggleBtn = document.querySelector('.demo-sidebar-toggle');
+    const sidebar = document.querySelector('.demo-sidebar');
+    const overlay = document.querySelector('.demo-sidebar-overlay');
+    
+    if (!toggleBtn || !sidebar || !overlay) {
+      console.warn('Elementos do sidebar não encontrados:', { toggleBtn, sidebar, overlay });
+      return;
+    }
+
+    const openSidebar = () => {
+      sidebar.classList.add('is-open');
+      overlay.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeSidebar = () => {
+      sidebar.classList.remove('is-open');
+      overlay.classList.remove('is-active');
+      document.body.style.overflow = '';
+    };
+
+    // Toggle sidebar
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (sidebar.classList.contains('is-open')) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+
+    // Fechar ao clicar no overlay
+    overlay.addEventListener('click', closeSidebar);
+
+    // Fechar ao clicar em um item do menu (mobile)
+    const navItems = document.querySelectorAll('.demo-sidebar__item');
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 1024) {
+          closeSidebar();
+        }
+      });
+    });
+
+    // Fechar ao clicar em ações do footer (mobile)
+    const footerActions = document.querySelectorAll('.demo-sidebar__action');
+    footerActions.forEach(action => {
+      action.addEventListener('click', () => {
+        if (window.innerWidth <= 1024) {
+          closeSidebar();
+        }
+      });
     });
   }
 
