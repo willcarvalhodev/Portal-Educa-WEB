@@ -29,30 +29,36 @@
 </head>
 <body>
     <!-- Header / Navegação -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="header__container">
-            <div class="header__logo">
-                <img src="images/icon.ico" alt="Portal Educa" class="header__logo-icon">
+            <a href="#home" class="header__logo" aria-label="Portal Educa - Página inicial">
+                <img src="images/icon.ico" alt="Portal Educa" class="header__logo-icon" width="40" height="40">
                 <span class="header__logo-text">Portal Educa</span>
-            </div>
-            <nav class="header__nav">
-                <button class="header__menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            </a>
+            <nav class="header__nav" role="navigation" aria-label="Navegação principal">
+                <button 
+                    class="header__menu-toggle" 
+                    type="button"
+                    aria-label="Alternar menu de navegação" 
+                    aria-expanded="false"
+                    aria-controls="header__nav-list"
+                    id="menu-toggle-button">
                     <span class="header__menu-toggle-line"></span>
                     <span class="header__menu-toggle-line"></span>
                     <span class="header__menu-toggle-line"></span>
                 </button>
-                <ul class="header__nav-list">
+                <ul class="header__nav-list" id="header__nav-list" aria-labelledby="menu-toggle-button">
                     <li class="header__nav-item">
-                        <a href="#home" class="header__nav-link">Início</a>
+                        <a href="#home" class="header__nav-link" data-section="home">Início</a>
                     </li>
                     <li class="header__nav-item">
-                        <a href="#sobre" class="header__nav-link">Sobre</a>
+                        <a href="#sobre" class="header__nav-link" data-section="sobre">Sobre</a>
                     </li>
                     <li class="header__nav-item">
-                        <a href="#recursos" class="header__nav-link">Recursos</a>
+                        <a href="#recursos" class="header__nav-link" data-section="recursos">Recursos</a>
                     </li>
                     <li class="header__nav-item">
-                        <a href="#contato" class="header__nav-link">Contato</a>
+                        <a href="#contato" class="header__nav-link" data-section="contato">Contato</a>
                     </li>
                 </ul>
             </nav>
@@ -137,6 +143,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/script.js"></script>
+    <script src="js/script.js" defer></script>
 </body>
 </html>
