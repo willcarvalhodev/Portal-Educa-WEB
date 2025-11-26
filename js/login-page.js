@@ -129,19 +129,6 @@ const LoginPageModule = (function() {
                     formSolicitar.offsetHeight;
                     setTimeout(() => {
                         formSolicitar.classList.add('entered');
-                        // Após ocupar toda a tela, inicia contração
-                        setTimeout(() => {
-                            formSolicitar.classList.add('contracting');
-                            loginCard?.classList.add('solicitar-active');
-                            // Remove classes após contração
-                            setTimeout(() => {
-                                formSolicitar.classList.remove('login-flow__side--entering', 'entered', 'contracting');
-                                formSolicitar.style.position = '';
-                                formSolicitar.style.width = '';
-                                formSolicitar.style.left = '';
-                                formSolicitar.style.transform = '';
-                            }, 2100);
-                        }, 2100);
                     }, 10);
                 }
                 if (tealRight) {
@@ -150,22 +137,15 @@ const LoginPageModule = (function() {
                     tealRight.offsetHeight;
                     setTimeout(() => {
                         tealRight.classList.add('entered');
-                        setTimeout(() => {
-                            tealRight.classList.add('contracting');
-                            setTimeout(() => {
-                                tealRight.classList.remove('login-flow__side--entering', 'entered', 'contracting');
-                                tealRight.style.position = '';
-                                tealRight.style.width = '';
-                                tealRight.style.left = '';
-                                tealRight.style.transform = '';
-                            }, 2100);
-                        }, 2100);
                     }, 10);
                 }
                 
-            }, 500);
+                // Adiciona classe ao card
+                loginCard?.classList.add('solicitar-active');
+                
+            }, 100);
             
-            // Remove classes e esconde painéis saindo após transição
+            // Remove classes após transição completa
             setTimeout(() => {
                 if (formSide) {
                     formSide.style.display = 'none';
@@ -175,7 +155,13 @@ const LoginPageModule = (function() {
                     tealSide.style.display = 'none';
                     tealSide.classList.remove('login-flow__side--exiting', 'exited');
                 }
-            }, 5000);
+                if (formSolicitar) {
+                    formSolicitar.classList.remove('login-flow__side--entering', 'entered');
+                }
+                if (tealRight) {
+                    tealRight.classList.remove('login-flow__side--entering', 'entered');
+                }
+            }, 2100);
             
         } else {
             // Painéis que estão saindo primeiro
@@ -202,19 +188,6 @@ const LoginPageModule = (function() {
                     formSide.offsetHeight;
                     setTimeout(() => {
                         formSide.classList.add('entered');
-                        // Após ocupar toda a tela, inicia contração
-                        setTimeout(() => {
-                            formSide.classList.add('contracting');
-                            loginCard?.classList.remove('solicitar-active');
-                            // Remove classes após contração
-                            setTimeout(() => {
-                                formSide.classList.remove('login-flow__side--entering', 'entered', 'contracting');
-                                formSide.style.position = '';
-                                formSide.style.width = '';
-                                formSide.style.left = '';
-                                formSide.style.transform = '';
-                            }, 2100);
-                        }, 2100);
                     }, 10);
                 }
                 if (tealSide) {
@@ -223,22 +196,15 @@ const LoginPageModule = (function() {
                     tealSide.offsetHeight;
                     setTimeout(() => {
                         tealSide.classList.add('entered');
-                        setTimeout(() => {
-                            tealSide.classList.add('contracting');
-                            setTimeout(() => {
-                                tealSide.classList.remove('login-flow__side--entering', 'entered', 'contracting');
-                                tealSide.style.position = '';
-                                tealSide.style.width = '';
-                                tealSide.style.left = '';
-                                tealSide.style.transform = '';
-                            }, 2100);
-                        }, 2100);
                     }, 10);
                 }
                 
-            }, 500);
+                // Remove classe do card
+                loginCard?.classList.remove('solicitar-active');
+                
+            }, 100);
             
-            // Remove classes e esconde painéis saindo após transição
+            // Remove classes após transição completa
             setTimeout(() => {
                 if (formSolicitar) {
                     formSolicitar.style.display = 'none';
@@ -248,7 +214,13 @@ const LoginPageModule = (function() {
                     tealRight.style.display = 'none';
                     tealRight.classList.remove('login-flow__side--exiting', 'exited');
                 }
-            }, 5000);
+                if (formSide) {
+                    formSide.classList.remove('login-flow__side--entering', 'entered');
+                }
+                if (tealSide) {
+                    tealSide.classList.remove('login-flow__side--entering', 'entered');
+                }
+            }, 2100);
         }
         
         activeFlow = flow;

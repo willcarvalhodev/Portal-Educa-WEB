@@ -1958,43 +1958,29 @@ button {
     justify-content: center;
     cursor: pointer;
     overflow: hidden;
+    transition: transform 2s;
 }
 
-/* Animação para o painel que está entrando - expande para tela toda */
+/* Animação para o painel que está entrando - transição lateral */
 .login-flow__side--entering {
-    position: absolute !important;
-    width: 100% !important;
-    left: 0 !important;
-    z-index: 20 !important;
     transform: translateX(-100%);
     transition: transform 2s;
 }
 
 .login-flow__side--entering.entered {
     transform: translateX(0);
-    transition: transform 2s;
 }
 
-.login-flow__side--entering.contracting {
-    transform: translateX(0);
-    width: auto !important;
-    position: relative !important;
-    left: auto !important;
-    transition: width 2s, transform 2s;
-}
-
-/* Animação para o painel que está saindo - reduz e desaparece */
+/* Animação para o painel que está saindo - transição lateral */
 .login-flow__side--exiting {
-    z-index: 10;
     transform: translateX(0);
-    transition: transform 2s, opacity 1s ease;
+    transition: transform 2s;
     opacity: 1;
 }
 
 .login-flow__side--exiting.exited {
     transform: translateX(100%);
     opacity: 0;
-    transition: transform 2s, opacity 1s ease;
 }
 
 /* Garante que o painel entrando ocupe toda a tela temporariamente */
