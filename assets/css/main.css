@@ -3822,10 +3822,53 @@ body.is-flight {
         left: -100%;
         transform: translateX(0);
         z-index: 1000;
+        transition: left 0.3s ease;
     }
 
     .cliente-theme .demo-sidebar.is-open {
         left: 0;
+    }
+
+    /* Sidebar mobile - Labels sempre visíveis quando aberto */
+    .cliente-theme .demo-sidebar.is-open {
+        width: 280px;
+    }
+
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__logo-text,
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__user-info,
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__item-label,
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__action-label,
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__label {
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+        transition: none !important;
+    }
+
+    /* Remover animações complexas no mobile */
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__item:hover {
+        background: rgba(33, 150, 243, 0.1);
+        transform: none;
+    }
+
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__item:hover::before {
+        width: 0;
+    }
+
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__item:hover .demo-sidebar__item-icon {
+        transform: none;
+    }
+
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__action:hover {
+        background: rgba(33, 150, 243, 0.1);
+        transform: none;
+    }
+
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__action:hover::before {
+        width: 0;
+    }
+
+    .cliente-theme .demo-sidebar.is-open .demo-sidebar__action:hover .demo-sidebar__icon {
+        transform: none;
     }
 
     /* Botão toggle sidebar mobile */
@@ -3846,7 +3889,7 @@ body.is-flight {
         align-items: center;
         justify-content: center;
         font-size: 1.25rem;
-        transition: transform var(--transition-base), box-shadow var(--transition-base);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .cliente-theme .demo-sidebar-toggle:active {
@@ -3995,14 +4038,16 @@ body.is-flight {
     }
 
     .cliente-theme .demo-action-screen__header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
         gap: var(--spacing-sm);
         padding: var(--spacing-sm);
     }
 
     .cliente-theme .demo-action-screen__title {
         font-size: clamp(1.1rem, 5.5vw, 1.3rem);
+        flex: 1;
     }
 
     .cliente-theme .demo-btn-back {
@@ -4011,6 +4056,8 @@ body.is-flight {
         min-height: 44px;
         width: auto;
         white-space: nowrap;
+        order: 2;
+        margin-left: auto;
     }
 
     .cliente-theme .demo-dashboard {
