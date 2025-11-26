@@ -353,26 +353,46 @@ const DemoCliente = (() => {
     const sidebar = document.querySelector('.demo-sidebar');
     const overlay = document.querySelector('.demo-sidebar-overlay');
     
-    if (!toggleBtn || !sidebar || !overlay) {
-      console.warn('Elementos do sidebar não encontrados:', { toggleBtn, sidebar, overlay });
+    if (!toggleBtn) {
+      console.error('❌ Botão toggle não encontrado!');
+      return;
+    }
+    
+    if (!sidebar) {
+      console.error('❌ Sidebar não encontrado!');
+      return;
+    }
+    
+    if (!overlay) {
+      console.error('❌ Overlay não encontrado!');
       return;
     }
 
+    console.log('✅ Elementos encontrados:', { toggleBtn, sidebar, overlay });
+
     const openSidebar = () => {
+      console.log('📂 Abrindo sidebar');
       sidebar.classList.add('is-open');
       overlay.classList.add('is-active');
       document.body.style.overflow = 'hidden';
     };
 
     const closeSidebar = () => {
+      console.log('📁 Fechando sidebar');
       sidebar.classList.remove('is-open');
       overlay.classList.remove('is-active');
       document.body.style.overflow = '';
     };
 
+    // Remover listeners anteriores se existirem
+    const newToggleBtn = toggleBtn.cloneNode(true);
+    toggleBtn.parentNode.replaceChild(newToggleBtn, toggleBtn);
+
     // Toggle sidebar
-    toggleBtn.addEventListener('click', (e) => {
+    newToggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
+      console.log('🖱️ Toggle clicado!');
       if (sidebar.classList.contains('is-open')) {
         closeSidebar();
       } else {
@@ -381,7 +401,12 @@ const DemoCliente = (() => {
     });
 
     // Fechar ao clicar no overlay
-    overlay.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('🖱️ Overlay clicado!');
+      closeSidebar();
+    });
 
     // Nota: O fechamento do menu ao clicar nos itens é tratado em attachNavEvents()
     // para evitar duplicidade de event listeners

@@ -2573,6 +2573,57 @@ body.is-flight {
 }
 
 /* ============================================
+   BOTÃO TOGGLE DO MENU MOBILE - ESTILO PADRÃO
+   ============================================ */
+
+/* Esconder botão toggle em desktop por padrão */
+.cliente-theme .demo-sidebar-toggle {
+    display: none;
+    position: relative;
+    z-index: 1001;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--color-brand) 0%, #1976D2 100%);
+    color: var(--color-text-inverse);
+    border: none;
+    box-shadow: 0 4px 16px rgba(33, 150, 243, 0.3);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: transform var(--transition-base);
+    flex-shrink: 0;
+}
+
+.cliente-theme .demo-sidebar-toggle:hover {
+    transform: scale(1.05);
+}
+
+.cliente-theme .demo-sidebar-toggle__icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Overlay padrão (escondido em desktop) */
+.cliente-theme .demo-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-base), visibility var(--transition-base);
+}
+
+.cliente-theme .demo-sidebar-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ============================================
    BOTÕES GLOBAIS - ESTILOS MELHORADOS
    ============================================ */
 
@@ -2727,50 +2778,14 @@ body.is-flight {
         gap: var(--spacing-sm);
     }
 
-    /* Botão para abrir sidebar no mobile */
+    /* Mostrar botão toggle no mobile */
     .cliente-theme .demo-sidebar-toggle {
-        position: relative;
-        z-index: 1001;
-        width: 48px;
-        height: 48px;
-        min-width: 48px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, var(--color-brand) 0%, #1976D2 100%);
-        color: var(--color-text-inverse);
-        border: none;
-        box-shadow: 0 4px 16px rgba(33, 150, 243, 0.3);
-        cursor: pointer;
         display: flex !important;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        transition: transform var(--transition-base);
-        flex-shrink: 0;
     }
 
-    .cliente-theme .demo-sidebar-toggle:hover {
-        transform: scale(1.05);
-    }
-
-    .cliente-theme .demo-sidebar-toggle__icon {
-        font-size: 1.5rem;
-        line-height: 1;
-    }
-
-    /* Overlay para fechar sidebar no mobile */
+    /* Mostrar overlay no mobile */
     .cliente-theme .demo-sidebar-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity var(--transition-base), visibility var(--transition-base);
-    }
-
-    .cliente-theme .demo-sidebar-overlay.is-active {
-        opacity: 1;
-        visibility: visible;
+        display: block;
     }
 
     /* Header do app */
