@@ -178,12 +178,11 @@ a:hover {
 
 /* Layout da tela de escolha */
 .choice-screen {
-    height: 100vh;
-    max-height: 100vh;
+    min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md);
     background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(227, 242, 253, 0.95) 55%);
     overflow-y: auto;
     overflow-x: hidden;
@@ -216,12 +215,11 @@ a:hover {
 .choice-screen__container {
     width: 100%;
     max-width: 1200px;
-    height: 100%;
-    max-height: 100%;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
     box-sizing: border-box;
+    padding: var(--spacing-md) 0;
 }
 
 .choice-screen__header {
@@ -260,12 +258,11 @@ a:hover {
 }
 
 .choice-screen__options {
-    flex: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-md);
-    min-height: 0;
+    gap: var(--spacing-lg);
     align-items: stretch;
+    width: 100%;
 }
 
 .choice-card {
@@ -3074,21 +3071,22 @@ body.is-flight {
 
     /* Página Principal - Choice Screen Mobile */
     .choice-screen {
-        padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-lg);
+        padding: var(--spacing-md) var(--spacing-sm) var(--spacing-xl);
         min-height: 100vh;
         align-items: flex-start;
-        padding-top: var(--spacing-md);
+        padding-top: var(--spacing-lg);
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
     }
 
     .choice-screen__container {
-        gap: var(--spacing-md);
-        padding: 0 var(--spacing-xs);
+        gap: var(--spacing-lg);
+        padding: 0 var(--spacing-xs) var(--spacing-lg);
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
+        min-height: auto;
     }
 
     .choice-screen__header {
@@ -3118,18 +3116,21 @@ body.is-flight {
 
     .choice-screen__options {
         grid-template-columns: 1fr;
-        gap: var(--spacing-md);
+        gap: var(--spacing-lg);
         width: 100%;
         padding: 0;
+        display: flex;
+        flex-direction: column;
     }
 
     .choice-card {
-        padding: var(--spacing-md);
+        padding: var(--spacing-lg);
         min-height: auto;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
         margin: 0;
+        flex-shrink: 0;
     }
 
     .choice-card__content {
