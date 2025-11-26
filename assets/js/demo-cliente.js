@@ -1847,20 +1847,33 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
       );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error?.message || 'Erro ao chamar API do Gemini');
+        let errorMessage = 'Erro ao chamar API do Gemini';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error?.message || errorData.error || errorMessage;
+          console.error('Erro detalhado da API:', errorData);
+        } catch (e) {
+          const errorText = await response.text();
+          console.error('Erro da API (texto):', errorText);
+          errorMessage = `Erro ${response.status}: ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
+      console.log('Resposta da API:', data);
+      
       const resposta = data.candidates?.[0]?.content?.parts?.[0]?.text;
       
       if (!resposta) {
-        throw new Error('Resposta vazia da API');
+        console.error('Estrutura da resposta:', data);
+        throw new Error('Resposta vazia ou formato inesperado da API');
       }
 
       return resposta;
     } catch (error) {
       console.error('Erro na API do Gemini:', error);
+      console.error('Mensagem original:', mensagem);
       throw error;
     }
   }
@@ -2383,6 +2396,11 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
               }, 100);
             } catch (error) {
               console.error('Erro ao chamar Gemini API:', error);
+              console.error('Detalhes do erro:', {
+                message: error.message,
+                stack: error.stack,
+                name: error.name
+              });
               
               // Tratar erro de fora do nicho
               if (error.message === 'FORA_NICHO') {
@@ -2394,7 +2412,16 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
                 return;
               }
               
-              alert('Erro ao processar sua mensagem. Por favor, tente novamente.');
+              // Mostrar mensagem de erro mais detalhada
+              let errorMsg = 'Erro ao processar sua mensagem. Por favor, tente novamente.';
+              if (error.message) {
+                errorMsg += `\n\nDetalhes: ${error.message}`;
+              }
+              alert(errorMsg);
+              
+              // Reabilitar input mesmo em caso de erro
+              if (textarea) textarea.disabled = false;
+              if (sendBtn) sendBtn.disabled = false;
             }
           }
           
