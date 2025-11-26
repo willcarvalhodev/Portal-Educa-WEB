@@ -78,42 +78,44 @@
 
         <!-- Formulário de Login (oculto inicialmente) -->
         <div class="main-content__login" id="login-area" style="display: none;">
-            <section class="login-form">
-                <div class="login-form__container">
-                    <h2 class="login-form__title">Login Institucional</h2>
-                    <p class="login-form__description">
+            <section class="auth-form">
+                <div class="auth-form__container">
+                    <h2 class="auth-form__title">Login Institucional</h2>
+                    <p class="auth-form__description">
                         Acesse sua conta institucional do Portal Educa
                     </p>
-                    <form class="login-form__form" id="login-form" aria-label="Formulário de login institucional">
-                        <div class="login-form__field">
-                            <label for="login-email" class="login-form__label">E-mail Institucional</label>
+                    <form class="auth-form__form" id="login-form" aria-label="Formulário de login institucional">
+                        <div class="auth-form__field">
+                            <label for="login-email" class="auth-form__label">E-mail Institucional</label>
                             <input 
                                 type="email" 
                                 id="login-email" 
                                 name="email"
-                                class="login-form__input" 
+                                class="auth-form__input" 
                                 placeholder="seu.email@instituicao.edu.br"
                                 required
                                 aria-required="true"
                                 autocomplete="email">
                         </div>
-                        <div class="login-form__field">
-                            <label for="login-password" class="login-form__label">Senha</label>
+                        <div class="auth-form__field">
+                            <label for="login-password" class="auth-form__label">Senha</label>
                             <input 
                                 type="password" 
                                 id="login-password" 
                                 name="password"
-                                class="login-form__input" 
+                                class="auth-form__input" 
                                 placeholder="Digite sua senha"
                                 required
                                 aria-required="true"
                                 autocomplete="current-password">
                         </div>
-                        <div class="login-form__actions">
-                            <button type="submit" class="login-form__button login-form__button--submit">
-                                Entrar
+                        <div class="auth-form__error" id="auth-error" style="display: none;" role="alert"></div>
+                        <div class="auth-form__actions">
+                            <button type="submit" class="auth-form__button auth-form__button--submit" id="login-submit-button">
+                                <span class="auth-form__button-text">Entrar</span>
+                                <span class="auth-form__button-loader" style="display: none;">Carregando...</span>
                             </button>
-                            <button type="button" class="login-form__button login-form__button--cancel" id="cancel-login-button">
+                            <button type="button" class="auth-form__button auth-form__button--cancel" id="cancel-login-button">
                                 Cancelar
                             </button>
                         </div>

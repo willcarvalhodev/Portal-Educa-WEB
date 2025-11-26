@@ -610,12 +610,12 @@ const PortalModule = (function() {
             menuToggle.addEventListener('keydown', handleMenuToggleKeydown);
         }
         
-        // Botão de login (mobile e desktop)
+        // Botão de login (mobile e desktop) - usa toggleAuthView
         if (loginButton) {
-            loginButton.addEventListener('click', handleShowLogin);
+            loginButton.addEventListener('click', toggleAuthView);
         }
         if (loginButtonDesktop) {
-            loginButtonDesktop.addEventListener('click', handleShowLogin);
+            loginButtonDesktop.addEventListener('click', toggleAuthView);
         }
         
         // Botão cancelar login
@@ -714,7 +714,43 @@ const PortalModule = (function() {
     }
     
     /**
+     * Alterna a visibilidade entre a área comercial e o formulário de login
+     * Esta função é chamada pelo botão "Login Institucional" do Header
+     */
+    function toggleAuthView() {
+        if (!commercialArea || !loginArea) return;
+        
+        const isLoginVisible = loginArea.style.display === 'block';
+        
+        if (isLoginVisible) {
+            // Oculta login e mostra comercial
+            commercialArea.style.display = 'block';
+            loginArea.style.display = 'none';
+            
+            // Reseta o formulário e remove erros
+            if (loginForm) {
+                loginForm.reset();
+                hideAuthError();
+            }
+        } else {
+            // Oculta comercial e mostra login
+            commercialArea.style.display = 'none';
+            loginArea.style.display = 'block';
+            
+            // Foca no primeiro campo do formulário
+            const firstInput = loginArea.querySelector('input');
+            if (firstInput) {
+                setTimeout(() => firstInput.focus(), 100);
+            }
+        }
+        
+        // Fecha o menu mobile se estiver aberto
+        closeMenu();
+    }
+    
+    /**
      * Mostra o formulário de login e oculta a área comercial
+     * (Alias para toggleAuthView para manter compatibilidade)
      */
     function handleShowLogin() {
         if (!commercialArea || !loginArea) return;
@@ -733,6 +769,49 @@ const PortalModule = (function() {
     }
     
     /**
+     * Exibe mensagem de erro no formulário
+     */
+    function showAuthError(message) {
+        const errorElement = document.getElementById('auth-error');
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+    }
+    
+    /**
+     * Oculta mensagem de erro no formulário
+     */
+    function hideAuthError() {
+        const errorElement = document.getElementById('auth-error');
+        if (errorElement) {
+            errorElement.style.display = 'none';
+            errorElement.textContent = '';
+        }
+    }
+    
+    /**
+     * Ativa/desativa estado de loading no botão de submit
+     */
+    function setLoadingState(isLoading) {
+        const submitButton = document.getElementById('login-submit-button');
+        if (!submitButton) return;
+        
+        const buttonText = submitButton.querySelector('.auth-form__button-text');
+        const buttonLoader = submitButton.querySelector('.auth-form__button-loader');
+        
+        if (isLoading) {
+            submitButton.disabled = true;
+            if (buttonText) buttonText.style.display = 'none';
+            if (buttonLoader) buttonLoader.style.display = 'inline-block';
+        } else {
+            submitButton.disabled = false;
+            if (buttonText) buttonText.style.display = 'inline-block';
+            if (buttonLoader) buttonLoader.style.display = 'none';
+        }
+    }
+    
+    /**
      * Oculta o formulário de login e mostra a área comercial
      */
     function handleHideLogin() {
@@ -748,12 +827,16 @@ const PortalModule = (function() {
     }
     
     /**
-     * Manipula o envio do formulário de login
+     * Manipula o envio do formulário de login com Firebase Auth
+     * @param {Event} event - Evento de submissão do formulário
      */
-    function handleLoginSubmit(e) {
-        e.preventDefault();
+    async function handleLoginSubmit(event) {
+        event.preventDefault();
         
         if (!loginForm) return;
+        
+        // Remove erros anteriores
+        hideAuthError();
         
         const formData = new FormData(loginForm);
         const email = formData.get('email');
@@ -761,26 +844,95 @@ const PortalModule = (function() {
         
         // Validação básica
         if (!email || !password) {
-            alert('Por favor, preencha todos os campos.');
+            showAuthError('Por favor, preencha todos os campos.');
             return;
         }
         
-        // Aqui você pode adicionar a lógica de autenticação
-        console.log('📧 Login tentativa:', { email, password });
+        // Validação de email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showAuthError('Por favor, insira um e-mail válido.');
+            return;
+        }
         
-        // Exemplo: simulação de login
-        alert('Funcionalidade de login será implementada em breve!');
+        // Ativa estado de loading
+        setLoadingState(true);
         
-        // Por enquanto, apenas reseta o formulário
-        // loginForm.reset();
+        try {
+            // Verifica se Firebase Auth está disponível
+            if (!window.firebaseAuth) {
+                throw new Error('Firebase Auth não está configurado. Por favor, verifique as credenciais do Firebase.');
+            }
+            
+            // Importa função de autenticação do Firebase
+            const firebaseAuth = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+            
+            // Autentica o usuário com Firebase
+            const userCredential = await firebaseAuth.signInWithEmailAndPassword(
+                window.firebaseAuth,
+                email,
+                password
+            );
+            
+            const user = userCredential.user;
+            
+            console.log('✅ Login bem-sucedido:', user);
+            
+            // Se a autenticação for bem-sucedida, chama renderDashboard
+            // renderDashboard(user) será implementada em um próximo passo para renderizar o dashboard
+            if (typeof renderDashboard === 'function') {
+                renderDashboard(user);
+            } else {
+                console.warn('⚠️ Função renderDashboard(user) não encontrada. Será implementada em breve.');
+                // Por enquanto, mostra mensagem de sucesso
+                // TODO: Implementar renderDashboard(user) para carregar a view do dashboard
+                alert('Login realizado com sucesso! O dashboard será carregado em breve.');
+            }
+            
+        } catch (error) {
+            console.error('❌ Erro na autenticação:', error);
+            
+            // Trata erros do Firebase
+            let errorMessage = 'Erro ao fazer login. Tente novamente.';
+            
+            switch (error.code) {
+                case 'auth/user-not-found':
+                    errorMessage = 'Usuário não encontrado. Verifique o e-mail informado.';
+                    break;
+                case 'auth/wrong-password':
+                    errorMessage = 'Senha incorreta. Tente novamente.';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage = 'E-mail inválido. Verifique o formato do e-mail.';
+                    break;
+                case 'auth/user-disabled':
+                    errorMessage = 'Esta conta foi desabilitada. Entre em contato com o suporte.';
+                    break;
+                case 'auth/too-many-requests':
+                    errorMessage = 'Muitas tentativas falharam. Tente novamente mais tarde.';
+                    break;
+                case 'auth/network-request-failed':
+                    errorMessage = 'Erro de conexão. Verifique sua internet e tente novamente.';
+                    break;
+                default:
+                    errorMessage = error.message || 'Erro ao fazer login. Tente novamente.';
+            }
+            
+            showAuthError(errorMessage);
+        } finally {
+            // Desativa estado de loading
+            setLoadingState(false);
+        }
     }
     
     // API Pública
     return {
         init: init,
         closeMenu: closeMenu,
-        handleShowLogin: handleShowLogin,
-        handleHideLogin: handleHideLogin
+        toggleAuthView: toggleAuthView,
+        handleShowLogin: handleShowLogin, // Mantém para compatibilidade
+        handleHideLogin: handleHideLogin,
+        handleLoginSubmit: handleLoginSubmit
     };
 })();
 
