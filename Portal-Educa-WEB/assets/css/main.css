@@ -3176,8 +3176,9 @@ body.is-flight {
     
     /* Footer mobile */
     .site-footer {
-        padding: var(--spacing-sm);
-        margin-top: var(--spacing-md);
+        padding: var(--spacing-md);
+        margin-top: var(--spacing-xl);
+        flex-shrink: 0;
     }
     
     .footer-content {
