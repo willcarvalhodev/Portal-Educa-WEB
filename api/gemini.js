@@ -59,7 +59,15 @@ Este projeto faz parte do Portal Educa e utiliza a API gratuita do Gemini para f
     }
 
     // API Key (deve estar em variável de ambiente)
-    const API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k';
+    // IMPORTANTE: Configure GEMINI_API_KEY nas variáveis de ambiente do seu serviço de hospedagem
+    const API_KEY = process.env.GEMINI_API_KEY;
+    
+    if (!API_KEY) {
+      return res.status(500).json({ 
+        error: 'API Key não configurada',
+        message: 'Configure a variável de ambiente GEMINI_API_KEY no servidor'
+      });
+    }
 
     // Configurar prompt
     const systemPrompt = `Você é um assistente especializado em programação e desenvolvimento de software. 

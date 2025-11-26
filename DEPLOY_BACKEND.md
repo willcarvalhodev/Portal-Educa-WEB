@@ -27,8 +27,9 @@ Este guia explica como fazer o deploy do backend da API do Gemini.
    - **Start Command:** `node server.js`
 6. Adicione a variável de ambiente:
    - **Key:** `GEMINI_API_KEY`
-   - **Value:** Sua chave da API do Gemini
+   - **Value:** `AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k` (ou sua chave)
 7. Clique em "Create Web Service"
+8. Aguarde o deploy completar (pode levar alguns minutos)
 
 ### Passo 3: Atualizar Frontend
 1. Copie a URL do serviço (ex: `https://portal-educa-api.onrender.com`)

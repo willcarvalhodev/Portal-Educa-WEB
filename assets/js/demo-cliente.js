@@ -1777,12 +1777,10 @@ const DemoCliente = (() => {
    * Chama a API do Gemini
    */
   async function chamarGeminiAPI(mensagem) {
-    // URL do backend (ajuste conforme necessário)
-    // Para desenvolvimento local: 'http://localhost:3000'
-    // Para produção: 'https://seu-backend.herokuapp.com' ou 'https://seu-backend.render.com'
-    const API_URL = 'https://portal-educa-api.onrender.com/api/gemini';
-    // Fallback para desenvolvimento local (descomente se necessário)
+    // URL do backend
+    // Para desenvolvimento local, descomente a linha abaixo e comente a de produção:
     // const API_URL = 'http://localhost:3000/api/gemini';
+    const API_URL = 'https://portal-educa-api.onrender.com/api/gemini';
     
     try {
       const response = await fetch(API_URL, {
