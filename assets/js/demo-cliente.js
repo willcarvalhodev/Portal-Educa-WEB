@@ -1823,8 +1823,14 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
     const API_KEY = 'AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k';
 
     try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
+      // Tentar primeiro com gemini-1.5-flash (mais recente e rápido)
+      // Se falhar, tentar com gemini-pro
+      let response;
+      let modelName = 'gemini-1.5-flash';
+      
+      try {
+        response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${API_KEY}`,
         {
           method: 'POST',
           headers: {
@@ -1847,17 +1853,47 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
       );
 
       if (!response.ok) {
-        let errorMessage = 'Erro ao chamar API do Gemini';
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.error?.message || errorData.error || errorMessage;
-          console.error('Erro detalhado da API:', errorData);
-        } catch (e) {
-          const errorText = await response.text();
-          console.error('Erro da API (texto):', errorText);
-          errorMessage = `Erro ${response.status}: ${response.statusText}`;
+        // Se falhar com gemini-1.5-flash, tentar com gemini-pro
+        if (modelName === 'gemini-1.5-flash' && response.status === 404) {
+          console.log('Modelo gemini-1.5-flash não encontrado, tentando gemini-pro...');
+          modelName = 'gemini-pro';
+          response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${API_KEY}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                contents: [{
+                  parts: [{
+                    text: `${systemPrompt}\n\nPergunta do usuário: ${mensagem}\n\nResposta:`
+                  }]
+                }],
+                generationConfig: {
+                  temperature: 0.7,
+                  topK: 40,
+                  topP: 0.95,
+                  maxOutputTokens: 1024,
+                },
+              }),
+            }
+          );
         }
-        throw new Error(errorMessage);
+        
+        if (!response.ok) {
+          let errorMessage = 'Erro ao chamar API do Gemini';
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error?.message || errorData.error || errorMessage;
+            console.error('Erro detalhado da API:', errorData);
+          } catch (e) {
+            const errorText = await response.text();
+            console.error('Erro da API (texto):', errorText);
+            errorMessage = `Erro ${response.status}: ${response.statusText}`;
+          }
+          throw new Error(errorMessage);
+        }
       }
 
       const data = await response.json();
