@@ -66,6 +66,29 @@ body {
     position: relative;
 }
 
+/* Permitir scroll em mobile quando necessário */
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+        max-height: none;
+    }
+    
+    body:has(.choice-screen) {
+        overflow: auto;
+        max-height: none;
+    }
+    
+    .choice-screen {
+        overflow-y: auto;
+        overflow-x: hidden;
+        min-height: 100vh;
+        max-height: none;
+    }
+}
+
 /* ============================================
    SCROLLBAR GLOBAL - LADO DIREITO
    ============================================ */
@@ -3174,9 +3197,13 @@ body.is-flight {
     }
 
     .choice-screen {
-        padding: var(--spacing-sm);
-        height: 100vh;
-        max-height: 100vh;
+        padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-lg);
+        min-height: 100vh;
+        align-items: flex-start;
+        padding-top: var(--spacing-md);
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
     }
 
     .choice-screen__options {
