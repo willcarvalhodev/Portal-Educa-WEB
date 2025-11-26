@@ -129,6 +129,19 @@ const LoginPageModule = (function() {
                     formSolicitar.offsetHeight;
                     setTimeout(() => {
                         formSolicitar.classList.add('entered');
+                        // Após ocupar toda a tela, inicia contração
+                        setTimeout(() => {
+                            formSolicitar.classList.add('contracting');
+                            loginCard?.classList.add('solicitar-active');
+                            // Remove classes após contração
+                            setTimeout(() => {
+                                formSolicitar.classList.remove('login-flow__side--entering', 'entered', 'contracting');
+                                formSolicitar.style.position = '';
+                                formSolicitar.style.width = '';
+                                formSolicitar.style.left = '';
+                                formSolicitar.style.transform = '';
+                            }, 2100);
+                        }, 2100);
                     }, 10);
                 }
                 if (tealRight) {
@@ -137,11 +150,18 @@ const LoginPageModule = (function() {
                     tealRight.offsetHeight;
                     setTimeout(() => {
                         tealRight.classList.add('entered');
+                        setTimeout(() => {
+                            tealRight.classList.add('contracting');
+                            setTimeout(() => {
+                                tealRight.classList.remove('login-flow__side--entering', 'entered', 'contracting');
+                                tealRight.style.position = '';
+                                tealRight.style.width = '';
+                                tealRight.style.left = '';
+                                tealRight.style.transform = '';
+                            }, 2100);
+                        }, 2100);
                     }, 10);
                 }
-                
-                // Adiciona classe ao card
-                loginCard?.classList.add('solicitar-active');
                 
             }, 500);
             
@@ -155,25 +175,7 @@ const LoginPageModule = (function() {
                     tealSide.style.display = 'none';
                     tealSide.classList.remove('login-flow__side--exiting', 'exited');
                 }
-            }, 2500);
-            
-            // Remove classe de entrada após animação completa e restaura posicionamento
-            setTimeout(() => {
-                if (formSolicitar) {
-                    formSolicitar.classList.remove('login-flow__side--entering', 'entered');
-                    formSolicitar.style.position = '';
-                    formSolicitar.style.width = '';
-                    formSolicitar.style.left = '';
-                    formSolicitar.style.transform = '';
-                }
-                if (tealRight) {
-                    tealRight.classList.remove('login-flow__side--entering', 'entered');
-                    tealRight.style.position = '';
-                    tealRight.style.width = '';
-                    tealRight.style.left = '';
-                    tealRight.style.transform = '';
-                }
-            }, 2500);
+            }, 5000);
             
         } else {
             // Painéis que estão saindo primeiro
@@ -200,6 +202,19 @@ const LoginPageModule = (function() {
                     formSide.offsetHeight;
                     setTimeout(() => {
                         formSide.classList.add('entered');
+                        // Após ocupar toda a tela, inicia contração
+                        setTimeout(() => {
+                            formSide.classList.add('contracting');
+                            loginCard?.classList.remove('solicitar-active');
+                            // Remove classes após contração
+                            setTimeout(() => {
+                                formSide.classList.remove('login-flow__side--entering', 'entered', 'contracting');
+                                formSide.style.position = '';
+                                formSide.style.width = '';
+                                formSide.style.left = '';
+                                formSide.style.transform = '';
+                            }, 2100);
+                        }, 2100);
                     }, 10);
                 }
                 if (tealSide) {
@@ -208,11 +223,18 @@ const LoginPageModule = (function() {
                     tealSide.offsetHeight;
                     setTimeout(() => {
                         tealSide.classList.add('entered');
+                        setTimeout(() => {
+                            tealSide.classList.add('contracting');
+                            setTimeout(() => {
+                                tealSide.classList.remove('login-flow__side--entering', 'entered', 'contracting');
+                                tealSide.style.position = '';
+                                tealSide.style.width = '';
+                                tealSide.style.left = '';
+                                tealSide.style.transform = '';
+                            }, 2100);
+                        }, 2100);
                     }, 10);
                 }
-                
-                // Remove classe do card
-                loginCard?.classList.remove('solicitar-active');
                 
             }, 500);
             
@@ -226,25 +248,7 @@ const LoginPageModule = (function() {
                     tealRight.style.display = 'none';
                     tealRight.classList.remove('login-flow__side--exiting', 'exited');
                 }
-            }, 2500);
-            
-            // Remove classe de entrada após animação completa e restaura posicionamento
-            setTimeout(() => {
-                if (formSide) {
-                    formSide.classList.remove('login-flow__side--entering', 'entered');
-                    formSide.style.position = '';
-                    formSide.style.width = '';
-                    formSide.style.left = '';
-                    formSide.style.transform = '';
-                }
-                if (tealSide) {
-                    tealSide.classList.remove('login-flow__side--entering', 'entered');
-                    tealSide.style.position = '';
-                    tealSide.style.width = '';
-                    tealSide.style.left = '';
-                    tealSide.style.transform = '';
-                }
-            }, 2500);
+            }, 5000);
         }
         
         activeFlow = flow;
