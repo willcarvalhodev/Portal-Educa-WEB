@@ -260,3 +260,12 @@ const DesenvolvedoraModule = (function() {
 
 // Disponibiliza DesenvolvedoraModule globalmente
 window.DesenvolvedoraModule = DesenvolvedoraModule;
+
+// Inicializa automaticamente quando a página carregar
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        DesenvolvedoraModule.init();
+    });
+} else {
+    DesenvolvedoraModule.init();
+}

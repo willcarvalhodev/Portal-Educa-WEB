@@ -23,34 +23,38 @@ const ChoiceModule = (function() {
      * Configura os event listeners
      */
     function setupEventListeners() {
-        const choiceCards = document.querySelectorAll('.choice-card');
+        const choiceButtons = document.querySelectorAll('.choice-card__button');
         
+        choiceButtons.forEach(button => {
+            button.addEventListener('click', handleButtonClick);
+        });
+        
+        // Adiciona efeito hover nos cards
+        const choiceCards = document.querySelectorAll('.choice-card');
         choiceCards.forEach(card => {
-            card.addEventListener('click', handleCardClick);
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
         });
     }
     
     /**
-     * Manipula o clique nos cards de escolha
+     * Manipula o clique nos botões de escolha
      * @param {Event} event - Evento de clique
      */
-    function handleCardClick(event) {
-        const card = event.currentTarget;
-        const experience = card.getAttribute('data-experience');
+    function handleButtonClick(event) {
+        // Animação de clique
+        const button = event.currentTarget;
+        button.style.transform = 'scale(0.95)';
         
-        if (!experience) {
-            console.error('Experiência não definida no card');
-            return;
-        }
-        
-        // Animação de saída
-        card.style.transform = 'scale(0.95)';
-        card.style.opacity = '0.8';
-        
-        // Navega após pequeno delay para animação
         setTimeout(() => {
-            Router.navigateTo(experience);
-        }, 200);
+            button.style.transform = 'scale(1)';
+        }, 150);
+        
+        // A navegação é feita pelo link HTML normal
     }
     
     // API Pública
@@ -61,4 +65,13 @@ const ChoiceModule = (function() {
 
 // Disponibiliza ChoiceModule globalmente
 window.ChoiceModule = ChoiceModule;
+
+// Inicializa automaticamente quando a página carregar
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        ChoiceModule.init();
+    });
+} else {
+    ChoiceModule.init();
+}
 

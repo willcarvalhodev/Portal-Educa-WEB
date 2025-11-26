@@ -106,3 +106,12 @@ const ModernaModule = (function() {
 // Disponibiliza ModernaModule globalmente
 window.ModernaModule = ModernaModule;
 
+// Inicializa automaticamente quando a página carregar
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        ModernaModule.init();
+    });
+} else {
+    ModernaModule.init();
+}
+

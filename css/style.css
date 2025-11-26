@@ -452,7 +452,9 @@ button {
     font-weight: bold;
 }
 
-.choice-card__button {
+.choice-card__button,
+.choice-card__button:link,
+.choice-card__button:visited {
     width: 100%;
     padding: var(--spacing-sm) var(--spacing-md);
     background: rgba(255, 255, 255, 0.2);

@@ -391,3 +391,20 @@ const LoginModalModule = (function() {
 // Disponibiliza LoginModalModule globalmente
 window.LoginModalModule = LoginModalModule;
 
+// Inicializa automaticamente quando a página carregar (apenas se Firebase estiver disponível)
+if (typeof firebase !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.AuthModule) {
+                window.AuthModule.init();
+            }
+            LoginModalModule.init();
+        });
+    } else {
+        if (window.AuthModule) {
+            window.AuthModule.init();
+        }
+        LoginModalModule.init();
+    }
+}
+
