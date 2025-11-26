@@ -1,9 +1,312 @@
-<!-- Experiência Moderna - Em desenvolvimento -->
-<div class="moderna-screen">
-    <div class="container">
-        <h1>Experiência Moderna</h1>
-        <p>Esta experiência será implementada na FASE 3.</p>
-        <button onclick="Router.navigateTo('escolha')">← Voltar para escolha</button>
+<!-- Header -->
+<header class="header-moderna" role="banner">
+    <div class="header-moderna__container">
+        <a href="#" class="header-moderna__logo" onclick="Router.navigateTo('escolha'); return false;">
+            <img src="images/icon.ico" alt="Portal Educa" class="header-moderna__logo-icon" width="40" height="40">
+            <span class="header-moderna__logo-text">Portal Educa</span>
+        </a>
+        
+        <nav class="header-moderna__nav">
+            <ul class="header-moderna__nav-list">
+                <li class="header-moderna__nav-item">
+                    <a href="#recursos" class="header-moderna__nav-link">Recursos</a>
+                </li>
+                <li class="header-moderna__nav-item">
+                    <a href="#depoimentos" class="header-moderna__nav-link">Depoimentos</a>
+                </li>
+                <li class="header-moderna__nav-item">
+                    <a href="#precos" class="header-moderna__nav-link">Preços</a>
+                </li>
+            </ul>
+            <button class="header-moderna__login-btn" id="login-btn-moderna">
+                Login Institucional
+            </button>
+        </nav>
     </div>
-</div>
+</header>
 
+<!-- Conteúdo Principal -->
+<main class="main-moderna">
+    <!-- Seção Hero -->
+    <section class="hero-moderna" id="hero">
+        <div class="hero-moderna__container">
+            <div class="hero-moderna__content">
+                <h1 class="hero-moderna__title">
+                    Transforme a Gestão Escolar com
+                    <span class="hero-moderna__highlight">Inteligência Artificial</span>
+                </h1>
+                <p class="hero-moderna__description">
+                    Portal Educa: a plataforma completa que une coordenadores, professores e alunos 
+                    em uma experiência educacional moderna e eficiente.
+                </p>
+                <div class="hero-moderna__actions">
+                    <button class="hero-moderna__button hero-moderna__button--primary" onclick="document.querySelector('#recursos').scrollIntoView({behavior: 'smooth'})">
+                        Conhecer Recursos
+                    </button>
+                    <button class="hero-moderna__button hero-moderna__button--secondary" id="login-btn-hero">
+                        Acessar Portal
+                    </button>
+                </div>
+            </div>
+            <div class="hero-moderna__visual">
+                <div class="hero-moderna__gradient-orb"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Recursos -->
+    <section class="recursos-moderna" id="recursos">
+        <div class="recursos-moderna__container">
+            <div class="recursos-moderna__header">
+                <h2 class="recursos-moderna__title">Recursos Poderosos</h2>
+                <p class="recursos-moderna__subtitle">
+                    Tudo que você precisa para uma gestão escolar completa e moderna
+                </p>
+            </div>
+            
+            <div class="recursos-moderna__grid">
+                <!-- Card 1 -->
+                <article class="recurso-card">
+                    <div class="recurso-card__icon">👥</div>
+                    <h3 class="recurso-card__title">Gestão Completa</h3>
+                    <p class="recurso-card__description">
+                        Cadastre e gerencie professores, alunos, turmas e cursos de forma intuitiva 
+                        e organizada. Tudo em um só lugar.
+                    </p>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="recurso-card">
+                    <div class="recurso-card__icon">📊</div>
+                    <h3 class="recurso-card__title">Analytics Avançado</h3>
+                    <p class="recurso-card__description">
+                        Acompanhe métricas, desempenho e indicadores em tempo real com dashboards 
+                        inteligentes e relatórios automáticos.
+                    </p>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="recurso-card">
+                    <div class="recurso-card__icon">🤖</div>
+                    <h3 class="recurso-card__title">IA Integrada</h3>
+                    <p class="recurso-card__description">
+                        Correção automática de atividades, assistência inteligente e sugestões 
+                        personalizadas para melhorar o ensino.
+                    </p>
+                </article>
+
+                <!-- Card 4 -->
+                <article class="recurso-card">
+                    <div class="recurso-card__icon">📅</div>
+                    <h3 class="recurso-card__title">Calendário Inteligente</h3>
+                    <p class="recurso-card__description">
+                        Organize horários, aulas e eventos com um calendário dinâmico que se adapta 
+                        às necessidades da instituição.
+                    </p>
+                </article>
+
+                <!-- Card 5 -->
+                <article class="recurso-card">
+                    <div class="recurso-card__icon">💬</div>
+                    <h3 class="recurso-card__title">Comunicação Integrada</h3>
+                    <p class="recurso-card__description">
+                        Chat direto entre professores e alunos, com suporte de IA para dúvidas 
+                        frequentes e assistência 24/7.
+                    </p>
+                </article>
+
+                <!-- Card 6 -->
+                <article class="recurso-card">
+                    <div class="recurso-card__icon">📱</div>
+                    <h3 class="recurso-card__title">Multiplataforma</h3>
+                    <p class="recurso-card__description">
+                        Acesse de qualquer dispositivo: web, mobile ou aplicativo desktop. 
+                        Sua gestão sempre ao alcance.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Depoimentos -->
+    <section class="depoimentos-moderna" id="depoimentos">
+        <div class="depoimentos-moderna__container">
+            <div class="depoimentos-moderna__header">
+                <h2 class="depoimentos-moderna__title">O Que Dizem Nossos Clientes</h2>
+                <p class="depoimentos-moderna__subtitle">
+                    Instituições que transformaram sua gestão educacional
+                </p>
+            </div>
+            
+            <div class="depoimentos-moderna__grid">
+                <!-- Depoimento 1 -->
+                <article class="depoimento-card">
+                    <div class="depoimento-card__quote">"</div>
+                    <p class="depoimento-card__text">
+                        O Portal Educa revolucionou nossa gestão. A interface é intuitiva e 
+                        os recursos de IA economizam horas de trabalho administrativo.
+                    </p>
+                    <div class="depoimento-card__author">
+                        <div class="depoimento-card__avatar">M</div>
+                        <div class="depoimento-card__info">
+                            <strong class="depoimento-card__name">Maria Silva</strong>
+                            <span class="depoimento-card__role">Coordenadora Pedagógica</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Depoimento 2 -->
+                <article class="depoimento-card">
+                    <div class="depoimento-card__quote">"</div>
+                    <p class="depoimento-card__text">
+                        Finalmente uma plataforma que entende as necessidades dos professores. 
+                        A correção automática com IA é incrível!
+                    </p>
+                    <div class="depoimento-card__author">
+                        <div class="depoimento-card__avatar">J</div>
+                        <div class="depoimento-card__info">
+                            <strong class="depoimento-card__name">João Santos</strong>
+                            <span class="depoimento-card__role">Professor de Matemática</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Depoimento 3 -->
+                <article class="depoimento-card">
+                    <div class="depoimento-card__quote">"</div>
+                    <p class="depoimento-card__text">
+                        Como aluno, adoro poder acompanhar minhas notas e atividades em tempo real. 
+                        O chat com professores facilita muito a comunicação.
+                    </p>
+                    <div class="depoimento-card__author">
+                        <div class="depoimento-card__avatar">A</div>
+                        <div class="depoimento-card__info">
+                            <strong class="depoimento-card__name">Ana Costa</strong>
+                            <span class="depoimento-card__role">Aluna - 3º Ano</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Preços -->
+    <section class="precos-moderna" id="precos">
+        <div class="precos-moderna__container">
+            <div class="precos-moderna__header">
+                <h2 class="precos-moderna__title">Planos e Preços</h2>
+                <p class="precos-moderna__subtitle">
+                    Escolha o plano ideal para sua instituição
+                </p>
+            </div>
+            
+            <div class="precos-moderna__grid">
+                <!-- Plano Básico -->
+                <article class="plano-card">
+                    <div class="plano-card__header">
+                        <h3 class="plano-card__title">Básico</h3>
+                        <div class="plano-card__price">
+                            <span class="plano-card__currency">R$</span>
+                            <span class="plano-card__amount">299</span>
+                            <span class="plano-card__period">/mês</span>
+                        </div>
+                        <p class="plano-card__description">Ideal para pequenas instituições</p>
+                    </div>
+                    <ul class="plano-card__features">
+                        <li class="plano-card__feature">Até 500 alunos</li>
+                        <li class="plano-card__feature">Até 50 professores</li>
+                        <li class="plano-card__feature">Suporte por email</li>
+                        <li class="plano-card__feature">Recursos básicos de IA</li>
+                    </ul>
+                    <button class="plano-card__button">Contratar</button>
+                </article>
+
+                <!-- Plano Profissional (Destaque) -->
+                <article class="plano-card plano-card--featured">
+                    <div class="plano-card__badge">Mais Popular</div>
+                    <div class="plano-card__header">
+                        <h3 class="plano-card__title">Profissional</h3>
+                        <div class="plano-card__price">
+                            <span class="plano-card__currency">R$</span>
+                            <span class="plano-card__amount">599</span>
+                            <span class="plano-card__period">/mês</span>
+                        </div>
+                        <p class="plano-card__description">Para instituições em crescimento</p>
+                    </div>
+                    <ul class="plano-card__features">
+                        <li class="plano-card__feature">Até 2000 alunos</li>
+                        <li class="plano-card__feature">Até 200 professores</li>
+                        <li class="plano-card__feature">Suporte prioritário</li>
+                        <li class="plano-card__feature">IA avançada completa</li>
+                        <li class="plano-card__feature">App Desktop incluso</li>
+                        <li class="plano-card__feature">Relatórios personalizados</li>
+                    </ul>
+                    <button class="plano-card__button plano-card__button--featured">Contratar</button>
+                </article>
+
+                <!-- Plano Enterprise -->
+                <article class="plano-card">
+                    <div class="plano-card__header">
+                        <h3 class="plano-card__title">Enterprise</h3>
+                        <div class="plano-card__price">
+                            <span class="plano-card__currency">R$</span>
+                            <span class="plano-card__amount">999</span>
+                            <span class="plano-card__period">/mês</span>
+                        </div>
+                        <p class="plano-card__description">Solução completa e personalizada</p>
+                    </div>
+                    <ul class="plano-card__features">
+                        <li class="plano-card__feature">Alunos ilimitados</li>
+                        <li class="plano-card__feature">Professores ilimitados</li>
+                        <li class="plano-card__feature">Suporte 24/7 dedicado</li>
+                        <li class="plano-card__feature">IA customizada</li>
+                        <li class="plano-card__feature">Integrações personalizadas</li>
+                        <li class="plano-card__feature">Treinamento incluído</li>
+                    </ul>
+                    <button class="plano-card__button">Falar com Vendas</button>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Contato -->
+    <section class="contato-moderna" id="contato">
+        <div class="contato-moderna__container">
+            <div class="contato-moderna__content">
+                <h2 class="contato-moderna__title">Entre em Contato</h2>
+                <p class="contato-moderna__description">
+                    Tem dúvidas ou quer conhecer melhor nossa plataforma? 
+                    Fale conosco e tire todas as suas dúvidas.
+                </p>
+                <div class="contato-moderna__info">
+                    <div class="contato-moderna__item">
+                        <span class="contato-moderna__icon">📧</span>
+                        <span>contato@portaleduca.com</span>
+                    </div>
+                    <div class="contato-moderna__item">
+                        <span class="contato-moderna__icon">📱</span>
+                        <span>(11) 9999-9999</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer-moderna" role="contentinfo">
+    <div class="footer-moderna__container">
+        <div class="footer-moderna__content">
+            <div class="footer-moderna__logo">
+                <img src="images/icon.ico" alt="Portal Educa" width="32" height="32">
+                <span>Portal Educa</span>
+            </div>
+            <p class="footer-moderna__copyright">
+                &copy; <span id="current-year"></span> Portal Educa. Todos os direitos reservados.
+            </p>
+            <button class="footer-moderna__back" onclick="Router.navigateTo('escolha'); return false;">
+                ← Voltar para escolha
+            </button>
+        </div>
+    </div>
+</footer>

@@ -520,10 +520,753 @@ button {
 }
 
 /* ============================================
-   8. TELAS TEMPORÁRIAS (Placeholders)
+   8. MÓDULO MODERNA - HEADER
+   Design moderno e não convencional
    ============================================ */
 
-.moderna-screen,
+.header-moderna {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: var(--z-sticky);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.header-moderna__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-moderna__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: transform var(--transition-fast);
+}
+
+.header-moderna__logo:hover {
+    transform: scale(1.05);
+}
+
+.header-moderna__logo-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.header-moderna__logo-text {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.header-moderna__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.header-moderna__nav-list {
+    display: flex;
+    list-style: none;
+    gap: var(--spacing-md);
+    margin: 0;
+    padding: 0;
+}
+
+.header-moderna__nav-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: var(--font-size-base);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-base);
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.header-moderna__nav-link:hover {
+    color: var(--color-primary);
+}
+
+.header-moderna__nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 80%;
+    height: 2px;
+    background: var(--color-primary);
+    transition: transform var(--transition-fast);
+}
+
+.header-moderna__nav-link:hover::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.header-moderna__login-btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-bg);
+    border: none;
+    border-radius: var(--radius-base);
+    font-weight: 600;
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.header-moderna__login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* ============================================
+   9. MÓDULO MODERNA - HERO
+   ============================================ */
+
+.main-moderna {
+    width: 100%;
+}
+
+.hero-moderna {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: var(--spacing-xxl) var(--spacing-md);
+}
+
+.hero-moderna__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+@media (min-width: 992px) {
+    .hero-moderna__container {
+        grid-template-columns: 1.2fr 1fr;
+    }
+}
+
+.hero-moderna__content {
+    animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.hero-moderna__title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+}
+
+.hero-moderna__highlight {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+.hero-moderna__description {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--color-text-light);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-lg);
+    max-width: 600px;
+}
+
+.hero-moderna__actions {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.hero-moderna__button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    border: 2px solid transparent;
+}
+
+.hero-moderna__button--primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-bg);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.hero-moderna__button--primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+}
+
+.hero-moderna__button--secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.hero-moderna__button--secondary:hover {
+    background: var(--color-primary);
+    color: var(--color-bg);
+    transform: translateY(-3px);
+}
+
+.hero-moderna__visual {
+    position: relative;
+    height: 400px;
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .hero-moderna__visual {
+        display: block;
+    }
+}
+
+.hero-moderna__gradient-orb {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: float 6s ease-in-out infinite;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ============================================
+   10. MÓDULO MODERNA - RECURSOS
+   ============================================ */
+
+.recursos-moderna {
+    padding: var(--spacing-xxl) var(--spacing-md);
+    background: var(--color-bg);
+}
+
+.recursos-moderna__container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.recursos-moderna__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xxl);
+}
+
+.recursos-moderna__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: var(--spacing-sm);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.recursos-moderna__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.recursos-moderna__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.recurso-card {
+    background: var(--color-bg);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--color-border);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.recurso-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    transform: scaleX(0);
+    transition: transform var(--transition-base);
+}
+
+.recurso-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--color-primary);
+}
+
+.recurso-card:hover::before {
+    transform: scaleX(1);
+}
+
+.recurso-card__icon {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-md);
+    display: inline-block;
+    transition: transform var(--transition-base);
+}
+
+.recurso-card:hover .recurso-card__icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.recurso-card__title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+}
+
+.recurso-card__description {
+    color: var(--color-text-light);
+    line-height: 1.7;
+    font-size: var(--font-size-base);
+}
+
+/* ============================================
+   11. MÓDULO MODERNA - DEPOIMENTOS
+   ============================================ */
+
+.depoimentos-moderna {
+    padding: var(--spacing-xxl) var(--spacing-md);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.depoimentos-moderna__container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.depoimentos-moderna__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xxl);
+}
+
+.depoimentos-moderna__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+}
+
+.depoimentos-moderna__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+}
+
+.depoimentos-moderna__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.depoimento-card {
+    background: var(--color-bg);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    transition: all var(--transition-base);
+}
+
+.depoimento-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.depoimento-card__quote {
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--color-primary);
+    opacity: 0.2;
+    position: absolute;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    font-family: Georgia, serif;
+}
+
+.depoimento-card__text {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-lg);
+    margin-top: var(--spacing-md);
+    font-style: italic;
+}
+
+.depoimento-card__author {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.depoimento-card__avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+}
+
+.depoimento-card__name {
+    display: block;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.depoimento-card__role {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+}
+
+/* ============================================
+   12. MÓDULO MODERNA - PREÇOS
+   ============================================ */
+
+.precos-moderna {
+    padding: var(--spacing-xxl) var(--spacing-md);
+    background: var(--color-bg);
+}
+
+.precos-moderna__container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.precos-moderna__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xxl);
+}
+
+.precos-moderna__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+}
+
+.precos-moderna__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+}
+
+.precos-moderna__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.plano-card {
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    position: relative;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+}
+
+.plano-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.plano-card--featured {
+    border-color: var(--color-primary);
+    border-width: 3px;
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.plano-card__badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-bg);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.plano-card__header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.plano-card__title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text);
+}
+
+.plano-card__price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+}
+
+.plano-card__currency {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    font-weight: 600;
+}
+
+.plano-card__amount {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    line-height: 1;
+}
+
+.plano-card__period {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+}
+
+.plano-card__description {
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+}
+
+.plano-card__features {
+    list-style: none;
+    margin-bottom: var(--spacing-lg);
+    flex-grow: 1;
+}
+
+.plano-card__feature {
+    padding: var(--spacing-sm) 0;
+    padding-left: var(--spacing-lg);
+    position: relative;
+    color: var(--color-text);
+}
+
+.plano-card__feature::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: bold;
+    font-size: var(--font-size-lg);
+}
+
+.plano-card__button {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-bg);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-base);
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.plano-card__button:hover {
+    background: var(--color-primary);
+    color: var(--color-bg);
+    transform: translateY(-2px);
+}
+
+.plano-card__button--featured {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-bg);
+    border: none;
+}
+
+.plano-card__button--featured:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* ============================================
+   13. MÓDULO MODERNA - CONTATO E FOOTER
+   ============================================ */
+
+.contato-moderna {
+    padding: var(--spacing-xxl) var(--spacing-md);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-bg);
+}
+
+.contato-moderna__container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contato-moderna__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-bg);
+}
+
+.contato-moderna__description {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-xl);
+    opacity: 0.95;
+    line-height: 1.7;
+}
+
+.contato-moderna__info {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+}
+
+.contato-moderna__item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-lg);
+}
+
+.contato-moderna__icon {
+    font-size: 1.5rem;
+}
+
+.footer-moderna {
+    background: var(--color-bg-dark);
+    color: var(--color-bg);
+    padding: var(--spacing-lg) var(--spacing-md);
+}
+
+.footer-moderna__container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-moderna__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    text-align: center;
+}
+
+.footer-moderna__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+}
+
+.footer-moderna__copyright {
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+}
+
+.footer-moderna__back {
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-base);
+    color: var(--color-bg);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.footer-moderna__back:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Responsividade Header Moderna */
+@media (max-width: 767px) {
+    .header-moderna__nav-list {
+        display: none;
+    }
+    
+    .header-moderna__login-btn {
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+}
+
+/* Responsividade Recursos */
+@media (max-width: 767px) {
+    .recursos-moderna__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Responsividade Depoimentos */
+@media (max-width: 767px) {
+    .depoimentos-moderna__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Responsividade Preços */
+@media (max-width: 991px) {
+    .plano-card--featured {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 767px) {
+    .precos-moderna__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tela temporária desenvolvedora */
 .desenvolvedora-screen {
     min-height: 100vh;
     display: flex;
@@ -531,25 +1274,15 @@ button {
     justify-content: center;
     padding: var(--spacing-xl);
     text-align: center;
-}
-
-.moderna-screen {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-    color: var(--color-bg);
-}
-
-.desenvolvedora-screen {
     background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-accent) 100%);
     color: var(--color-bg);
 }
 
-.moderna-screen h1,
 .desenvolvedora-screen h1 {
     color: var(--color-bg);
     margin-bottom: var(--spacing-md);
 }
 
-.moderna-screen button,
 .desenvolvedora-screen button {
     margin-top: var(--spacing-lg);
     padding: var(--spacing-sm) var(--spacing-md);
@@ -564,7 +1297,6 @@ button {
     transition: all var(--transition-base);
 }
 
-.moderna-screen button:hover,
 .desenvolvedora-screen button:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
