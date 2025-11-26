@@ -66,6 +66,17 @@ body {
     position: relative;
 }
 
+/* Permitir scroll em mobile quando necessário */
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+        max-height: none;
+    }
+}
+
 /* ============================================
    SCROLLBAR GLOBAL - LADO DIREITO
    ============================================ */
@@ -155,10 +166,9 @@ a:hover {
 
 /* Layout da tela de escolha */
 .choice-screen {
-    height: 100vh;
-    max-height: 100vh;
+    min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: var(--spacing-md);
     background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(227, 242, 253, 0.95) 55%);
@@ -167,6 +177,7 @@ a:hover {
     box-sizing: border-box;
     scrollbar-width: thin;
     scrollbar-color: rgba(33, 150, 243, 0.4) rgba(33, 150, 243, 0.05);
+    -webkit-overflow-scrolling: touch;
 }
 
 .choice-screen::-webkit-scrollbar {
@@ -193,12 +204,12 @@ a:hover {
 .choice-screen__container {
     width: 100%;
     max-width: 1200px;
-    height: 100%;
-    max-height: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
     box-sizing: border-box;
+    padding: var(--spacing-sm) 0;
 }
 
 .choice-screen__header {
@@ -241,8 +252,9 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-md);
-    min-height: 0;
     align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .choice-card {
@@ -253,12 +265,11 @@ a:hover {
     border-radius: 20px;
     overflow: hidden;
     padding: var(--spacing-md);
+    width: 100%;
+    box-sizing: border-box;
     box-shadow: 0 12px 32px var(--color-shadow);
     border: 1px solid rgba(33, 150, 243, 0.12);
     transition: transform var(--transition-base), box-shadow var(--transition-base);
-    min-height: 0;
-    height: 100%;
-    box-sizing: border-box;
 }
 
 .choice-card:hover {
@@ -3582,19 +3593,37 @@ body.is-flight {
     }
 
     .choice-screen {
-        padding: var(--spacing-sm);
-        height: 100vh;
-        max-height: 100vh;
+        padding: var(--spacing-md);
+        min-height: 100vh;
+        align-items: flex-start;
+        padding-top: var(--spacing-lg);
+    }
+
+    .choice-screen__container {
+        gap: var(--spacing-lg);
+        padding: 0;
+    }
+
+    .choice-screen__header {
+        margin-bottom: var(--spacing-md);
     }
 
     .choice-screen__options {
         grid-template-columns: 1fr;
-        gap: var(--spacing-sm);
+        gap: var(--spacing-md);
+        width: 100%;
     }
 
     .choice-card {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-md);
         min-height: auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .choice-card__button {
+        min-height: 48px;
     }
 
     .site-header {
@@ -3625,99 +3654,112 @@ body.is-flight {
 /* Mobile First - Telas pequenas (320px - 480px) */
 @media (max-width: 480px) {
     :root {
-        --spacing-xs: 0.4rem;
+        --spacing-xs: 0.5rem;
         --spacing-sm: 0.75rem;
         --spacing-md: 1rem;
-        --spacing-lg: 1.5rem;
-        --spacing-xl: 2rem;
-        --font-size-base: 14px;
+        --spacing-lg: 1.25rem;
+        --spacing-xl: 1.5rem;
+        --font-size-base: 15px;
     }
 
     /* Página Principal - Choice Screen */
     .choice-screen {
-        padding: var(--spacing-xs);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+        padding: var(--spacing-sm);
+        min-height: 100vh;
+        align-items: flex-start;
+        padding-top: var(--spacing-md);
     }
 
     .choice-screen__container {
-        gap: var(--spacing-sm);
-        padding: var(--spacing-xs);
+        gap: var(--spacing-md);
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
     }
 
     .choice-screen__header {
         padding: var(--spacing-sm) 0;
-        gap: var(--spacing-xs);
+        margin-bottom: var(--spacing-sm);
     }
 
     .choice-screen__logo {
-        width: 60px;
-        height: 60px;
+        width: 56px;
+        height: 56px;
+        margin-bottom: var(--spacing-xs);
     }
 
     .choice-screen__logo img {
-        width: 50px;
-        height: 50px;
+        width: 44px;
+        height: 44px;
     }
 
     .choice-screen__title {
-        font-size: clamp(1.5rem, 8vw, 2rem);
+        font-size: clamp(1.5rem, 7vw, 1.75rem);
         margin-bottom: 0.25rem;
+        line-height: 1.2;
     }
 
     .choice-screen__subtitle {
-        font-size: clamp(0.875rem, 4vw, 1rem);
+        font-size: clamp(0.875rem, 3.5vw, 0.95rem);
+        margin: 0;
     }
 
     .choice-screen__options {
         grid-template-columns: 1fr;
-        gap: var(--spacing-sm);
-        padding: var(--spacing-xs);
+        gap: var(--spacing-md);
+        width: 100%;
+        padding: 0;
     }
 
     .choice-card {
-        padding: var(--spacing-sm);
-        min-height: auto;
+        padding: var(--spacing-md);
         border-radius: 16px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-height: auto;
     }
 
     .choice-card__icon {
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
         font-size: 1.75rem;
-        margin-bottom: var(--spacing-xs);
+        margin-bottom: var(--spacing-sm);
     }
 
     .choice-card__title {
-        font-size: clamp(1rem, 5vw, 1.2rem);
+        font-size: clamp(1.1rem, 5vw, 1.25rem);
         margin-bottom: var(--spacing-xs);
-    }
-
-    .choice-card__description {
-        font-size: clamp(0.8rem, 4vw, 0.9rem);
-        line-height: 1.4;
-        margin-bottom: var(--spacing-xs);
-        -webkit-line-clamp: 4;
-    }
-
-    .choice-card__features {
-        gap: 0.3rem;
-        margin: var(--spacing-xs) 0;
-    }
-
-    .choice-card__features li {
-        font-size: clamp(0.75rem, 3.5vw, 0.85rem);
-        padding-left: 1rem;
         line-height: 1.3;
     }
 
+    .choice-card__description {
+        font-size: clamp(0.875rem, 3.5vw, 0.95rem);
+        line-height: 1.5;
+        margin-bottom: var(--spacing-sm);
+        -webkit-line-clamp: 3;
+    }
+
+    .choice-card__features {
+        gap: 0.4rem;
+        margin: var(--spacing-sm) 0;
+        flex: 1;
+    }
+
+    .choice-card__features li {
+        font-size: clamp(0.8rem, 3.5vw, 0.875rem);
+        padding-left: 1.1rem;
+        line-height: 1.4;
+    }
+
     .choice-card__button {
-        padding: 0.875rem var(--spacing-sm);
-        font-size: clamp(0.8rem, 4vw, 0.9rem);
-        margin-top: var(--spacing-sm);
-        min-height: 44px; /* Touch-friendly */
+        padding: 0.875rem var(--spacing-md);
+        font-size: clamp(0.875rem, 4vw, 0.95rem);
+        margin-top: var(--spacing-md);
+        min-height: 48px;
         width: 100%;
         justify-content: center;
+        border-radius: 12px;
     }
 
     /* Cliente Theme - App Mobile */
@@ -3756,17 +3798,19 @@ body.is-flight {
     }
 
     .cliente-theme .demo-app__content {
-        margin-left: 0;
-        padding: var(--spacing-sm);
-        width: 100vw;
-        max-width: 100vw;
+        margin-left: 0 !important;
+        padding: var(--spacing-md);
+        width: 100vw !important;
+        max-width: 100vw !important;
+        box-sizing: border-box;
     }
 
     .cliente-theme .demo-sidebar {
-        width: 100vw;
-        max-width: 280px;
+        width: 280px;
+        max-width: 85vw;
         left: -100%;
         transform: translateX(0);
+        z-index: 1000;
     }
 
     .cliente-theme .demo-sidebar.is-open {
@@ -3816,39 +3860,95 @@ body.is-flight {
         visibility: visible;
     }
 
-    .cliente-theme .demo-module-actions__grid {
-        grid-template-columns: 1fr;
+    .cliente-theme .demo-module-actions {
+        width: 100%;
+        padding: var(--spacing-sm);
+    }
+
+    .cliente-theme .demo-module-actions__header {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        flex-wrap: wrap;
         gap: var(--spacing-sm);
     }
 
+    .cliente-theme .demo-module-actions__title {
+        font-size: clamp(1.1rem, 5vw, 1.3rem);
+    }
+
+    .cliente-theme .demo-module-actions__grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        width: 100%;
+        padding: 0;
+    }
+
     .cliente-theme .demo-module-action-card {
-        padding: var(--spacing-md) var(--spacing-sm);
-        min-height: 120px;
+        padding: var(--spacing-md);
+        min-height: 140px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .cliente-theme .demo-module-action-card__icon {
-        font-size: 1.75rem;
-        width: 48px;
-        height: 48px;
-        margin-bottom: var(--spacing-xs);
+        font-size: 2rem;
+        width: 56px;
+        height: 56px;
+        margin-bottom: var(--spacing-sm);
     }
 
     .cliente-theme .demo-module-action-card h3 {
-        font-size: clamp(1rem, 5vw, 1.1rem);
+        font-size: clamp(1.1rem, 5vw, 1.2rem);
         margin-bottom: var(--spacing-xs);
+        line-height: 1.3;
     }
 
     .cliente-theme .demo-module-action-card p {
-        font-size: clamp(0.8rem, 4vw, 0.85rem);
+        font-size: clamp(0.875rem, 4vw, 0.95rem);
+        line-height: 1.4;
+    }
+
+    .cliente-theme .demo-action-screen {
+        width: 100%;
+        padding: var(--spacing-sm);
+    }
+
+    .cliente-theme .demo-action-screen__header {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .cliente-theme .demo-action-screen__title {
+        font-size: clamp(1.1rem, 5vw, 1.3rem);
+    }
+
+    .cliente-theme .demo-action-screen__content {
+        width: 100%;
+        padding: 0;
     }
 
     .cliente-theme .demo-card {
         padding: var(--spacing-md);
         border-radius: 16px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .cliente-theme .demo-card h3 {
-        font-size: clamp(1.1rem, 5.5vw, 1.25rem);
+        font-size: clamp(1.1rem, 5vw, 1.25rem);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .cliente-theme .demo-form {
+        gap: var(--spacing-md);
+    }
+
+    .cliente-theme .demo-form label {
+        font-size: clamp(0.9rem, 4vw, 0.95rem);
     }
 
     .cliente-theme .demo-table {
@@ -3895,26 +3995,41 @@ body.is-flight {
     }
 
     .cliente-theme .demo-btn-back {
-        padding: 0.75rem var(--spacing-sm);
-        font-size: clamp(0.85rem, 4vw, 0.9rem);
+        padding: 0.75rem var(--spacing-md);
+        font-size: clamp(0.875rem, 4vw, 0.95rem);
         min-height: 44px;
+        width: auto;
+        white-space: nowrap;
     }
 
     .cliente-theme .demo-dashboard {
         padding: var(--spacing-md);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .cliente-theme .demo-dashboard h3 {
         font-size: clamp(1.25rem, 6vw, 1.5rem);
+        width: 100%;
+        text-align: center;
     }
 
     .cliente-theme .demo-dashboard p {
-        font-size: clamp(0.85rem, 4vw, 0.95rem);
+        font-size: clamp(0.875rem, 4vw, 0.95rem);
+        max-width: 100%;
+        padding: 0 var(--spacing-sm);
+    }
+
+    .cliente-theme .demo-dashboard ul {
+        max-width: 100%;
+        padding: 0 var(--spacing-sm);
     }
 
     /* Chat Mobile */
     .cliente-theme .demo-chat-container {
-        height: calc(100vh - 160px);
+        height: calc(100vh - 140px);
+        min-height: 400px;
         border-radius: 16px;
     }
 
@@ -3928,20 +4043,6 @@ body.is-flight {
 
     .cliente-theme .demo-chat-header__subtitle {
         font-size: clamp(0.75rem, 3.5vw, 0.85rem);
-    }
-
-    .cliente-theme .demo-chat-mode-selector {
-        padding: var(--spacing-xs) var(--spacing-sm);
-        gap: var(--spacing-xs);
-    }
-
-    .cliente-theme .demo-chat-mode-btn {
-        padding: var(--spacing-xs) var(--spacing-sm);
-        font-size: clamp(0.8rem, 3.5vw, 0.9rem);
-    }
-
-    .cliente-theme .demo-chat-mode-btn__icon {
-        font-size: 1rem;
     }
 
     .cliente-theme .demo-chat-messages {
@@ -3977,14 +4078,15 @@ body.is-flight {
     }
 
     .cliente-theme .demo-chat-send-btn {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         font-size: 0.9rem;
     }
 
     /* Chat History Mobile */
     .cliente-theme .demo-chat-history {
-        height: calc(100vh - 160px);
+        height: calc(100vh - 140px);
+        min-height: 400px;
         border-radius: 16px;
     }
 
@@ -4002,7 +4104,7 @@ body.is-flight {
 
     .cliente-theme .demo-chat-history__list {
         padding: var(--spacing-sm);
-        gap: var(--spacing-xs);
+        gap: var(--spacing-sm);
     }
 
     .cliente-theme .demo-chat-history-item {
@@ -4034,30 +4136,62 @@ body.is-flight {
     }
 
     .cliente-theme .demo-chat-history-item__action {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         font-size: 1rem;
+    }
+
+    /* Ajustes gerais para evitar overflow */
+    .cliente-theme * {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .cliente-theme .demo-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-md);
+    }
+
+    .cliente-theme .demo-grid--two {
+        grid-template-columns: 1fr !important;
     }
 }
 
 /* Tablets e telas médias (481px - 768px) */
 @media (min-width: 481px) and (max-width: 768px) {
+    .choice-screen {
+        padding: var(--spacing-lg);
+        align-items: flex-start;
+        padding-top: var(--spacing-xl);
+    }
+
     .choice-screen__options {
         grid-template-columns: 1fr;
-        gap: var(--spacing-md);
+        gap: var(--spacing-lg);
+        max-width: 600px;
+        margin: 0 auto;
     }
 
     .choice-card {
-        padding: var(--spacing-md);
+        padding: var(--spacing-lg);
+        max-width: 100%;
     }
 
     .cliente-theme .demo-module-actions__grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-sm);
+        gap: var(--spacing-md);
     }
 
     .cliente-theme .demo-app__content {
+        padding: var(--spacing-lg);
+        margin-left: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+    }
+
+    .cliente-theme .demo-module-action-card {
         padding: var(--spacing-md);
+        min-height: 150px;
     }
 }
 
