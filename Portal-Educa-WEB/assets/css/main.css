@@ -2695,15 +2695,18 @@ body.is-flight {
 
     .cliente-theme .demo-sidebar {
         position: fixed;
-        left: -80px;
+        left: -280px;
         top: 0;
+        bottom: 0;
+        width: 280px;
         z-index: 1000;
         transition: left var(--transition-base);
+        height: 100vh;
+        overflow-y: auto;
     }
 
     .cliente-theme .demo-sidebar.is-open {
         left: 0;
-        width: 280px;
     }
 
     .cliente-theme .demo-sidebar:hover {
@@ -2724,23 +2727,23 @@ body.is-flight {
 
     /* Botão para abrir sidebar no mobile */
     .cliente-theme .demo-sidebar-toggle {
-        position: fixed;
-        top: var(--spacing-md);
-        left: var(--spacing-md);
+        position: relative;
         z-index: 1001;
         width: 48px;
         height: 48px;
+        min-width: 48px;
         border-radius: 12px;
         background: linear-gradient(135deg, var(--color-brand) 0%, #1976D2 100%);
         color: var(--color-text-inverse);
         border: none;
         box-shadow: 0 4px 16px rgba(33, 150, 243, 0.3);
         cursor: pointer;
-        display: flex;
+        display: flex !important;
         align-items: center;
         justify-content: center;
         font-size: 1.5rem;
         transition: transform var(--transition-base);
+        flex-shrink: 0;
     }
 
     .cliente-theme .demo-sidebar-toggle:hover {

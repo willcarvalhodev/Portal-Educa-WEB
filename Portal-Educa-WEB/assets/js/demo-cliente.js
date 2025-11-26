@@ -185,12 +185,14 @@ const DemoCliente = (() => {
       </section>
     `;
 
-    // Usar setTimeout para garantir que o DOM está completamente renderizado
-    setTimeout(() => {
-      attachNavEvents();
-      attachHeaderActions();
-      attachSidebarToggle();
-    }, 0);
+    // Usar requestAnimationFrame para garantir que o DOM está completamente renderizado
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        attachNavEvents();
+        attachHeaderActions();
+        attachSidebarToggle();
+      });
+    });
     
     // Expor funções globalmente para os botões de voltar
     window.DemoCliente = {
