@@ -33,56 +33,146 @@
     <main class="login-main">
         <div class="login-container">
             <div class="login-card">
-                <div class="login-card__header">
-                    <img src="images/icon.ico" alt="Portal Educa" class="login-card__logo" width="60" height="60">
-                    <h1 class="login-card__title">Login Institucional</h1>
-                    <p class="login-card__subtitle">Acesse sua conta do Portal Educa</p>
-                </div>
-
-                <form class="login-card__form" id="login-form" novalidate>
-                    <div class="login-card__field">
-                        <label for="login-email" class="login-card__label">Email</label>
-                        <input 
-                            type="email" 
-                            id="login-email"
-                            class="login-card__input" 
-                            placeholder="seu.email@instituicao.com"
-                            autocomplete="email"
-                            required
-                            aria-required="true"
-                            aria-invalid="false">
-                        <span class="login-card__error" id="email-error" role="alert"></span>
+                <!-- Seletor de Modo -->
+                <div class="login-flow">
+                    <div class="login-flow__tabs">
+                        <button class="login-flow__tab login-flow__tab--active" data-flow="solicitar">
+                            <span class="login-flow__tab-icon">📋</span>
+                            <span class="login-flow__tab-text">Solicitar Acesso</span>
+                        </button>
+                        <button class="login-flow__tab" data-flow="login">
+                            <span class="login-flow__tab-icon">🔐</span>
+                            <span class="login-flow__tab-text">Login</span>
+                        </button>
+                        <div class="login-flow__indicator"></div>
                     </div>
 
-                    <div class="login-card__field">
-                        <label for="login-password" class="login-card__label">Senha</label>
-                        <input 
-                            type="password" 
-                            id="login-password"
-                            class="login-card__input" 
-                            placeholder="Sua senha"
-                            autocomplete="current-password"
-                            required
-                            aria-required="true"
-                            aria-invalid="false">
-                        <span class="login-card__error" id="password-error" role="alert"></span>
+                    <!-- Conteúdo: Solicitar Acesso/Cotação -->
+                    <div class="login-flow__content login-flow__content--solicitar login-flow__content--active">
+                        <div class="login-flow__panel">
+                            <div class="login-flow__panel-header">
+                                <h2 class="login-flow__panel-title">Solicitar Acesso ou Cotação</h2>
+                                <p class="login-flow__panel-subtitle">
+                                    Preencha o formulário e nossa equipe entrará em contato
+                                </p>
+                            </div>
+
+                            <form class="login-flow__form" id="solicitar-form" novalidate>
+                                <div class="login-flow__field">
+                                    <label for="solicitar-nome" class="login-flow__label">Nome Completo</label>
+                                    <input 
+                                        type="text" 
+                                        id="solicitar-nome"
+                                        class="login-flow__input" 
+                                        placeholder="Seu nome completo"
+                                        required
+                                        aria-required="true">
+                                    <span class="login-flow__error" id="solicitar-nome-error" role="alert"></span>
+                                </div>
+
+                                <div class="login-flow__field">
+                                    <label for="solicitar-email" class="login-flow__label">Email Institucional</label>
+                                    <input 
+                                        type="email" 
+                                        id="solicitar-email"
+                                        class="login-flow__input" 
+                                        placeholder="seu.email@instituicao.com"
+                                        required
+                                        aria-required="true">
+                                    <span class="login-flow__error" id="solicitar-email-error" role="alert"></span>
+                                </div>
+
+                                <div class="login-flow__field">
+                                    <label for="solicitar-telefone" class="login-flow__label">Telefone</label>
+                                    <input 
+                                        type="tel" 
+                                        id="solicitar-telefone"
+                                        class="login-flow__input" 
+                                        placeholder="(00) 00000-0000"
+                                        required
+                                        aria-required="true">
+                                    <span class="login-flow__error" id="solicitar-telefone-error" role="alert"></span>
+                                </div>
+
+                                <div class="login-flow__field">
+                                    <label for="solicitar-instituicao" class="login-flow__label">Instituição de Ensino</label>
+                                    <input 
+                                        type="text" 
+                                        id="solicitar-instituicao"
+                                        class="login-flow__input" 
+                                        placeholder="Nome da instituição"
+                                        required
+                                        aria-required="true">
+                                    <span class="login-flow__error" id="solicitar-instituicao-error" role="alert"></span>
+                                </div>
+
+                                <div class="login-flow__field">
+                                    <label for="solicitar-mensagem" class="login-flow__label">Mensagem (Opcional)</label>
+                                    <textarea 
+                                        id="solicitar-mensagem"
+                                        class="login-flow__input login-flow__input--textarea" 
+                                        placeholder="Conte-nos mais sobre suas necessidades..."
+                                        rows="4"></textarea>
+                                </div>
+
+                                <div class="login-flow__error login-flow__error--general" id="solicitar-general-error" role="alert"></div>
+
+                                <button type="submit" class="login-flow__submit" id="solicitar-submit-btn">
+                                    <span class="login-flow__submit-text">Enviar Solicitação</span>
+                                    <span class="login-flow__submit-loader" style="display: none;">⏳</span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
 
-                    <div class="login-card__error login-card__error--general" id="general-error" role="alert"></div>
+                    <!-- Conteúdo: Login -->
+                    <div class="login-flow__content login-flow__content--login">
+                        <div class="login-flow__panel">
+                            <div class="login-flow__panel-header">
+                                <h2 class="login-flow__panel-title">Login Institucional</h2>
+                                <p class="login-flow__panel-subtitle">
+                                    Acesse sua conta do Portal Educa
+                                </p>
+                            </div>
 
-                    <button type="submit" class="login-card__submit" id="login-submit-btn">
-                        <span class="login-card__submit-text">Entrar</span>
-                        <span class="login-card__submit-loader" style="display: none;">⏳</span>
-                    </button>
-                </form>
+                            <form class="login-flow__form" id="login-form" novalidate>
+                                <div class="login-flow__field">
+                                    <label for="login-email" class="login-flow__label">Email</label>
+                                    <input 
+                                        type="email" 
+                                        id="login-email"
+                                        class="login-flow__input" 
+                                        placeholder="seu.email@instituicao.com"
+                                        autocomplete="email"
+                                        required
+                                        aria-required="true"
+                                        aria-invalid="false">
+                                    <span class="login-flow__error" id="email-error" role="alert"></span>
+                                </div>
 
-                <div class="login-card__footer">
-                    <p class="login-card__help">
-                        Problemas com login? <a href="#" class="login-card__link">Entre em contato</a>
-                    </p>
-                    <p class="login-card__info">
-                        Use suas credenciais institucionais para acessar o portal
-                    </p>
+                                <div class="login-flow__field">
+                                    <label for="login-password" class="login-flow__label">Senha</label>
+                                    <input 
+                                        type="password" 
+                                        id="login-password"
+                                        class="login-flow__input" 
+                                        placeholder="Sua senha"
+                                        autocomplete="current-password"
+                                        required
+                                        aria-required="true"
+                                        aria-invalid="false">
+                                    <span class="login-flow__error" id="password-error" role="alert"></span>
+                                </div>
+
+                                <div class="login-flow__error login-flow__error--general" id="general-error" role="alert"></div>
+
+                                <button type="submit" class="login-flow__submit" id="login-submit-btn">
+                                    <span class="login-flow__submit-text">Entrar</span>
+                                    <span class="login-flow__submit-loader" style="display: none;">⏳</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,4 +188,3 @@
     <script src="js/login-page.js"></script>
 </body>
 </html>
-

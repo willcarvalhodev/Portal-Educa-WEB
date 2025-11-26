@@ -1,26 +1,25 @@
 /**
  * ============================================
  * PORTAL EDUCA - PÁGINA DE LOGIN
- * Gerencia a página de login (não modal)
+ * Gerencia a página de login com flow (Solicitar/Login)
  * ============================================
  */
 const LoginPageModule = (function() {
     'use strict';
     
-    let form = null;
+    let loginForm = null;
+    let solicitarForm = null;
+    let activeFlow = 'solicitar'; // 'solicitar' ou 'login'
     
     /**
      * Inicializa o módulo da página de login
      */
     function init() {
         try {
-            form = document.getElementById('login-form');
+            loginForm = document.getElementById('login-form');
+            solicitarForm = document.getElementById('solicitar-form');
             
-            if (!form) {
-                console.warn('Formulário de login não encontrado');
-                return;
-            }
-            
+            setupFlowTabs();
             setupEventListeners();
             console.log('✅ LoginPageModule inicializado');
             
@@ -30,34 +29,99 @@ const LoginPageModule = (function() {
     }
     
     /**
+     * Configura as abas do fluxo de login
+     */
+    function setupFlowTabs() {
+        const tabs = document.querySelectorAll('.login-flow__tab');
+        const tabsContainer = document.querySelector('.login-flow__tabs');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const flow = this.getAttribute('data-flow');
+                switchFlow(flow);
+            });
+        });
+        
+        // Define o flow inicial como 'solicitar'
+        switchFlow('solicitar');
+    }
+    
+    /**
+     * Alterna entre os fluxos (solicitar/login)
+     * @param {string} flow - 'solicitar' ou 'login'
+     */
+    function switchFlow(flow) {
+        if (flow === activeFlow) return;
+        
+        activeFlow = flow;
+        
+        // Atualiza as abas
+        const tabs = document.querySelectorAll('.login-flow__tab');
+        const tabsContainer = document.querySelector('.login-flow__tabs');
+        
+        tabs.forEach(tab => {
+            if (tab.getAttribute('data-flow') === flow) {
+                tab.classList.add('login-flow__tab--active');
+            } else {
+                tab.classList.remove('login-flow__tab--active');
+            }
+        });
+        
+        // Atualiza o atributo data-active para o indicador
+        if (tabsContainer) {
+            tabsContainer.setAttribute('data-active', flow);
+        }
+        
+        // Alterna o conteúdo
+        const solicitarContent = document.querySelector('.login-flow__content--solicitar');
+        const loginContent = document.querySelector('.login-flow__content--login');
+        
+        if (flow === 'solicitar') {
+            solicitarContent?.classList.add('login-flow__content--active');
+            loginContent?.classList.remove('login-flow__content--active');
+        } else {
+            loginContent?.classList.add('login-flow__content--active');
+            solicitarContent?.classList.remove('login-flow__content--active');
+        }
+        
+        // Limpa erros ao alternar
+        clearAllErrors();
+    }
+    
+    /**
      * Configura os event listeners
      */
     function setupEventListeners() {
-        if (!form) return;
-        
-        // Submit do formulário
-        form.addEventListener('submit', handleFormSubmit);
-        
-        // Validação em tempo real
-        const emailInput = document.getElementById('login-email');
-        const passwordInput = document.getElementById('login-password');
-        
-        if (emailInput) {
-            emailInput.addEventListener('blur', validateEmail);
-            emailInput.addEventListener('input', clearError);
+        // Formulário de Login
+        if (loginForm) {
+            loginForm.addEventListener('submit', handleLoginSubmit);
+            
+            // Validação em tempo real
+            const emailInput = document.getElementById('login-email');
+            const passwordInput = document.getElementById('login-password');
+            
+            if (emailInput) {
+                emailInput.addEventListener('blur', validateEmail);
+                emailInput.addEventListener('input', clearError);
+            }
+            
+            if (passwordInput) {
+                passwordInput.addEventListener('blur', validatePassword);
+                passwordInput.addEventListener('input', clearError);
+            }
         }
         
-        if (passwordInput) {
-            passwordInput.addEventListener('blur', validatePassword);
-            passwordInput.addEventListener('input', clearError);
+        // Formulário de Solicitar Acesso
+        if (solicitarForm) {
+            solicitarForm.addEventListener('submit', handleSolicitarSubmit);
         }
     }
     
     /**
-     * Manipula o submit do formulário
+     * Manipula o submit do formulário de login
      * @param {Event} event - Evento de submissão do formulário
      */
-    async function handleFormSubmit(event) {
+    async function handleLoginSubmit(event) {
         event.preventDefault();
         
         // Limpa erros anteriores
@@ -72,13 +136,13 @@ const LoginPageModule = (function() {
         }
         
         // Mostra loading
-        setLoading(true);
+        setLoading(true, 'login');
         
         // Faz login
         const result = await window.AuthModule.login(email, password);
         
         // Remove loading
-        setLoading(false);
+        setLoading(false, 'login');
         
         if (result.success) {
             // Sucesso - redireciona para seleção de perfil
@@ -87,12 +151,50 @@ const LoginPageModule = (function() {
             window.location.href = 'index.html';
         } else {
             // Mostra erro
-            showError(result.error, 'general');
+            showError(result.error, 'general', 'login');
         }
     }
     
     /**
-     * Valida o formulário
+     * Manipula o submit do formulário de solicitar acesso
+     * @param {Event} event - Evento de submissão do formulário
+     */
+    async function handleSolicitarSubmit(event) {
+        event.preventDefault();
+        
+        // Limpa erros anteriores
+        clearAllErrors();
+        
+        // Valida campos
+        const nome = document.getElementById('solicitar-nome').value.trim();
+        const email = document.getElementById('solicitar-email').value.trim();
+        const telefone = document.getElementById('solicitar-telefone').value.trim();
+        const instituicao = document.getElementById('solicitar-instituicao').value.trim();
+        const mensagem = document.getElementById('solicitar-mensagem').value.trim();
+        
+        if (!validateSolicitarForm(nome, email, telefone, instituicao)) {
+            return;
+        }
+        
+        // Mostra loading
+        setLoading(true, 'solicitar');
+        
+        // Simula envio (por enquanto apenas mostra sucesso)
+        // Na FASE 10 será integrado com backend
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Remove loading
+        setLoading(false, 'solicitar');
+        
+        // Mostra mensagem de sucesso
+        alert('Solicitação enviada com sucesso! Nossa equipe entrará em contato em breve.');
+        
+        // Limpa formulário
+        solicitarForm.reset();
+    }
+    
+    /**
+     * Valida o formulário de login
      * @param {string} email - Email
      * @param {string} password - Senha
      * @returns {boolean}
@@ -112,6 +214,48 @@ const LoginPageModule = (function() {
     }
     
     /**
+     * Valida o formulário de solicitar acesso
+     * @param {string} nome - Nome
+     * @param {string} email - Email
+     * @param {string} telefone - Telefone
+     * @param {string} instituicao - Instituição
+     * @returns {boolean}
+     */
+    function validateSolicitarForm(nome, email, telefone, instituicao) {
+        let isValid = true;
+        
+        // Valida nome
+        if (!nome || nome.trim() === '') {
+            showFieldError('solicitar-nome', 'solicitar-nome-error', 'Nome é obrigatório');
+            isValid = false;
+        }
+        
+        // Valida email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || email.trim() === '') {
+            showFieldError('solicitar-email', 'solicitar-email-error', 'Email é obrigatório');
+            isValid = false;
+        } else if (!emailRegex.test(email)) {
+            showFieldError('solicitar-email', 'solicitar-email-error', 'Email inválido');
+            isValid = false;
+        }
+        
+        // Valida telefone
+        if (!telefone || telefone.trim() === '') {
+            showFieldError('solicitar-telefone', 'solicitar-telefone-error', 'Telefone é obrigatório');
+            isValid = false;
+        }
+        
+        // Valida instituição
+        if (!instituicao || instituicao.trim() === '') {
+            showFieldError('solicitar-instituicao', 'solicitar-instituicao-error', 'Instituição é obrigatória');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+    
+    /**
      * Valida email
      * @param {string} email - Email
      * @returns {boolean}
@@ -121,17 +265,17 @@ const LoginPageModule = (function() {
         const emailError = document.getElementById('email-error');
         
         if (!email || email.trim() === '') {
-            showFieldError(emailInput, emailError, 'Email é obrigatório');
+            showFieldError('login-email', 'email-error', 'Email é obrigatório');
             return false;
         }
         
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            showFieldError(emailInput, emailError, 'Email inválido');
+            showFieldError('login-email', 'email-error', 'Email inválido');
             return false;
         }
         
-        clearFieldError(emailInput, emailError);
+        clearFieldError('login-email', 'email-error');
         return true;
     }
     
@@ -141,33 +285,33 @@ const LoginPageModule = (function() {
      * @returns {boolean}
      */
     function validatePassword(password) {
-        const passwordInput = document.getElementById('login-password');
-        const passwordError = document.getElementById('password-error');
-        
         if (!password || password.trim() === '') {
-            showFieldError(passwordInput, passwordError, 'Senha é obrigatória');
+            showFieldError('login-password', 'password-error', 'Senha é obrigatória');
             return false;
         }
         
         if (password.length < 6) {
-            showFieldError(passwordInput, passwordError, 'Senha deve ter pelo menos 6 caracteres');
+            showFieldError('login-password', 'password-error', 'Senha deve ter pelo menos 6 caracteres');
             return false;
         }
         
-        clearFieldError(passwordInput, passwordError);
+        clearFieldError('login-password', 'password-error');
         return true;
     }
     
     /**
      * Mostra erro em um campo
-     * @param {HTMLElement} input - Input do campo
-     * @param {HTMLElement} errorElement - Elemento de erro
+     * @param {string} inputId - ID do input
+     * @param {string} errorId - ID do elemento de erro
      * @param {string} message - Mensagem de erro
      */
-    function showFieldError(input, errorElement, message) {
+    function showFieldError(inputId, errorId, message) {
+        const input = document.getElementById(inputId);
+        const errorElement = document.getElementById(errorId);
+        
         if (input) {
             input.setAttribute('aria-invalid', 'true');
-            input.classList.add('login-card__input--error');
+            input.classList.add('login-flow__input--error');
         }
         if (errorElement) {
             errorElement.textContent = message;
@@ -177,13 +321,16 @@ const LoginPageModule = (function() {
     
     /**
      * Limpa erro de um campo
-     * @param {HTMLElement} input - Input do campo
-     * @param {HTMLElement} errorElement - Elemento de erro
+     * @param {string} inputId - ID do input
+     * @param {string} errorId - ID do elemento de erro
      */
-    function clearFieldError(input, errorElement) {
+    function clearFieldError(inputId, errorId) {
+        const input = document.getElementById(inputId);
+        const errorElement = document.getElementById(errorId);
+        
         if (input) {
             input.setAttribute('aria-invalid', 'false');
-            input.classList.remove('login-card__input--error');
+            input.classList.remove('login-flow__input--error');
         }
         if (errorElement) {
             errorElement.textContent = '';
@@ -195,9 +342,10 @@ const LoginPageModule = (function() {
      * Mostra erro geral
      * @param {string} message - Mensagem de erro
      * @param {string} type - Tipo de erro
+     * @param {string} formType - 'login' ou 'solicitar'
      */
-    function showError(message, type = 'general') {
-        const errorElement = document.getElementById(`${type}-error`);
+    function showError(message, type = 'general', formType = 'login') {
+        const errorElement = document.getElementById(formType === 'login' ? 'general-error' : 'solicitar-general-error');
         if (errorElement) {
             errorElement.textContent = message;
             errorElement.style.display = 'block';
@@ -208,16 +356,16 @@ const LoginPageModule = (function() {
      * Limpa todos os erros
      */
     function clearAllErrors() {
-        const errorElements = document.querySelectorAll('.login-card__error');
+        const errorElements = document.querySelectorAll('.login-flow__error');
         errorElements.forEach(el => {
             el.textContent = '';
             el.style.display = 'none';
         });
         
-        const inputs = document.querySelectorAll('.login-card__input');
+        const inputs = document.querySelectorAll('.login-flow__input');
         inputs.forEach(input => {
             input.setAttribute('aria-invalid', 'false');
-            input.classList.remove('login-card__input--error');
+            input.classList.remove('login-flow__input--error');
         });
     }
     
@@ -231,11 +379,12 @@ const LoginPageModule = (function() {
     /**
      * Define estado de loading
      * @param {boolean} loading - Se está carregando
+     * @param {string} formType - 'login' ou 'solicitar'
      */
-    function setLoading(loading) {
-        const submitBtn = document.getElementById('login-submit-btn');
-        const submitText = submitBtn?.querySelector('.login-card__submit-text');
-        const submitLoader = submitBtn?.querySelector('.login-card__submit-loader');
+    function setLoading(loading, formType = 'login') {
+        const submitBtn = document.getElementById(formType === 'login' ? 'login-submit-btn' : 'solicitar-submit-btn');
+        const submitText = submitBtn?.querySelector('.login-flow__submit-text');
+        const submitLoader = submitBtn?.querySelector('.login-flow__submit-loader');
         
         if (!submitBtn) return;
         
@@ -252,7 +401,8 @@ const LoginPageModule = (function() {
     
     // API Pública
     return {
-        init: init
+        init: init,
+        switchFlow: switchFlow
     };
 })();
 
@@ -275,4 +425,3 @@ if (typeof firebase !== 'undefined') {
         LoginPageModule.init();
     }
 }
-
