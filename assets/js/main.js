@@ -34,18 +34,27 @@
      */
     function setupFlightExperience() {
         const flightTriggers = document.querySelectorAll('[data-flight]');
+        const consultForm = document.querySelector('.consult-form');
+        const roleTabs = document.querySelectorAll('[data-role-tab]');
+        const rolePanels = document.querySelectorAll('[data-role-content]');
 
-        if (!flightTriggers.length) {
-            return;
+        if (flightTriggers.length) {
+            const overlay = createFlightOverlay();
+
+            flightTriggers.forEach(trigger => {
+                trigger.addEventListener('click', event => {
+                    handleFlightTrigger(event, trigger, overlay);
+                });
+            });
         }
 
-        const overlay = createFlightOverlay();
+        if (consultForm) {
+            attachConsultFormHandler(consultForm);
+        }
 
-        flightTriggers.forEach(trigger => {
-            trigger.addEventListener('click', event => {
-                handleFlightTrigger(event, trigger, overlay);
-            });
-        });
+        if (roleTabs.length && rolePanels.length) {
+            attachRoleTabs(roleTabs, rolePanels);
+        }
     }
 
     function createFlightOverlay() {
@@ -103,6 +112,34 @@
         window.setTimeout(() => {
             callback();
         }, 1200);
+    }
+
+    function attachConsultFormHandler(form) {
+        const successEl = form.querySelector('.form-success');
+
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+
+            if (successEl) {
+                successEl.textContent = 'Recebemos sua solicitação de cotação! Responderemos em breve.';
+                successEl.classList.add('is-visible');
+            }
+
+            form.reset();
+        });
+    }
+
+    function attachRoleTabs(tabs, panels) {
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.roleTab;
+
+                tabs.forEach(btn => btn.classList.toggle('is-active', btn === tab));
+                panels.forEach(panel => {
+                    panel.classList.toggle('is-visible', panel.dataset.roleContent === target);
+                });
+            });
+        });
     }
 
     // Inicia a aplicação

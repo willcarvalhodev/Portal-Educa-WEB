@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Chatbot IA do Portal Educa para suporte técnico.">
+    <title>Portal Educa • Chatbot IA</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/icon.ico">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="dev-theme chatbot-theme">
+    <header class="chatbot-header">
+        <div class="chatbot-brand">
+            <img src="assets/images/icon.ico" alt="Portal Educa" width="40" height="40">
+            <div>
+                <strong>Portal Educa AI</strong>
+                <span>Assistente técnico 24/7</span>
+            </div>
+        </div>
+        <div class="chatbot-actions">
+            <button class="btn btn--secondary" type="button">Histórico</button>
+            <a href="desenvolvedora.html" class="btn btn--primary" data-flight="return">Voltar ao Labs</a>
+        </div>
+    </header>
+
+    <main class="chatbot-shell">
+        <aside class="chatbot-sidebar">
+            <button class="sidebar-item sidebar-item--active" type="button">Nova conversa</button>
+            <button class="sidebar-item" type="button">Prompt de integrações</button>
+            <button class="sidebar-item" type="button">Checklist deploy</button>
+            <button class="sidebar-item" type="button">Diagnóstico CustomTkinter</button>
+        </aside>
+
+        <section class="chatbot-panel">
+            <div class="chatbot-stream">
+                <div class="chat-message message-user">
+                    <span class="message-author">Você</span>
+                    <p>Preciso de um exemplo de integração Python com o Portal Educa.</p>
+                </div>
+                <div class="chat-message message-ai">
+                    <span class="message-author">Educa AI</span>
+                    <p>Claro! Segue um exemplo com requests:</p>
+                    <pre class="code-snippet">import requests
+
+BASE_URL = "https://api.portaleduca.dev"
+token = "SEU_TOKEN"
+
+payload = {"matricula": "2025A001"}
+response = requests.post(
+    f"{BASE_URL}/webhooks/sincronizar",
+    json=payload,
+    headers={"Authorization": f"Bearer {token}"}
+)
+print(response.json())</pre>
+                </div>
+                <div class="chat-message message-ai">
+                    <span class="message-author">Educa AI</span>
+                    <p>Posso gerar scripts CustomTkinter, revisar prompts ou sugerir endpoints. O que você quer testar agora?</p>
+                </div>
+            </div>
+
+            <form class="chatbot-input">
+                <div class="input-wrapper">
+                    <textarea rows="1" placeholder="Pergunte algo sobre integrações, prompts ou CustomTkinter..." required></textarea>
+                    <div class="input-actions">
+                        <button type="button" class="ghost-btn">Anexar</button>
+                        <button type="submit" class="btn btn--primary">Enviar</button>
+                    </div>
+                </div>
+                <span class="input-hint">Educa AI usa prompts treinados com base nos fluxos do Portal.</span>
+            </form>
+        </section>
+    </main>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+
