@@ -3,436 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Educa - Gestão Escolar Inteligente</title>
+    <title>Escolha sua Versão - Portal Educa</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .choice-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+        }
+        
+        .choice-background {
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+        }
+        
+        .choice-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .choice-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .choice-logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        
+        .choice-logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .choice-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .choice-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .versions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .version-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: block;
+        }
+        
+        .version-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .version-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+        
+        .version-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .version-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .version-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        
+        .version-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .version-features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        
+        .version-features li {
+            padding: 0.5rem 0;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .version-features li::before {
+            content: '✓';
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .version-cta {
+            margin-top: 2rem;
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .version-card:hover .version-cta {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .choice-tip {
+            margin-top: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .versions-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .choice-title {
+                font-size: 2rem;
+            }
+            
+            .version-card {
+                padding: 2rem;
+            }
+            
+            .choice-logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .choice-logo img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Particles Background -->
-    <div class="particles" id="particles"></div>
+    <div class="choice-container">
+        <div class="choice-background"></div>
+        <div class="choice-content">
+            <div class="choice-logo">
+                <img src="images/icon.ico" alt="Portal Educa">
+                <span class="choice-logo-text">Portal Educa</span>
+            </div>
+            <h1 class="choice-title">Escolha sua Versão</h1>
+            <p class="choice-subtitle">Veja como a IA pode criar sites incríveis. Compare as duas versões:</p>
+            
+            <div class="versions-grid">
+                <a href="basic.html" class="version-card" data-version="basic">
+                    <div class="version-icon">📄</div>
+                    <h2 class="version-name">Versão Básica</h2>
+                    <p class="version-description">
+                        Um site simples e funcional criado com IA. Perfeito para quem quer algo direto ao ponto.
+                    </p>
+                    <ul class="version-features">
+                        <li>Design limpo e minimalista</li>
+                        <li>Carregamento rápido</li>
+                        <li>Fácil navegação</li>
+                        <li>Responsivo</li>
+                    </ul>
+                    <div class="version-cta">Ver Versão Básica →</div>
+                </a>
+                
+                <a href="modern.html" class="version-card" data-version="modern">
+                    <div class="version-icon">✨</div>
+                    <h2 class="version-name">Versão Moderna</h2>
+                    <p class="version-description">
+                        Um site avançado com animações, efeitos visuais e interatividade. Mostra o poder da IA moderna.
+                    </p>
+                    <ul class="version-features">
+                        <li>Animações suaves</li>
+                        <li>Efeitos visuais avançados</li>
+                        <li>Interatividade completa</li>
+                        <li>Design premium</li>
+                    </ul>
+                    <div class="version-cta">Ver Versão Moderna →</div>
+                </a>
+            </div>
+            
+            <p class="choice-tip">
+                💡 <strong>Dica:</strong> Ambas as versões foram criadas com IA. Compare e veja as possibilidades!
+            </p>
+        </div>
+    </div>
     
-    <!-- Header -->
-    <header class="header" id="header">
-        <div class="header-container">
-            <a href="index.html" class="logo">
-                <img src="images/icon.ico" alt="Portal Educa" class="logo-icon">
-                <span class="logo-text">Portal Educa</span>
-            </a>
-            <nav class="nav" id="nav">
-                <a href="#recursos" class="nav-link">
-                    <span>Recursos</span>
-                    <div class="nav-underline"></div>
-                </a>
-                <a href="#sobre" class="nav-link">
-                    <span>Sobre</span>
-                    <div class="nav-underline"></div>
-                </a>
-                <a href="#contato" class="nav-link">
-                    <span>Contato</span>
-                    <div class="nav-underline"></div>
-                </a>
-                <a href="login.html" class="btn-cta-header">
-                    <span>Login</span>
-                    <div class="btn-shine"></div>
-                </a>
-            </nav>
-            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-background">
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
-        </div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="badge-glow"></span>
-                    <span class="badge-text">Powered by AI</span>
-                </div>
-                <h1 class="hero-title">
-                    <span class="title-line">Gestão Escolar</span>
-                    <span class="title-line gradient-text">Inteligente</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Plataforma completa alimentada por IA que transforma a experiência educacional. 
-                    Conecte professores, alunos e gestores em um único ecossistema inteligente.
-                </p>
-                <div class="hero-buttons">
-                    <a href="login.html" class="btn btn-primary">
-                        <span>Fazer Login</span>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <div class="btn-ripple"></div>
-                    </a>
-                    <a href="#recursos" class="btn btn-secondary">
-                        <span>Saiba Mais</span>
-                        <div class="btn-border"></div>
-                    </a>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="floating-elements">
-                    <div class="floating-card card-1">
-                        <div class="card-glow"></div>
-                        <div class="card-icon">📊</div>
-                        <div class="card-text">Analytics</div>
-                    </div>
-                    <div class="floating-card card-2">
-                        <div class="card-glow"></div>
-                        <div class="card-icon">🤖</div>
-                        <div class="card-text">IA</div>
-                    </div>
-                    <div class="floating-card card-3">
-                        <div class="card-glow"></div>
-                        <div class="card-icon">⚡</div>
-                        <div class="card-text">Rápido</div>
-                    </div>
-                </div>
-                <div class="main-visual">
-                    <div class="visual-screen">
-                        <div class="screen-header">
-                            <div class="screen-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                        <div class="screen-content">
-                            <div class="content-grid">
-                                <div class="grid-item">
-                                    <div class="item-bar" data-height="60"></div>
-                                </div>
-                                <div class="grid-item">
-                                    <div class="item-bar" data-height="80"></div>
-                                </div>
-                                <div class="grid-item">
-                                    <div class="item-bar" data-height="45"></div>
-                                </div>
-                                <div class="grid-item">
-                                    <div class="item-bar" data-height="90"></div>
-                                </div>
-                            </div>
-                            <div class="pulse-ring"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="recursos">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-label">
-                    <span class="label-line"></span>
-                    <span>Recursos</span>
-                </div>
-                <h2 class="section-title">
-                    <span class="title-word">Tudo</span>
-                    <span class="title-word">que</span>
-                    <span class="title-word">você</span>
-                    <span class="title-word">precisa</span>
-                </h2>
-                <p class="section-description">
-                    Ferramentas poderosas projetadas para simplificar e otimizar a gestão educacional
-                </p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div class="feature-number">01</div>
-                    <div class="feature-icon">
-                        <div class="icon-bg"></div>
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <path d="M16 2L20.09 11.26L30 12.27L22.5 19.14L24.18 29.02L16 24.77L7.82 29.02L9.5 19.14L2 12.27L11.91 11.26L16 2Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Correção Automática</h3>
-                    <p class="feature-description">
-                        IA que corrige provas e trabalhos com precisão de 95%, economizando horas de trabalho.
-                    </p>
-                    <div class="feature-link">
-                        <span>Saiba mais</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-number">02</div>
-                    <div class="feature-icon">
-                        <div class="icon-bg"></div>
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <path d="M16 2C8.27 2 2 8.27 2 16C2 23.73 8.27 30 16 30C23.73 30 30 23.73 30 16C30 8.27 23.73 2 16 2Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Assistente Virtual</h3>
-                    <p class="feature-description">
-                        Chat 24/7 disponível para alunos e professores, respondendo dúvidas instantaneamente.
-                    </p>
-                    <div class="feature-link">
-                        <span>Saiba mais</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-number">03</div>
-                    <div class="feature-icon">
-                        <div class="icon-bg"></div>
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <path d="M4 4H28V28H4V4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M4 12H28" stroke="currentColor" stroke-width="2"/>
-                            <path d="M12 4V28" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Analytics Avançado</h3>
-                    <p class="feature-description">
-                        Dashboards inteligentes com insights em tempo real sobre desempenho e engajamento.
-                    </p>
-                    <div class="feature-link">
-                        <span>Saiba mais</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-number">04</div>
-                    <div class="feature-icon">
-                        <div class="icon-bg"></div>
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <path d="M16 2L20.09 11.26L30 12.27L22.5 19.14L24.18 29.02L16 24.77L7.82 29.02L9.5 19.14L2 12.27L11.91 11.26L16 2Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Notas Transparentes</h3>
-                    <p class="feature-description">
-                        Alunos acompanham notas e feedback em tempo real com explicações detalhadas.
-                    </p>
-                    <div class="feature-link">
-                        <span>Saiba mais</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-number">05</div>
-                    <div class="feature-icon">
-                        <div class="icon-bg"></div>
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <path d="M16 2C8.27 2 2 8.27 2 16C2 23.73 8.27 30 16 30C23.73 30 30 23.73 30 16C30 8.27 23.73 2 16 2Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Planejamento Inteligente</h3>
-                    <p class="feature-description">
-                        Gere planos de aula personalizados baseados no currículo e necessidades dos alunos.
-                    </p>
-                    <div class="feature-link">
-                        <span>Saiba mais</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-number">06</div>
-                    <div class="feature-icon">
-                        <div class="icon-bg"></div>
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <path d="M16 2L20.09 11.26L30 12.27L22.5 19.14L24.18 29.02L16 24.77L7.82 29.02L9.5 19.14L2 12.27L11.91 11.26L16 2Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Integração Total</h3>
-                    <p class="feature-description">
-                        Conecte-se com todas as ferramentas que você já usa através de API aberta.
-                    </p>
-                    <div class="feature-link">
-                        <span>Saiba mais</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="sobre">
-        <div class="about-background">
-            <div class="about-gradient"></div>
-        </div>
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <div class="section-label">
-                        <span class="label-line"></span>
-                        <span>Sobre</span>
-                    </div>
-                    <h2 class="section-title">Plataforma Omnichannel</h2>
-                    <p class="about-description">
-                        O Portal Educa é uma solução completa que integra todos os aspectos da gestão escolar. 
-                        Nossa plataforma conecta professores, alunos e gestores em um ecossistema unificado.
-                    </p>
-                    <div class="about-stats">
-                        <div class="stat-box">
-                            <div class="stat-value" data-target="10">0</div>
-                            <div class="stat-label">Mil Escolas</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value" data-target="500">0</div>
-                            <div class="stat-label">Mil Usuários</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value" data-target="99">0</div>
-                            <div class="stat-label">% Uptime</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-visual">
-                    <div class="visual-cards">
-                        <div class="visual-card">
-                            <div class="card-glow-effect"></div>
-                            <div class="card-header">
-                                <div class="card-avatar">👨‍🏫</div>
-                                <div>
-                                    <div class="card-name">Professores</div>
-                                    <div class="card-role">Economia de Tempo</div>
-                                </div>
-                            </div>
-                            <div class="card-metric">
-                                <span class="metric-value" data-target="70">0</span>
-                                <span class="metric-unit">%</span>
-                            </div>
-                        </div>
-                        <div class="visual-card">
-                            <div class="card-glow-effect"></div>
-                            <div class="card-header">
-                                <div class="card-avatar">🎓</div>
-                                <div>
-                                    <div class="card-name">Alunos</div>
-                                    <div class="card-role">Satisfação</div>
-                                </div>
-                            </div>
-                            <div class="card-metric">
-                                <span class="metric-value" data-target="95">0</span>
-                                <span class="metric-unit">%</span>
-                            </div>
-                        </div>
-                        <div class="visual-card">
-                            <div class="card-glow-effect"></div>
-                            <div class="card-header">
-                                <div class="card-avatar">📊</div>
-                                <div>
-                                    <div class="card-name">Precisão</div>
-                                    <div class="card-role">IA</div>
-                                </div>
-                            </div>
-                            <div class="card-metric">
-                                <span class="metric-value" data-target="98">0</span>
-                                <span class="metric-unit">%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section" id="contato">
-        <div class="cta-background">
-            <div class="cta-gradient"></div>
-            <div class="cta-pattern"></div>
-        </div>
-        <div class="container">
-            <div class="cta-content">
-                <h2 class="cta-title">Pronto para começar?</h2>
-                <p class="cta-description">
-                    Junte-se a milhares de escolas que já transformaram sua gestão educacional
-                </p>
-                <div class="cta-buttons">
-                    <a href="login.html" class="btn btn-primary btn-large">
-                        <span>Fazer Login</span>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <div class="btn-ripple"></div>
-                    </a>
-                    <a href="index.html#contato" class="btn btn-secondary btn-large">
-                        <span>Agendar Demo</span>
-                        <div class="btn-border"></div>
-                    </a>
-                </div>
-                <div class="cta-features">
-                    <span>✓ Sem cartão de crédito</span>
-                    <span>✓ Teste grátis 30 dias</span>
-                    <span>✓ Suporte 24/7</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-main">
-                    <div class="footer-brand">
-                        <div class="logo">
-                            <img src="images/icon.ico" alt="Portal Educa" class="logo-icon">
-                            <span class="logo-text">Portal Educa</span>
-                        </div>
-                        <p>Gestão escolar inteligente alimentada por IA</p>
-                    </div>
-                    <div class="footer-links">
-                        <div class="footer-column">
-                            <h4>Produto</h4>
-                            <ul>
-                                <li><a href="#recursos">Recursos</a></li>
-                                <li><a href="#sobre">Sobre</a></li>
-                                <li><a href="#contato">Preços</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-column">
-                            <h4>Empresa</h4>
-                            <ul>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Carreiras</a></li>
-                                <li><a href="#">Contato</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-column">
-                            <h4>Legal</h4>
-                            <ul>
-                                <li><a href="#">Privacidade</a></li>
-                                <li><a href="#">Termos</a></li>
-                                <li><a href="#">LGPD</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2024 Portal Educa. Todos os direitos reservados.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/script.js"></script>
+    <script>
+        // Adicionar transição suave ao clicar
+        document.querySelectorAll('.version-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                
+                // Adicionar fade out
+                document.body.style.opacity = '0';
+                document.body.style.transition = 'opacity 0.3s ease';
+                
+                // Navegar após a transição
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 300);
+            });
+        });
+        
+        // Adicionar fade in ao carregar
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
 </body>
 </html>
