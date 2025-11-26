@@ -1956,68 +1956,61 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.6s cubic-bezier(0.68, -0.25, 0.265, 1.35);
     cursor: pointer;
     overflow: hidden;
 }
 
-/* Animação de expansão ao alternar */
-.login-flow__side {
-    animation: slideInPanel 0.6s cubic-bezier(0.68, -0.25, 0.265, 1.35);
-}
-
-@keyframes slideInPanel {
-    0% {
-        transform: scale(1.2);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.05);
-        opacity: 0.8;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* Animação para o painel que está entrando */
+/* Animação para o painel que está entrando - expande para tela toda */
 .login-flow__side--entering {
-    animation: expandThenContract 0.8s cubic-bezier(0.68, -0.25, 0.265, 1.35);
+    position: absolute !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 20 !important;
+    animation: expandToFullThenContract 1s cubic-bezier(0.68, -0.25, 0.265, 1.35);
 }
 
-@keyframes expandThenContract {
+@keyframes expandToFullThenContract {
     0% {
-        transform: scale(0.9);
-        opacity: 0;
-        z-index: 15;
+        transform: scale(1);
+        opacity: 0.8;
+        width: 100%;
+        left: 0;
     }
-    40% {
-        transform: scale(1.15);
+    30% {
+        transform: scale(1.02);
         opacity: 1;
-        z-index: 15;
+        width: 100%;
+        left: 0;
     }
     100% {
         transform: scale(1);
         opacity: 1;
-        z-index: 5;
+        width: auto;
+        position: relative;
     }
 }
 
-/* Animação para o painel que está saindo */
+/* Animação para o painel que está saindo - reduz e desaparece */
 .login-flow__side--exiting {
-    animation: shrinkAndFade 0.6s cubic-bezier(0.68, -0.25, 0.265, 1.35);
+    z-index: 10;
+    animation: fadeOut 0.5s cubic-bezier(0.68, -0.25, 0.265, 1.35);
 }
 
-@keyframes shrinkAndFade {
+@keyframes fadeOut {
     0% {
-        transform: scale(1);
         opacity: 1;
+        transform: scale(1);
     }
     100% {
-        transform: scale(0.95);
-        opacity: 0.3;
+        opacity: 0;
+        transform: scale(0.98);
     }
+}
+
+/* Garante que o painel entrando ocupe toda a tela temporariamente */
+.login-card:has(.login-flow__side--entering) {
+    overflow: visible;
 }
 
 /* Painel Teal Esquerdo (Solicitar Acesso) */

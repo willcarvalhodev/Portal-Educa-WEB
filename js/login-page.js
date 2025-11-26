@@ -103,72 +103,86 @@ const LoginPageModule = (function() {
         });
         
         if (flow === 'solicitar') {
-            // Painéis que estão entrando
-            if (formSolicitar) {
-                formSolicitar.style.display = 'flex';
-                formSolicitar.classList.add('login-flow__side--entering');
-            }
-            if (tealRight) {
-                tealRight.style.display = 'flex';
-                tealRight.classList.add('login-flow__side--entering');
-            }
-            
-            // Painéis que estão saindo
+            // Painéis que estão saindo primeiro
             if (formSide) {
                 formSide.classList.add('login-flow__side--exiting');
-                setTimeout(() => {
-                    formSide.style.display = 'none';
-                    formSide.classList.remove('login-flow__side--exiting');
-                }, 600);
             }
             if (tealSide) {
                 tealSide.classList.add('login-flow__side--exiting');
-                setTimeout(() => {
+            }
+            
+            // Após início da saída, mostra os painéis entrando
+            setTimeout(() => {
+                if (formSolicitar) {
+                    formSolicitar.style.display = 'flex';
+                    formSolicitar.classList.add('login-flow__side--entering');
+                }
+                if (tealRight) {
+                    tealRight.style.display = 'flex';
+                    tealRight.classList.add('login-flow__side--entering');
+                }
+                
+                // Esconde painéis saindo
+                if (formSide) {
+                    formSide.style.display = 'none';
+                    formSide.classList.remove('login-flow__side--exiting');
+                }
+                if (tealSide) {
                     tealSide.style.display = 'none';
                     tealSide.classList.remove('login-flow__side--exiting');
-                }, 600);
-            }
-            
-            // Adiciona classe ao card após pequeno delay para permitir animação
-            setTimeout(() => {
+                }
+                
+                // Adiciona classe ao card
                 loginCard?.classList.add('solicitar-active');
+                
+            }, 300);
+            
+            // Remove classe de entrada após animação completa
+            setTimeout(() => {
                 if (formSolicitar) formSolicitar.classList.remove('login-flow__side--entering');
                 if (tealRight) tealRight.classList.remove('login-flow__side--entering');
-            }, 100);
+            }, 1300);
             
         } else {
-            // Painéis que estão entrando
-            if (formSide) {
-                formSide.style.display = 'flex';
-                formSide.classList.add('login-flow__side--entering');
-            }
-            if (tealSide) {
-                tealSide.style.display = 'flex';
-                tealSide.classList.add('login-flow__side--entering');
-            }
-            
-            // Painéis que estão saindo
+            // Painéis que estão saindo primeiro
             if (formSolicitar) {
                 formSolicitar.classList.add('login-flow__side--exiting');
-                setTimeout(() => {
-                    formSolicitar.style.display = 'none';
-                    formSolicitar.classList.remove('login-flow__side--exiting');
-                }, 600);
             }
             if (tealRight) {
                 tealRight.classList.add('login-flow__side--exiting');
-                setTimeout(() => {
-                    tealRight.style.display = 'none';
-                    tealRight.classList.remove('login-flow__side--exiting');
-                }, 600);
             }
             
-            // Remove classe do card após pequeno delay para permitir animação
+            // Após início da saída, mostra os painéis entrando
             setTimeout(() => {
+                if (formSide) {
+                    formSide.style.display = 'flex';
+                    formSide.classList.add('login-flow__side--entering');
+                }
+                if (tealSide) {
+                    tealSide.style.display = 'flex';
+                    tealSide.classList.add('login-flow__side--entering');
+                }
+                
+                // Esconde painéis saindo
+                if (formSolicitar) {
+                    formSolicitar.style.display = 'none';
+                    formSolicitar.classList.remove('login-flow__side--exiting');
+                }
+                if (tealRight) {
+                    tealRight.style.display = 'none';
+                    tealRight.classList.remove('login-flow__side--exiting');
+                }
+                
+                // Remove classe do card
                 loginCard?.classList.remove('solicitar-active');
+                
+            }, 300);
+            
+            // Remove classe de entrada após animação completa
+            setTimeout(() => {
                 if (formSide) formSide.classList.remove('login-flow__side--entering');
                 if (tealSide) tealSide.classList.remove('login-flow__side--entering');
-            }, 100);
+            }, 1300);
         }
         
         activeFlow = flow;
