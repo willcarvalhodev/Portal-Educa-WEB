@@ -224,6 +224,63 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
       }
     }
 
+    // Se todos os modelos principais falharam, tentar fallback
+    if (lastError && (lastError.includes('não encontrado') || lastError?.includes('404') || lastError?.includes('Resposta vazia'))) {
+      console.log('Tentando modelos fallback...');
+      
+      for (const modelName of modelosFallback) {
+        try {
+          console.log(`Tentando modelo fallback: ${modelName}`);
+          
+          const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${API_KEY}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                contents: [{
+                  parts: [{
+                    text: `${systemPrompt}\n\nPergunta do usuário: ${mensagem}\n\nResposta:`
+                  }]
+                }],
+                generationConfig: {
+                  temperature: 0.7,
+                  topK: 40,
+                  topP: 0.95,
+                  maxOutputTokens: 1024,
+                },
+              }),
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            let resposta = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            
+            if (!resposta && data.candidates?.[0]?.content?.parts) {
+              const parts = data.candidates[0].content.parts;
+              for (const part of parts) {
+                if (part.text) {
+                  resposta = part.text;
+                  break;
+                }
+              }
+            }
+            
+            if (resposta && resposta.trim().length > 0) {
+              console.log(`Modelo fallback ${modelName} funcionou!`);
+              return res.status(200).json({ resposta });
+            }
+          }
+        } catch (error) {
+          console.error(`Erro ao tentar modelo fallback ${modelName}:`, error.message);
+          continue;
+        }
+      }
+    }
+    
     // Se chegou aqui, todos os modelos falharam
     console.error('Todos os modelos falharam. Último erro:', lastError);
     console.error('Última resposta status:', lastResponse?.status);
