@@ -90,30 +90,88 @@ const LoginPageModule = (function() {
     function switchFlow(flow) {
         if (flow === activeFlow) return;
         
-        activeFlow = flow;
         const loginCard = document.querySelector('.login-card');
         const formSide = document.querySelector('.login-flow__side--form');
         const formSolicitar = document.querySelector('.login-flow__side--form-solicitar');
         const tealSide = document.querySelector('.login-flow__side--teal');
         const tealRight = document.querySelector('.login-flow__side--teal-right');
         
+        // Remove classes de animação anteriores
+        const allSides = document.querySelectorAll('.login-flow__side');
+        allSides.forEach(side => {
+            side.classList.remove('login-flow__side--entering', 'login-flow__side--exiting');
+        });
+        
         if (flow === 'solicitar') {
-            loginCard?.classList.add('solicitar-active');
+            // Painéis que estão entrando
+            if (formSolicitar) {
+                formSolicitar.style.display = 'flex';
+                formSolicitar.classList.add('login-flow__side--entering');
+            }
+            if (tealRight) {
+                tealRight.style.display = 'flex';
+                tealRight.classList.add('login-flow__side--entering');
+            }
             
-            // Mostra formulário de solicitar e painel teal direito
-            if (formSide) formSide.style.display = 'none';
-            if (formSolicitar) formSolicitar.style.display = 'flex';
-            if (tealSide) tealSide.style.display = 'none';
-            if (tealRight) tealRight.style.display = 'flex';
+            // Painéis que estão saindo
+            if (formSide) {
+                formSide.classList.add('login-flow__side--exiting');
+                setTimeout(() => {
+                    formSide.style.display = 'none';
+                    formSide.classList.remove('login-flow__side--exiting');
+                }, 600);
+            }
+            if (tealSide) {
+                tealSide.classList.add('login-flow__side--exiting');
+                setTimeout(() => {
+                    tealSide.style.display = 'none';
+                    tealSide.classList.remove('login-flow__side--exiting');
+                }, 600);
+            }
+            
+            // Adiciona classe ao card após pequeno delay para permitir animação
+            setTimeout(() => {
+                loginCard?.classList.add('solicitar-active');
+                if (formSolicitar) formSolicitar.classList.remove('login-flow__side--entering');
+                if (tealRight) tealRight.classList.remove('login-flow__side--entering');
+            }, 100);
+            
         } else {
-            loginCard?.classList.remove('solicitar-active');
+            // Painéis que estão entrando
+            if (formSide) {
+                formSide.style.display = 'flex';
+                formSide.classList.add('login-flow__side--entering');
+            }
+            if (tealSide) {
+                tealSide.style.display = 'flex';
+                tealSide.classList.add('login-flow__side--entering');
+            }
             
-            // Mostra formulário de login e painel teal esquerdo
-            if (formSide) formSide.style.display = 'flex';
-            if (formSolicitar) formSolicitar.style.display = 'none';
-            if (tealSide) tealSide.style.display = 'flex';
-            if (tealRight) tealRight.style.display = 'none';
+            // Painéis que estão saindo
+            if (formSolicitar) {
+                formSolicitar.classList.add('login-flow__side--exiting');
+                setTimeout(() => {
+                    formSolicitar.style.display = 'none';
+                    formSolicitar.classList.remove('login-flow__side--exiting');
+                }, 600);
+            }
+            if (tealRight) {
+                tealRight.classList.add('login-flow__side--exiting');
+                setTimeout(() => {
+                    tealRight.style.display = 'none';
+                    tealRight.classList.remove('login-flow__side--exiting');
+                }, 600);
+            }
+            
+            // Remove classe do card após pequeno delay para permitir animação
+            setTimeout(() => {
+                loginCard?.classList.remove('solicitar-active');
+                if (formSide) formSide.classList.remove('login-flow__side--entering');
+                if (tealSide) tealSide.classList.remove('login-flow__side--entering');
+            }, 100);
         }
+        
+        activeFlow = flow;
         
         // Limpa erros ao alternar
         clearAllErrors();
