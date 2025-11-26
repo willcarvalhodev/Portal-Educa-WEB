@@ -399,7 +399,7 @@ const DemoCliente = (() => {
     }
 
     // Se for Professor, mostrar menu de ações
-    if (state.perfil === 'Professor' && ['turmas-prof', 'atividades', 'notas', 'frequencia'].includes(sectionId)) {
+    if (state.perfil === 'Professor' && ['turmas-prof', 'atividades', 'notas', 'frequencia', 'chat'].includes(sectionId)) {
       navigationState.currentModule = sectionId;
       navigationState.currentAction = null;
       content.innerHTML = renderModuleActions(sectionId);
@@ -408,7 +408,7 @@ const DemoCliente = (() => {
     }
 
     // Se for Aluno, mostrar menu de ações
-    if (state.perfil === 'Aluno' && ['diario', 'aulas', 'atividades-aluno', 'avaliacoes'].includes(sectionId)) {
+    if (state.perfil === 'Aluno' && ['diario', 'aulas', 'atividades-aluno', 'avaliacoes', 'chat'].includes(sectionId)) {
       navigationState.currentModule = sectionId;
       navigationState.currentAction = null;
       content.innerHTML = renderModuleActions(sectionId);
@@ -420,7 +420,6 @@ const DemoCliente = (() => {
     const sections = {
       dashboard: renderDashboard,
       usuarios: renderUsuarios,
-      chat: renderChat,
     };
 
     content.innerHTML = sections[sectionId] ? sections[sectionId]() : '<p>Em construção.</p>';
@@ -439,12 +438,44 @@ const DemoCliente = (() => {
       atividades: 'Atividades',
       notas: 'Notas',
       frequencia: 'Frequência',
+      chat: 'Chat',
       // Aluno
       diario: 'Diário',
       aulas: 'Aulas',
       'atividades-aluno': 'Atividades',
       avaliacoes: 'Avaliações',
     };
+
+    // Se for chat, mostrar ações específicas
+    if (moduleId === 'chat') {
+      return `
+        <div class="demo-module-actions">
+          <div class="demo-module-actions__header">
+            <button class="demo-btn-back" onclick="window.DemoCliente?.goBack()">
+              <span>←</span> Voltar
+            </button>
+            <h2 class="demo-module-actions__title">${moduleNames[moduleId]}</h2>
+          </div>
+          <div class="demo-module-actions__grid">
+            <div class="demo-module-action-card" data-action="chat-professor" data-module="${moduleId}">
+              <div class="demo-module-action-card__icon">👨‍🏫</div>
+              <h3>Falar com Professor</h3>
+              <p>Converse com um professor</p>
+            </div>
+            <div class="demo-module-action-card" data-action="chat-ia" data-module="${moduleId}">
+              <div class="demo-module-action-card__icon">🤖</div>
+              <h3>Falar com IA</h3>
+              <p>Converse com assistente IA</p>
+            </div>
+            <div class="demo-module-action-card" data-action="chat-historico" data-module="${moduleId}">
+              <div class="demo-module-action-card__icon">📜</div>
+              <h3>Histórico</h3>
+              <p>Ver conversas anteriores</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
 
     return `
       <div class="demo-module-actions">
@@ -487,6 +518,7 @@ const DemoCliente = (() => {
       atividades: 'Atividades',
       notas: 'Notas',
       frequencia: 'Frequência',
+      chat: 'Chat',
       // Aluno
       diario: 'Diário',
       aulas: 'Aulas',
@@ -498,6 +530,9 @@ const DemoCliente = (() => {
       cadastrar: 'Cadastrar',
       listar: 'Listar',
       apagar: 'Apagar',
+      'chat-professor': 'Falar com Professor',
+      'chat-ia': 'Falar com IA',
+      'chat-historico': 'Histórico de Conversas',
     };
 
     navigationState.currentModule = moduleId;
@@ -511,6 +546,16 @@ const DemoCliente = (() => {
       content = renderListar(moduleId);
     } else if (action === 'apagar') {
       content = renderApagar(moduleId);
+    } else if (action === 'chat-professor') {
+      state.chatMode = 'professor';
+      localStorage.setItem('demoChatMode', 'professor');
+      content = renderChat();
+    } else if (action === 'chat-ia') {
+      state.chatMode = 'ia';
+      localStorage.setItem('demoChatMode', 'ia');
+      content = renderChat();
+    } else if (action === 'chat-historico') {
+      content = renderChatHistory();
     }
 
     return `
@@ -519,7 +564,7 @@ const DemoCliente = (() => {
           <button class="demo-btn-back" onclick="window.DemoCliente?.goBackToModule()">
             <span>←</span> Voltar
           </button>
-          <h2 class="demo-action-screen__title">${actionNames[action]} ${moduleNames[moduleId]}</h2>
+          <h2 class="demo-action-screen__title">${actionNames[action]} ${moduleId === 'chat' ? '' : moduleNames[moduleId]}</h2>
         </div>
         <div class="demo-action-screen__content">
           ${content}
@@ -1592,13 +1637,15 @@ const DemoCliente = (() => {
   function renderChat() {
     const chatMode = state.chatMode || 'professor'; // 'professor' ou 'ia'
     const mensagens = state.mensagensChat.filter(msg => msg.modo === chatMode);
+    const modoLabel = chatMode === 'ia' ? 'Assistente IA' : 'Professor';
+    const modoIcon = chatMode === 'ia' ? '🤖' : '👨‍🏫';
     
     return `
       <div class="demo-chat-container">
         <!-- Header do Chat -->
         <div class="demo-chat-header">
           <div class="demo-chat-header__title">
-            <h3>Chat</h3>
+            <h3>${modoIcon} ${modoLabel}</h3>
             <span class="demo-chat-header__subtitle">Converse e tire suas dúvidas</span>
           </div>
           <div class="demo-chat-header__actions">
@@ -1606,18 +1653,6 @@ const DemoCliente = (() => {
               <span>🗑️</span>
             </button>
           </div>
-        </div>
-
-        <!-- Seleção de Modo -->
-        <div class="demo-chat-mode-selector">
-          <button class="demo-chat-mode-btn ${chatMode === 'professor' ? 'is-active' : ''}" data-mode="professor">
-            <span class="demo-chat-mode-btn__icon">👨‍🏫</span>
-            <span class="demo-chat-mode-btn__label">Falar com Professor</span>
-          </button>
-          <button class="demo-chat-mode-btn ${chatMode === 'ia' ? 'is-active' : ''}" data-mode="ia">
-            <span class="demo-chat-mode-btn__icon">🤖</span>
-            <span class="demo-chat-mode-btn__label">Falar com IA</span>
-          </button>
         </div>
 
         <!-- Área de Mensagens -->
@@ -1681,6 +1716,80 @@ const DemoCliente = (() => {
     if (minutes < 60) return `${minutes}min atrás`;
     if (minutes < 1440) return `${Math.floor(minutes / 60)}h atrás`;
     return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function renderChatHistory() {
+    // Agrupar mensagens por conversa (modo + data)
+    const conversas = {};
+    
+    state.mensagensChat.forEach(msg => {
+      if (!msg.modo || !msg.timestamp) return;
+      
+      const date = new Date(msg.timestamp);
+      const dateKey = date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const key = `${msg.modo}-${dateKey}`;
+      
+      if (!conversas[key]) {
+        conversas[key] = {
+          modo: msg.modo,
+          data: dateKey,
+          timestamp: msg.timestamp,
+          mensagens: [],
+          primeiraMensagem: msg.texto.substring(0, 100),
+        };
+      }
+      conversas[key].mensagens.push(msg);
+    });
+
+    // Ordenar conversas por timestamp (mais recente primeiro)
+    const conversasArray = Object.values(conversas).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    return `
+      <div class="demo-chat-history">
+        <div class="demo-chat-history__header">
+          <h3>Histórico de Conversas</h3>
+          <p>Visualize e continue conversas anteriores</p>
+        </div>
+        
+        ${conversasArray.length === 0 
+          ? `<div class="demo-chat-history-empty">
+              <div class="demo-chat-history-empty__icon">📜</div>
+              <p class="demo-chat-history-empty__text">Nenhuma conversa encontrada</p>
+              <p class="demo-chat-history-empty__hint">Comece uma nova conversa para ver o histórico aqui</p>
+            </div>`
+          : `<div class="demo-chat-history__list">
+              ${conversasArray.map((conversa, index) => {
+                const modoLabel = conversa.modo === 'ia' ? 'Assistente IA' : 'Professor';
+                const modoIcon = conversa.modo === 'ia' ? '🤖' : '👨‍🏫';
+                const ultimaMensagem = conversa.mensagens[conversa.mensagens.length - 1];
+                const totalMensagens = conversa.mensagens.length;
+                
+                return `
+                  <div class="demo-chat-history-item" data-conversa-key="${conversa.modo}-${conversa.data}">
+                    <div class="demo-chat-history-item__icon">${modoIcon}</div>
+                    <div class="demo-chat-history-item__content">
+                      <div class="demo-chat-history-item__header">
+                        <span class="demo-chat-history-item__title">${modoLabel}</span>
+                        <span class="demo-chat-history-item__date">${conversa.data}</span>
+                      </div>
+                      <div class="demo-chat-history-item__preview">
+                        ${conversa.primeiraMensagem}${conversa.primeiraMensagem.length >= 100 ? '...' : ''}
+                      </div>
+                      <div class="demo-chat-history-item__meta">
+                        <span class="demo-chat-history-item__count">${totalMensagens} mensagem${totalMensagens > 1 ? 's' : ''}</span>
+                        <span class="demo-chat-history-item__time">${formatChatTime(ultimaMensagem.timestamp)}</span>
+                      </div>
+                    </div>
+                    <button class="demo-chat-history-item__action" data-action="abrir-conversa" data-mode="${conversa.modo}" title="Abrir conversa">
+                      <span>→</span>
+                    </button>
+                  </div>
+                `;
+              }).join('')}
+            </div>`
+        }
+      </div>
+    `;
   }
 
   function renderDiarioAluno() {
@@ -2108,17 +2217,25 @@ const DemoCliente = (() => {
       });
     }
 
-    if (sectionId === 'chat') {
-      // Handler para alternar modo de chat
-      document.querySelectorAll('.demo-chat-mode-btn').forEach(btn => {
+    // Handler para histórico de chat
+    if (navigationState.currentAction === 'chat-historico') {
+      document.querySelectorAll('[data-action="abrir-conversa"]').forEach(btn => {
         btn.addEventListener('click', () => {
           const mode = btn.dataset.mode;
           state.chatMode = mode;
           localStorage.setItem('demoChatMode', mode);
-          renderSection('chat');
+          const content = document.getElementById('demo-content');
+          if (content) {
+            const action = mode === 'ia' ? 'chat-ia' : 'chat-professor';
+            content.innerHTML = renderActionScreen('chat', action);
+            attachSectionHandlers('chat');
+          }
         });
       });
+    }
 
+    // Handler para chat (professor ou IA)
+    if (sectionId === 'chat' && (navigationState.currentAction === 'chat-professor' || navigationState.currentAction === 'chat-ia')) {
       // Handler para enviar mensagem
       form.addEventListener('submit', event => {
         event.preventDefault();
@@ -2142,7 +2259,13 @@ const DemoCliente = (() => {
           textarea.style.height = 'auto';
         }
         
-        renderSection('chat');
+        // Recarregar chat
+        const content = document.getElementById('demo-content');
+        if (content) {
+          const action = state.chatMode === 'ia' ? 'chat-ia' : 'chat-professor';
+          content.innerHTML = renderActionScreen('chat', action);
+          attachSectionHandlers('chat');
+        }
         
         // Scroll para última mensagem
         setTimeout(() => {
@@ -2158,7 +2281,12 @@ const DemoCliente = (() => {
         if (confirm('Deseja limpar o histórico de mensagens deste modo?')) {
           state.mensagensChat = state.mensagensChat.filter(msg => msg.modo !== state.chatMode);
           localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
-          renderSection('chat');
+          const content = document.getElementById('demo-content');
+          if (content) {
+            const action = state.chatMode === 'ia' ? 'chat-ia' : 'chat-professor';
+            content.innerHTML = renderActionScreen('chat', action);
+            attachSectionHandlers('chat');
+          }
         }
       });
 
