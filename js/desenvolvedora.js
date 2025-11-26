@@ -18,7 +18,6 @@ const DesenvolvedoraModule = (function() {
     let chatbotMessages = null;
     let chatbotSendButton = null;
     let chatbotStatus = null;
-    let downloadButton = null;
     
     // Estado do chat
     let isProcessing = false;
@@ -34,15 +33,12 @@ const DesenvolvedoraModule = (function() {
             chatbotMessages = document.getElementById('chatbot-dev-messages');
             chatbotSendButton = document.getElementById('chatbot-dev-send-button');
             chatbotStatus = document.getElementById('chatbot-dev-status');
-            downloadButton = document.getElementById('download-button-dev');
             
             if (!chatbotForm || !chatbotInput || !chatbotMessages) {
                 console.warn('Elementos do chatbot não encontrados');
             }
             
             initDeveloperModeChat();
-            setupDownloadButton();
-            updateCurrentYear();
             
             console.log('✅ DesenvolvedoraModule inicializado');
             
@@ -72,18 +68,6 @@ const DesenvolvedoraModule = (function() {
         
         // Atualiza status inicial
         updateStatus('Pronto para conversar');
-    }
-    
-    /**
-     * Configura o botão de download
-     */
-    function setupDownloadButton() {
-        if (!downloadButton) return;
-        
-        // Por enquanto desabilitado - só funcionará após login
-        downloadButton.addEventListener('click', function() {
-            alert('Por favor, faça login para ter acesso ao download do aplicativo desktop.');
-        });
     }
     
     /**
@@ -264,16 +248,6 @@ const DesenvolvedoraModule = (function() {
     function updateStatus(status) {
         if (chatbotStatus) {
             chatbotStatus.textContent = status || '';
-        }
-    }
-    
-    /**
-     * Atualiza o ano no footer
-     */
-    function updateCurrentYear() {
-        const yearElement = document.getElementById('current-year-dev');
-        if (yearElement) {
-            yearElement.textContent = new Date().getFullYear();
         }
     }
     
