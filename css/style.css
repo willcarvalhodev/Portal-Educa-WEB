@@ -248,7 +248,330 @@ button {
 }
 
 /* ============================================
-   7. ANIMAÇÕES BASE
+   7. TELA DE ESCOLHA DE EXPERIÊNCIA
+   Design moderno e não convencional
+   ============================================ */
+
+.choice-screen {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl) var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.choice-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.choice-screen__container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.choice-screen__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xxl);
+    animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.choice-screen__logo {
+    margin-bottom: var(--spacing-md);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.choice-screen__logo img {
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+}
+
+.choice-screen__title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    color: var(--color-bg);
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.02em;
+}
+
+.choice-screen__subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+.choice-screen__options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    animation: fadeIn var(--transition-slow) ease-out 0.3s both;
+}
+
+@media (min-width: 992px) {
+    .choice-screen__options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xxl);
+    }
+}
+
+/* Card de Escolha */
+.choice-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.choice-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.choice-card:active {
+    transform: translateY(-5px) scale(1);
+}
+
+.choice-card__gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.choice-card:hover .choice-card__gradient {
+    opacity: 1;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.choice-card__content {
+    position: relative;
+    z-index: 1;
+}
+
+.choice-card__icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    display: inline-block;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.choice-card__title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--color-bg);
+    margin-bottom: var(--spacing-sm);
+}
+
+.choice-card__description {
+    font-size: var(--font-size-base);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-lg);
+}
+
+.choice-card__features {
+    list-style: none;
+    margin-bottom: var(--spacing-lg);
+}
+
+.choice-card__features li {
+    color: rgba(255, 255, 255, 0.85);
+    padding: var(--spacing-xs) 0;
+    padding-left: var(--spacing-md);
+    position: relative;
+    font-size: var(--font-size-sm);
+}
+
+.choice-card__features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: bold;
+}
+
+.choice-card__button {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-base);
+    color: var(--color-bg);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.choice-card__button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateX(5px);
+}
+
+.choice-card__arrow {
+    transition: transform var(--transition-base);
+    font-size: 1.2em;
+}
+
+.choice-card:hover .choice-card__arrow {
+    transform: translateX(5px);
+}
+
+/* Variantes dos Cards */
+.choice-card--moderna {
+    border-left: 4px solid rgba(96, 165, 250, 0.8);
+}
+
+.choice-card--desenvolvedora {
+    border-left: 4px solid rgba(236, 72, 153, 0.8);
+}
+
+/* Responsividade */
+@media (max-width: 991px) {
+    .choice-screen__options {
+        gap: var(--spacing-lg);
+    }
+    
+    .choice-card {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 767px) {
+    .choice-screen {
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+    
+    .choice-screen__header {
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .choice-card__icon {
+        font-size: 3rem;
+    }
+}
+
+/* ============================================
+   8. TELAS TEMPORÁRIAS (Placeholders)
+   ============================================ */
+
+.moderna-screen,
+.desenvolvedora-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    text-align: center;
+}
+
+.moderna-screen {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    color: var(--color-bg);
+}
+
+.desenvolvedora-screen {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-accent) 100%);
+    color: var(--color-bg);
+}
+
+.moderna-screen h1,
+.desenvolvedora-screen h1 {
+    color: var(--color-bg);
+    margin-bottom: var(--spacing-md);
+}
+
+.moderna-screen button,
+.desenvolvedora-screen button {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-base);
+    color: var(--color-bg);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.moderna-screen button:hover,
+.desenvolvedora-screen button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   9. ANIMAÇÕES BASE
    ============================================ */
 
 @keyframes fadeIn {
