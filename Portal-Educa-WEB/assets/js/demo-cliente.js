@@ -185,9 +185,12 @@ const DemoCliente = (() => {
       </section>
     `;
 
-    attachNavEvents();
-    attachHeaderActions();
-    attachSidebarToggle();
+    // Usar setTimeout para garantir que o DOM está completamente renderizado
+    setTimeout(() => {
+      attachNavEvents();
+      attachHeaderActions();
+      attachSidebarToggle();
+    }, 0);
     
     // Expor funções globalmente para os botões de voltar
     window.DemoCliente = {
