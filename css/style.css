@@ -1266,40 +1266,548 @@ button {
     }
 }
 
-/* Tela temporária desenvolvedora */
-.desenvolvedora-screen {
-    min-height: 100vh;
+/* ============================================
+   14. MÓDULO DESENVOLVEDORA - HEADER
+   ============================================ */
+
+.header-desenvolvedora {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-bottom: 2px solid rgba(118, 75, 162, 0.3);
+    z-index: var(--z-sticky);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.header-desenvolvedora__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-desenvolvedora__logo {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: var(--spacing-xl);
-    text-align: center;
-    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-accent) 100%);
+    gap: var(--spacing-xs);
+    text-decoration: none;
+    color: var(--color-bg);
+    transition: transform var(--transition-fast);
+}
+
+.header-desenvolvedora__logo:hover {
+    transform: scale(1.05);
+}
+
+.header-desenvolvedora__logo-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.2));
+}
+
+.header-desenvolvedora__logo-text {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
     color: var(--color-bg);
 }
 
-.desenvolvedora-screen h1 {
-    color: var(--color-bg);
-    margin-bottom: var(--spacing-md);
-}
-
-.desenvolvedora-screen button {
-    margin-top: var(--spacing-lg);
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: rgba(255, 255, 255, 0.2);
+.header-desenvolvedora__back {
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--radius-base);
     color: var(--color-bg);
     font-size: var(--font-size-base);
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-base);
 }
 
-.desenvolvedora-screen button:hover {
-    background: rgba(255, 255, 255, 0.3);
+.header-desenvolvedora__back:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(-3px);
+}
+
+/* ============================================
+   15. MÓDULO DESENVOLVEDORA - LAYOUT
+   ============================================ */
+
+.main-desenvolvedora {
+    min-height: calc(100vh - 70px);
+    background: linear-gradient(180deg, #0f0c29 0%, #1a1a2e 50%, #16213e 100%);
+    color: var(--color-bg);
+    padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.dev-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dev-layout__column {
+    display: flex;
+    flex-direction: column;
+}
+
+.dev-layout__column--info {
+    order: 2;
+}
+
+.dev-layout__column--chat {
+    order: 1;
+}
+
+@media (min-width: 992px) {
+    .dev-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-xxl);
+    }
+
+    .dev-layout__column--info {
+        order: 1;
+    }
+
+    .dev-layout__column--chat {
+        order: 2;
+    }
+}
+
+/* ============================================
+   16. MÓDULO DESENVOLVEDORA - CONTEÚDO
+   ============================================ */
+
+.dev-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.dev-section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    transition: all var(--transition-base);
+}
+
+.dev-section:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(118, 75, 162, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dev-section__title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 800;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-bg);
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dev-section__subtitle {
+    font-size: clamp(1.5rem, 3vw, 1.75rem);
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-bg);
+}
+
+.dev-section__text {
+    font-size: var(--font-size-base);
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--spacing-md);
+}
+
+.dev-section__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.dev-section__list-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-base);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--font-size-base);
+    transition: all var(--transition-fast);
+}
+
+.dev-section__list-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+.dev-section__list-icon {
+    font-size: 1.5rem;
+}
+
+.dev-section__prompts {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-md) 0;
+}
+
+.dev-section__prompt-item {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 3px solid #f093fb;
+    border-radius: var(--radius-base);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.7;
+    transition: all var(--transition-base);
+}
+
+.dev-section__prompt-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-left-color: #f5576c;
+    transform: translateX(5px);
+}
+
+.dev-section__prompt-item strong {
+    color: var(--color-bg);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+/* ============================================
+   17. MÓDULO DESENVOLVEDORA - DOWNLOAD CARD
+   ============================================ */
+
+.download-card-dev {
+    background: linear-gradient(135deg, rgba(240, 147, 251, 0.2) 0%, rgba(245, 87, 108, 0.2) 100%);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(240, 147, 251, 0.3);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.download-card-dev__header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.download-card-dev__icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    display: block;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.download-card-dev__title {
+    font-size: var(--font-size-xxl);
+    font-weight: 700;
+    color: var(--color-bg);
+    margin-bottom: var(--spacing-md);
+}
+
+.download-card-dev__description {
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--spacing-lg);
+}
+
+.download-card-dev__specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-base);
+}
+
+.download-card-dev__spec {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.download-card-dev__spec-label {
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.download-card-dev__spec-value {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--color-bg);
+}
+
+.download-card-dev__message {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid rgba(255, 193, 7, 0.4);
+    border-radius: var(--radius-base);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+.download-card-dev__message p {
+    margin-bottom: var(--spacing-xs);
+}
+
+.download-card-dev__button {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-base);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+    transition: all var(--transition-base);
+}
+
+.download-card-dev__button:not(:disabled) {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    border-color: transparent;
+    color: var(--color-bg);
+    cursor: pointer;
+}
+
+.download-card-dev__button:not(:disabled):hover {
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+}
+
+.download-card-dev__button-icon {
+    font-size: var(--font-size-lg);
+}
+
+.download-card-dev__note {
+    font-size: var(--font-size-xs);
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+}
+
+/* ============================================
+   18. MÓDULO DESENVOLVEDORA - CHATBOT
+   ============================================ */
+
+.chatbot-dev {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbot-dev__container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 120px);
+    max-height: 800px;
+    overflow: hidden;
+}
+
+.chatbot-dev__header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(240, 147, 251, 0.3) 0%, rgba(245, 87, 108, 0.3) 100%);
+}
+
+.chatbot-dev__title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-bg);
+}
+
+.chatbot-dev__subtitle {
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.chatbot-dev__messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.chatbot-dev__message {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.chatbot-dev__message--user {
+    align-self: flex-end;
+}
+
+.chatbot-dev__message--system,
+.chatbot-dev__message--assistant {
+    align-self: flex-start;
+}
+
+.chatbot-dev__message-content {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+.chatbot-dev__message--user .chatbot-dev__message-content {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: var(--color-bg);
+    border-bottom-right-radius: 4px;
+}
+
+.chatbot-dev__message--system .chatbot-dev__message-content,
+.chatbot-dev__message--assistant .chatbot-dev__message-content {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 4px;
+}
+
+.chatbot-dev__message--loading .chatbot-dev__message-content {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+}
+
+.chatbot-dev__input-area {
+    padding: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.chatbot-dev__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.chatbot-dev__input-wrapper {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: flex-end;
+}
+
+.chatbot-dev__input {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-base);
+    font-family: var(--font-family-base);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-bg);
+    transition: border-color var(--transition-fast);
+    min-height: 44px;
+}
+
+.chatbot-dev__input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.chatbot-dev__input:focus {
+    outline: none;
+    border-color: #f093fb;
+    box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.2);
+}
+
+.chatbot-dev__button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: var(--color-bg);
+    border: none;
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.chatbot-dev__button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+}
+
+.chatbot-dev__button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.chatbot-dev__button-icon {
+    font-size: var(--font-size-lg);
+}
+
+.chatbot-dev__status {
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    min-height: 20px;
+}
+
+/* Responsividade Módulo Desenvolvedora */
+@media (max-width: 991px) {
+    .chatbot-dev__container {
+        height: 500px;
+        max-height: 500px;
+    }
+    
+    .dev-section {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 767px) {
+    .main-desenvolvedora {
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+    
+    .chatbot-dev__message {
+        max-width: 90%;
+    }
+    
+    .download-card-dev__specs {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ============================================
