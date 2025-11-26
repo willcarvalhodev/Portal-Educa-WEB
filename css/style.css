@@ -626,6 +626,14 @@ button {
     cursor: pointer;
     transition: all var(--transition-base);
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.header-moderna__login-btn:link,
+.header-moderna__login-btn:visited {
+    color: var(--color-bg);
+    text-decoration: none;
 }
 
 .header-moderna__login-btn:hover {
@@ -711,6 +719,13 @@ button {
     cursor: pointer;
     transition: all var(--transition-base);
     border: 2px solid transparent;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.hero-moderna__button:link,
+.hero-moderna__button:visited {
+    text-decoration: none;
 }
 
 .hero-moderna__button--primary {
@@ -1829,7 +1844,262 @@ button {
 }
 
 /* ============================================
-   19. MODAL DE LOGIN
+   19. PÁGINA DE LOGIN
+   ============================================ */
+
+.login-header {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: var(--z-sticky);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.login-header__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-header__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: transform var(--transition-fast);
+}
+
+.login-header__logo:hover {
+    transform: scale(1.05);
+}
+
+.login-header__logo-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.login-header__logo-text {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.login-header__back {
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-base);
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.login-header__back:link,
+.login-header__back:visited {
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.login-header__back:hover {
+    background: var(--color-border);
+    transform: translateX(-3px);
+}
+
+.login-main {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl) var(--spacing-md);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.login-card {
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xxl);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.login-card__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.login-card__logo {
+    margin-bottom: var(--spacing-md);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.login-card__title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
+}
+
+.login-card__subtitle {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+}
+
+.login-card__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.login-card__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.login-card__label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.login-card__input {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-base);
+    font-family: var(--font-family-base);
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    min-height: 44px;
+}
+
+.login-card__input::placeholder {
+    color: var(--color-text-light);
+}
+
+.login-card__input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.login-card__input--error {
+    border-color: #e74c3c;
+}
+
+.login-card__input--error:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.login-card__error {
+    font-size: var(--font-size-sm);
+    color: #e74c3c;
+    display: none;
+    margin-top: var(--spacing-xs);
+}
+
+.login-card__error--general {
+    text-align: center;
+    padding: var(--spacing-sm);
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    border-radius: var(--radius-base);
+}
+
+.login-card__submit {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-bg);
+    border: none;
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    margin-top: var(--spacing-md);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.login-card__submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.login-card__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.login-card__submit-loader {
+    animation: spin 1s linear infinite;
+}
+
+.login-card__footer {
+    margin-top: var(--spacing-lg);
+    text-align: center;
+}
+
+.login-card__help {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-sm);
+}
+
+.login-card__link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+}
+
+.login-card__link:hover {
+    color: var(--color-secondary);
+    text-decoration: underline;
+}
+
+.login-card__info {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+    font-style: italic;
+}
+
+/* Responsividade Página de Login */
+@media (max-width: 767px) {
+    .login-card {
+        padding: var(--spacing-xl);
+    }
+    
+    .login-card__title {
+        font-size: var(--font-size-xl);
+    }
+}
+
+/* ============================================
+   20. MODAL DE LOGIN (mantido para compatibilidade)
    ============================================ */
 
 .login-modal {

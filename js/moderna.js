@@ -25,30 +25,11 @@ const ModernaModule = (function() {
      * Configura os event listeners
      */
     function setupEventListeners() {
-        // Botões de login
-        const loginButtons = document.querySelectorAll('#login-btn-moderna, #login-btn-hero');
-        loginButtons.forEach(btn => {
-            if (btn) {
-                btn.addEventListener('click', handleLoginClick);
-            }
-        });
-        
         // Links de navegação
         const navLinks = document.querySelectorAll('.header-moderna__nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', handleNavLinkClick);
         });
-    }
-    
-    /**
-     * Manipula clique nos botões de login
-     */
-    function handleLoginClick() {
-        if (window.LoginModalModule) {
-            window.LoginModalModule.open();
-        } else {
-            console.error('LoginModalModule não disponível');
-        }
     }
     
     /**
