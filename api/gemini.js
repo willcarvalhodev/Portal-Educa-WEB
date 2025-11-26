@@ -85,13 +85,13 @@ Responda de forma clara, objetiva e técnica. Use exemplos de código quando apr
 Se a pergunta não for sobre programação, informe educadamente que você só responde questões técnicas de desenvolvimento.`;
 
     // Tentar modelos disponíveis (ordem: mais recente primeiro)
+    // Removido gemini-pro-vision (não disponível na API v1beta)
     const modelos = [
-      'gemini-1.5-flash-latest',
-      'gemini-1.5-pro-latest', 
       'gemini-1.5-flash',
       'gemini-1.5-pro',
-      'gemini-pro',
-      'gemini-pro-vision'
+      'gemini-1.5-flash-latest',
+      'gemini-1.5-pro-latest',
+      'gemini-pro'
     ];
     
     let lastError = null;
