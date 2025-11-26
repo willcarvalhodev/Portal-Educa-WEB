@@ -173,7 +173,7 @@ body {
 .header-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -210,8 +210,8 @@ body {
 }
 
 .logo-icon {
-    width: 28px;
-    height: 28px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
     transition: transform 0.3s ease;
     flex-shrink: 0;
