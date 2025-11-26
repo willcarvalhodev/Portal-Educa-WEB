@@ -137,11 +137,21 @@ const LoginPageModule = (function() {
                 
             }, 300);
             
-            // Remove classe de entrada após animação completa
+            // Remove classe de entrada após animação completa e restaura posicionamento
             setTimeout(() => {
-                if (formSolicitar) formSolicitar.classList.remove('login-flow__side--entering');
-                if (tealRight) tealRight.classList.remove('login-flow__side--entering');
-            }, 1300);
+                if (formSolicitar) {
+                    formSolicitar.classList.remove('login-flow__side--entering');
+                    formSolicitar.style.position = '';
+                    formSolicitar.style.width = '';
+                    formSolicitar.style.left = '';
+                }
+                if (tealRight) {
+                    tealRight.classList.remove('login-flow__side--entering');
+                    tealRight.style.position = '';
+                    tealRight.style.width = '';
+                    tealRight.style.left = '';
+                }
+            }, 1200);
             
         } else {
             // Painéis que estão saindo primeiro
@@ -178,11 +188,21 @@ const LoginPageModule = (function() {
                 
             }, 300);
             
-            // Remove classe de entrada após animação completa
+            // Remove classe de entrada após animação completa e restaura posicionamento
             setTimeout(() => {
-                if (formSide) formSide.classList.remove('login-flow__side--entering');
-                if (tealSide) tealSide.classList.remove('login-flow__side--entering');
-            }, 1300);
+                if (formSide) {
+                    formSide.classList.remove('login-flow__side--entering');
+                    formSide.style.position = '';
+                    formSide.style.width = '';
+                    formSide.style.left = '';
+                }
+                if (tealSide) {
+                    tealSide.classList.remove('login-flow__side--entering');
+                    tealSide.style.position = '';
+                    tealSide.style.width = '';
+                    tealSide.style.left = '';
+                }
+            }, 1200);
         }
         
         activeFlow = flow;
