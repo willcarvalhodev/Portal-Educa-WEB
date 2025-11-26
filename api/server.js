@@ -119,9 +119,16 @@ Responda de forma clara, objetiva e técnica. Use exemplos de código quando apr
 Se a pergunta não for sobre programação, informe educadamente que você só responde questões técnicas de desenvolvimento.`;
 
     // Usar apenas os modelos recomendados: gemini-2.5-flash e gemini-2.5-pro
+    // Tentar primeiro o flash (mais rápido) e depois o pro (mais poderoso)
     const modelos = [
       'gemini-2.5-flash',  // Otimizado para velocidade e custo
       'gemini-2.5-pro'      // Mais poderoso para problemas complexos
+    ];
+    
+    // Fallback: se os modelos 2.5 não funcionarem, tentar versões alternativas
+    const modelosFallback = [
+      'gemini-1.5-flash',
+      'gemini-1.5-pro'
     ];
     
     let lastError = null;
