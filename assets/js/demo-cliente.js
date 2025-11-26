@@ -1821,22 +1821,6 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
     // IMPORTANTE: Substitua 'SUA_API_KEY_AQUI' pela sua chave da API do Gemini
     // Obtenha em: https://makersuite.google.com/app/apikey
     const API_KEY = 'AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k';
-    
-    if (API_KEY === 'SUA_API_KEY_AQUI') {
-      // Modo de desenvolvimento - resposta simulada
-      return `⚠️ **Configuração necessária**: Por favor, configure sua chave da API do Gemini no arquivo demo-cliente.js.
-
-Para obter uma chave gratuita:
-1. Acesse: https://makersuite.google.com/app/apikey
-2. Crie uma conta Google (se necessário)
-3. Gere uma nova chave de API
-4. Substitua 'SUA_API_KEY_AQUI' no código pela sua chave
-
-**Resposta simulada para sua pergunta:**
-"${mensagem}"
-
-Esta é uma resposta de exemplo. Após configurar a API, você receberá respostas reais do Gemini AI especializadas em programação.`;
-    }
 
     try {
       const response = await fetch(
