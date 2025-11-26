@@ -11,6 +11,7 @@
 </head>
 <body class="dev-theme chatbot-theme">
     <header class="chatbot-header">
+        <button class="chatbot-toggle" id="chatbot-toggle" aria-label="Abrir menu">☰</button>
         <div class="chatbot-brand">
             <img src="assets/images/icon.ico" alt="Portal Educa" width="40" height="40">
             <div>
@@ -24,8 +25,9 @@
         </div>
     </header>
 
+    <div class="chatbot-sidebar-overlay" id="chatbot-overlay"></div>
     <main class="chatbot-shell">
-        <aside class="chatbot-sidebar">
+        <aside class="chatbot-sidebar" id="chatbot-sidebar">
             <button class="sidebar-item sidebar-item--active" type="button">Nova conversa</button>
             <button class="sidebar-item" type="button">Prompt de integrações</button>
             <button class="sidebar-item" type="button">Checklist deploy</button>
@@ -74,6 +76,39 @@ print(response.json())</pre>
     </main>
 
     <script src="assets/js/main.js"></script>
+    <script>
+        // Toggle do menu mobile do chatbot
+        (function() {
+            const toggle = document.getElementById('chatbot-toggle');
+            const sidebar = document.getElementById('chatbot-sidebar');
+            const overlay = document.getElementById('chatbot-overlay');
+            
+            if (toggle && sidebar && overlay) {
+                const openSidebar = () => {
+                    sidebar.classList.add('is-open');
+                    overlay.classList.add('is-active');
+                    document.body.style.overflow = 'hidden';
+                };
+                
+                const closeSidebar = () => {
+                    sidebar.classList.remove('is-open');
+                    overlay.classList.remove('is-active');
+                    document.body.style.overflow = '';
+                };
+                
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (sidebar.classList.contains('is-open')) {
+                        closeSidebar();
+                    } else {
+                        openSidebar();
+                    }
+                });
+                
+                overlay.addEventListener('click', closeSidebar);
+            }
+        })();
+    </script>
 </body>
 </html>
 

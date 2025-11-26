@@ -1115,11 +1115,62 @@ body.is-flight {
 @media (max-width: 960px) {
     .chatbot-shell {
         grid-template-columns: 1fr;
+        position: relative;
     }
 
     .chatbot-sidebar {
-        flex-direction: row;
-        overflow-x: auto;
+        position: fixed;
+        left: -280px;
+        top: 80px;
+        bottom: 0;
+        width: 280px;
+        z-index: 1000;
+        transition: left var(--transition-base);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .chatbot-sidebar.is-open {
+        left: 0;
+    }
+
+    .chatbot-sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--transition-base), visibility var(--transition-base);
+    }
+
+    .chatbot-sidebar-overlay.is-active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .chatbot-header {
+        position: relative;
+        z-index: 1001;
+    }
+
+    .chatbot-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(128, 255, 234, 0.1);
+        border: 1px solid rgba(128, 255, 234, 0.3);
+        border-radius: 8px;
+        color: var(--color-neon);
+        cursor: pointer;
+        font-size: 1.25rem;
+    }
+
+    .chatbot-panel {
+        width: 100%;
+        margin-left: 0;
     }
 }
 

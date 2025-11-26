@@ -301,11 +301,29 @@ const DemoCliente = (() => {
 
   function attachNavEvents() {
     document.querySelectorAll('.demo-sidebar__item').forEach(btn => {
-      btn.addEventListener('click', () => {
+      // Remover listeners anteriores para evitar duplicidade
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode.replaceChild(newBtn, btn);
+      
+      newBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         document.querySelectorAll('.demo-sidebar__item').forEach(item => item.classList.remove('is-active'));
-        btn.classList.add('is-active');
-        const section = btn.dataset.section;
-        renderSection(section);
+        newBtn.classList.add('is-active');
+        const section = newBtn.dataset.section;
+        if (section) {
+          renderSection(section);
+          
+          // Fechar menu no mobile após clicar
+          if (window.innerWidth <= 1024) {
+            const sidebar = document.querySelector('.demo-sidebar');
+            const overlay = document.querySelector('.demo-sidebar-overlay');
+            if (sidebar && overlay) {
+              sidebar.classList.remove('is-open');
+              overlay.classList.remove('is-active');
+              document.body.style.overflow = '';
+            }
+          }
+        }
       });
     });
   }
@@ -360,15 +378,8 @@ const DemoCliente = (() => {
     // Fechar ao clicar no overlay
     overlay.addEventListener('click', closeSidebar);
 
-    // Fechar ao clicar em um item do menu (mobile)
-    const navItems = document.querySelectorAll('.demo-sidebar__item');
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
-        if (window.innerWidth <= 1024) {
-          closeSidebar();
-        }
-      });
-    });
+    // Nota: O fechamento do menu ao clicar nos itens é tratado em attachNavEvents()
+    // para evitar duplicidade de event listeners
 
     // Fechar ao clicar em ações do footer (mobile)
     const footerActions = document.querySelectorAll('.demo-sidebar__action');
