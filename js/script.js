@@ -18,8 +18,20 @@ const App = (function() {
      */
     function init() {
         try {
+            // Inicializa autenticação
+            if (window.AuthModule) {
+                window.AuthModule.init();
+            }
+            
+            // Inicializa modal de login
+            if (window.LoginModalModule) {
+                window.LoginModalModule.init();
+            }
+            
             // Inicializa o router
-            Router.init();
+            if (window.Router) {
+                window.Router.init();
+            }
             
             console.log('✅ Portal Educa - Aplicação inicializada');
             

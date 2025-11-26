@@ -86,12 +86,12 @@ const Router = (function() {
     function initializeView(route) {
         // Aguarda um pouco para garantir que o DOM foi atualizado
         setTimeout(() => {
-            if (route === 'escolha') {
-                ChoiceModule.init();
-            } else if (route === 'moderna') {
-                ModernaModule.init();
-            } else if (route === 'desenvolvedora') {
-                DesenvolvedoraModule.init();
+            if (route === 'escolha' && window.ChoiceModule) {
+                window.ChoiceModule.init();
+            } else if (route === 'moderna' && window.ModernaModule) {
+                window.ModernaModule.init();
+            } else if (route === 'desenvolvedora' && window.DesenvolvedoraModule) {
+                window.DesenvolvedoraModule.init();
             }
         }, 100);
     }

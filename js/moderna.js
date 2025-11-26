@@ -44,9 +44,11 @@ const ModernaModule = (function() {
      * Manipula clique nos botões de login
      */
     function handleLoginClick() {
-        // TODO: Implementar abertura do formulário de login na FASE 5
-        console.log('Login clicado - será implementado na FASE 5');
-        alert('Funcionalidade de login será implementada na próxima fase!');
+        if (window.LoginModalModule) {
+            window.LoginModalModule.open();
+        } else {
+            console.error('LoginModalModule não disponível');
+        }
     }
     
     /**

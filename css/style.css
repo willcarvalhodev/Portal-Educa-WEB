@@ -1811,6 +1811,237 @@ button {
 }
 
 /* ============================================
+   19. MODAL DE LOGIN
+   ============================================ */
+
+.login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-base), visibility var(--transition-base);
+}
+
+.login-modal--visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.login-modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.login-modal__content {
+    position: relative;
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    width: 90%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9) translateY(20px);
+    transition: transform var(--transition-base);
+}
+
+.login-modal--visible .login-modal__content {
+    transform: scale(1) translateY(0);
+}
+
+.login-modal__close {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+    z-index: 1;
+}
+
+.login-modal__close:hover {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+.login-modal__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.login-modal__title {
+    font-size: var(--font-size-xxl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
+}
+
+.login-modal__subtitle {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+}
+
+.login-modal__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.login-modal__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.login-modal__label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.login-modal__input {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-base);
+    font-family: var(--font-family-base);
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    min-height: 44px;
+}
+
+.login-modal__input::placeholder {
+    color: var(--color-text-light);
+}
+
+.login-modal__input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.login-modal__input--error {
+    border-color: #e74c3c;
+}
+
+.login-modal__input--error:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.login-modal__error {
+    font-size: var(--font-size-sm);
+    color: #e74c3c;
+    display: none;
+    margin-top: var(--spacing-xs);
+}
+
+.login-modal__error--general {
+    text-align: center;
+    padding: var(--spacing-sm);
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    border-radius: var(--radius-base);
+}
+
+.login-modal__submit {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-bg);
+    border: none;
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    margin-top: var(--spacing-md);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.login-modal__submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.login-modal__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.login-modal__submit-loader {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.login-modal__footer {
+    margin-top: var(--spacing-lg);
+    text-align: center;
+}
+
+.login-modal__help {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+}
+
+.login-modal__link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+}
+
+.login-modal__link:hover {
+    color: var(--color-secondary);
+    text-decoration: underline;
+}
+
+/* Responsividade Modal de Login */
+@media (max-width: 767px) {
+    .login-modal__content {
+        padding: var(--spacing-lg);
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .login-modal__title {
+        font-size: var(--font-size-xl);
+    }
+}
+
+/* ============================================
    9. ANIMAÇÕES BASE
    ============================================ */
 
