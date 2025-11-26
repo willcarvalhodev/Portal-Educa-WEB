@@ -118,13 +118,23 @@ Sua função é ajudar desenvolvedores com:
 Responda de forma clara, objetiva e técnica. Use exemplos de código quando apropriado.
 Se a pergunta não for sobre programação, informe educadamente que você só responde questões técnicas de desenvolvimento.`;
 
-    // Tentar modelos disponíveis
-    const modelos = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
+    // Tentar modelos disponíveis (ordem: mais recente primeiro)
+    const modelos = [
+      'gemini-1.5-flash-latest',
+      'gemini-1.5-pro-latest', 
+      'gemini-1.5-flash',
+      'gemini-1.5-pro',
+      'gemini-pro',
+      'gemini-pro-vision'
+    ];
     
     let lastError = null;
+    let lastResponse = null;
     
     for (const modelName of modelos) {
       try {
+        console.log(`Tentando modelo: ${modelName}`);
+        
         const response = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${API_KEY}`,
           {
@@ -148,30 +158,54 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
           }
         );
 
+        lastResponse = response;
+
         if (response.ok) {
           const data = await response.json();
+          console.log(`Modelo ${modelName} funcionou!`);
+          
           const resposta = data.candidates?.[0]?.content?.parts?.[0]?.text;
           
           if (resposta) {
             return res.status(200).json({ resposta });
+          } else {
+            console.warn(`Modelo ${modelName} retornou resposta vazia`);
+            lastError = `Resposta vazia do modelo ${modelName}`;
+            continue; // Tentar próximo modelo
           }
-        } else if (response.status !== 404) {
-          // Se não for 404, é outro erro
-          const errorData = await response.json();
-          lastError = errorData.error?.message || `Erro ${response.status}`;
-          break; // Não tentar outros modelos
+        } else {
+          const errorData = await response.json().catch(() => ({}));
+          const errorMsg = errorData.error?.message || `Erro ${response.status}`;
+          console.error(`Modelo ${modelName} falhou:`, errorMsg);
+          
+          // Se for 404, continuar para o próximo modelo
+          if (response.status === 404) {
+            lastError = `Modelo ${modelName} não encontrado`;
+            continue;
+          }
+          
+          // Se for erro de autenticação ou quota, não tentar outros
+          if (response.status === 401 || response.status === 403 || response.status === 429) {
+            lastError = errorMsg;
+            break;
+          }
+          
+          lastError = errorMsg;
         }
-        // Se for 404, continuar para o próximo modelo
       } catch (error) {
+        console.error(`Erro ao tentar modelo ${modelName}:`, error.message);
         lastError = error.message;
         continue;
       }
     }
 
     // Se chegou aqui, todos os modelos falharam
+    console.error('Todos os modelos falharam. Último erro:', lastError);
+    console.error('Última resposta status:', lastResponse?.status);
+    
     return res.status(500).json({ 
       error: 'Erro ao processar mensagem',
-      message: lastError || 'Nenhum modelo disponível'
+      message: lastError || 'Nenhum modelo disponível. Verifique a API key e os modelos disponíveis.'
     });
 
   } catch (error) {
