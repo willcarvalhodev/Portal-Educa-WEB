@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Experiência Dev do Portal Educa focada em tecnologia e programação.">
+    <title>Portal Educa • Experiência Dev</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/icon.ico">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="dev-theme">
+    <header class="site-header">
+        <div class="site-brand">
+            <h2>Portal Educa Labs</h2>
+            <span>IA + Engenharia para Educação</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#pipeline">Pipeline</a>
+            <a href="#metricas">Métricas</a>
+            <a href="#stack">Tecnologias</a>
+            <a href="#recursos">Recursos</a>
+            <a href="#open-source">Design</a>
+            <a href="#repositorio">Repositório</a>
+            <a href="index.html" data-flight="return">Voltar</a>
+            <a href="#ambiente-ia" class="btn btn--primary">Ambiente IA</a>
+        </nav>
+    </header>
+
+    <main class="page-wrapper">
+        <section class="hero" id="inicio">
+            <div class="hero__content">
+                <span class="hero__badge">Powered by IA</span>
+                <h1 class="hero__headline">Experiência Dev com arquitetura futurista, APIs abertas e integrações prontas</h1>
+                <p class="hero__description">
+                    Explore como construímos o Portal Educa com base em HTML, CSS e JavaScript no front, integrações Python e
+                    interfaces desktop CustomTkinter. Veja prompts, endpoints, design system e acelere sua PoC.
+                </p>
+        </section>
+
+        <section class="dev-pipeline" id="pipeline">
+            <div class="dev-pipeline__card">
+                <span class="code-pill">deploy.yml</span>
+                <pre class="code-snippet">
+name: deploy-portal-educa
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+                </pre>
+            </div>
+            <div class="dev-pipeline__copy">
+                <h2>Pipeline direto no GitHub</h2>
+                <p>Nosso workflow usa GitHub Actions para publicar automaticamente o Portal Educa no Pages assim que a branch main recebe novas features. Tudo aberto e colaborativo para a comunidade.</p>
+                <ul>
+                    <li>Checkout da branch principal</li>
+                    <li>Deploy instantâneo com <code>actions-gh-pages</code></li>
+                    <li>Sem etapa de build: site estático pronto</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="metrics" id="metricas">
+            <article class="metric-card">
+                <span class="metric-label">Componentes Web</span>
+                <strong>42</strong>
+                blocos reutilizáveis em HTML/CSS/JS
+            </article>
+            <article class="metric-card">
+                <span class="metric-label">Interações JS</span>
+                <strong>15ms</strong>
+                média de resposta nas micro-interações
+            </article>
+            <article class="metric-card">
+                <span class="metric-label">App Desktop</span>
+                <strong>0%</strong>
+                downtime no portal CustomTkinter
+            </article>
+        </section>
+
+        <section class="glow-grid" id="stack">
+            <article class="glow-card">
+                <h3>Front-end Web</h3>
+                <p>HTML5 semântico, CSS3 responsivo e JavaScript vanilla asseguram desempenho e controle total do layout.</p>
+            </article>
+            <article class="glow-card">
+                <h3>Interações e IA</h3>
+                <p>JavaScript integra APIs, animações e chamadas de IA para experiências ricas diretamente no navegador.</p>
+            </article>
+            <article class="glow-card">
+                <h3>Python Services</h3>
+                <p>Python orquestra automações, geração de relatórios e expõe endpoints locais para o Portal Educa.</p>
+            </article>
+            <article class="glow-card">
+                <h3>CustomTkinter</h3>
+                <p>Interface desktop criada com CustomTkinter replica o design system do Portal para apps nativos.</p>
+            </article>
+        </section>
+
+        <section class="features-grid" id="recursos">
+            <article class="feature-card">
+                <div class="feature-card__icon">🧠</div>
+                <h3>Prompts documentados</h3>
+                <p>Biblioteca de prompts versionados, com testes automatizados e avaliação contínua.</p>
+            </article>
+            <article class="feature-card">
+                <div class="feature-card__icon">🛰️</div>
+                <h3>API GraphQL</h3>
+                <p>Gateway unificado com federation, webhooks e streaming de eventos.</p>
+            </article>
+            <article class="feature-card" id="open-source">
+                <div class="feature-card__icon">🧩</div>
+                <h3>Design System</h3>
+                <p>Tokens, componentes web e pacotes npm prontos para squads parceiros.</p>
+            </article>
+        </section>
+
+        <section class="dev-access" id="dev-access">
+            <div class="dev-access__card" id="ambiente-ia">
+                <span class="code-pill">Ambiente Dev</span>
+                <h2>Chatbot IA para suporte técnico</h2>
+                <p>Experimente nosso chatbot treinado com prompts do Portal Educa. Ele responde dúvidas de integração, sugere endpoints e auxilia nos testes do projeto.</p>
+                <a href="chatbot.html" class="btn btn--primary" data-flight="go">Ir para chatbot</a>
+            </div>
+            <div class="dev-access__card" id="repositorio">
+                <span class="code-pill">Repositório</span>
+                <h2>Código aberto e versionado</h2>
+                <p>Acesse o repositório do Portal Educa, com instruções de setup, componentes compartilhados e histórico das releases.</p>
+                <a href="https://github.com/willcarvalhodev/Portal-Educa-WEB" target="_blank" rel="noopener" class="btn btn--secondary">Ver repositório</a>
+            </div>
+        </section>
+
+        <section class="cta-banner" id="demo">
+            <h2>Construa junto com o Portal Educa Labs</h2>
+            <p>Faça parte da comunidade técnica para compartilhar prompts, revisar integrações e colaborar em melhorias open source.</p>
+            <div class="hero__cta">
+                <a href="https://www.tabnews.com.br" target="_blank" rel="noopener" class="btn btn--primary">Participar do Labs</a>
+                <a href="https://discord.com/invite/programacao" target="_blank" rel="noopener" class="btn btn--secondary">Entrar no Discord</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        © Portal Educa Labs • Código, IA e educação em fluxo contínuo
+    </footer>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+

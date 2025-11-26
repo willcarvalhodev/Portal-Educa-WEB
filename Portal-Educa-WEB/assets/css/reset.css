@@ -1,0 +1,68 @@
+/* ============================================
+   PORTAL EDUCA - RESET CSS
+   Normalização e reset básico
+   ============================================ */
+
+/* Reset básico */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Remover estilos padrão de listas */
+ul, ol {
+    list-style: none;
+}
+
+/* Remover decoração padrão de links */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Remover estilos padrão de botões */
+button {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Remover estilos padrão de inputs */
+input,
+textarea,
+select {
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+    outline: none;
+}
+
+/* Remover estilos padrão de imagens */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Remover espaçamento padrão de parágrafos e headings */
+p,
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
