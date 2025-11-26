@@ -374,10 +374,13 @@ O que você gostaria de explorar?`;
             }
 
             return `
-                <div class="chat-message ${isUser ? 'message-user' : 'message-ai'}">
+                <div class="chat-message ${isUser ? 'message-user' : 'message-ai'}" data-message-id="${msg.id}">
                     <div class="chat-message__avatar">${avatar}</div>
                     <div class="chat-message__content">
-                        <div class="chat-message__author">${author}</div>
+                        <div class="chat-message__header">
+                            <div class="chat-message__author">${author}</div>
+                            <button class="chat-message__delete" onclick="deleteMessage('${msg.id}')" title="Apagar mensagem">🗑️</button>
+                        </div>
                         <div class="chat-message__text">${textHtml}</div>
                     </div>
                 </div>
@@ -458,6 +461,15 @@ O que você gostaria de explorar?`;
     function updateHistory() {
         loadChatHistory();
     }
+
+    // Função global para apagar mensagem
+    window.deleteMessage = function(messageId) {
+        if (confirm('Tem certeza que deseja apagar esta mensagem?')) {
+            messages = messages.filter(msg => msg.id !== messageId);
+            renderMessages();
+            saveCurrentChat();
+        }
+    };
 
     // Initialize on DOM ready
     if (document.readyState === 'loading') {

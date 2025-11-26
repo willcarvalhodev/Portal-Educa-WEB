@@ -30,7 +30,12 @@ function validarNichoProgramacao(mensagem) {
     'integração', 'integra', 'sistema', 'aplicação', 'app', 'software', 'hardware',
     'servidor', 'cliente', 'request', 'response', 'http', 'https', 'tcp', 'udp',
     'autenticação', 'autorização', 'token', 'jwt', 'oauth', 'session', 'cookie',
-    'segurança', 'criptografia', 'hash', 'encrypt', 'decrypt', 'ssl', 'tls'
+    'segurança', 'criptografia', 'hash', 'encrypt', 'decrypt', 'ssl', 'tls',
+    'tkinter', 'customtkinter', 'custom tkinter', 'gui', 'interface gráfica', 'widget',
+    'button', 'label', 'entry', 'window', 'frame', 'canvas', 'menu', 'dialog',
+    'qt', 'pyqt', 'kivy', 'wxpython', 'flask', 'django', 'fastapi', 'express',
+    'angular', 'vue', 'svelte', 'next', 'nuxt', 'gatsby', 'remix',
+    'prompt', 'prompts', 'integração', 'integrações', 'custom', 'personalizado'
   ];
 
   const mensagemLower = mensagem.toLowerCase();

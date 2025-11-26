@@ -1000,6 +1000,41 @@ body.is-flight {
     border-color: rgba(124, 58, 237, 0.4);
 }
 
+.chat-message__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.chat-message__author {
+    display: block;
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chat-message__delete {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 0.875rem;
+    transition: color var(--transition-fast);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.chat-message:hover .chat-message__delete {
+    opacity: 1;
+}
+
+.chat-message__delete:hover {
+    color: rgba(255, 100, 100, 0.8);
+}
+
 .message-author {
     display: block;
     font-size: var(--font-size-sm);
@@ -3119,8 +3154,8 @@ body.is-flight {
         gap: var(--spacing-lg);
         width: 100%;
         padding: 0;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr;
     }
 
     .choice-card {
@@ -3131,6 +3166,8 @@ body.is-flight {
         box-sizing: border-box;
         margin: 0;
         flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
     }
 
     .choice-card__content {
