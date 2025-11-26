@@ -3,154 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Experiência Cliente do Portal Educa – demonstração guiada para gestores.">
-    <title>Portal Educa • Experiência Cliente</title>
+    <meta name="description" content="Login para acessar o Portal Educa - experiência completa como coordenador, professor ou aluno.">
+    <title>Portal Educa • Login do Portal</title>
     <link rel="icon" type="image/x-icon" href="assets/images/icon.ico">
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body class="cliente-theme">
+    <!-- Cabeçalho simples para a área de login -->
     <header class="site-header">
         <div class="site-brand">
-            <h2>Portal Educa Live</h2>
-            <span>Demonstrações para instituições</span>
+            <h2>Portal Educa</h2>
+            <span>Acesso ao portal acadêmico</span>
         </div>
         <nav class="nav-links">
-            <a href="#journey">Jornada</a>
-            <a href="#escenarios">Cenários</a>
-            <a href="#evidencias">Evidências</a>
             <a href="index.html" data-flight="return">Voltar</a>
-            <a href="#agendar" class="btn btn--primary">Solicitar sessão</a>
         </nav>
     </header>
 
     <main class="page-wrapper">
-        <section class="hero" id="inicio">
-            <div class="hero__content">
-                <span class="hero__badge">Experiência Cliente</span>
-                <h1 class="hero__headline">Demonstração guiada com dados reais e roteiros personalizados</h1>
-                <p class="hero__description">
-                    Conecte coordenadores, professores e alunos em um único fluxo. Mostramos como o Portal Educa
-                    resolve entrada de matrículas, jornada acadêmica e comunicação em apenas 30 minutos.
-                </p>
-            </div>
-            <div class="hero__visual cliente-visual">
-                <h3>Roteiro sugerido</h3>
-                <ol>
-                    <li>Visão geral dos dashboards e perfis.</li>
-                    <li>Fluxo completo: matrícula → calendário → notas → comunicação.</li>
-                    <li>IA aplicada: correção de atividades e chatbot de suporte.</li>
-                </ol>
-            </div>
-        </section>
-
-        <section class="journey" id="journey">
-            <h2>Como conduzimos a apresentação</h2>
-            <div class="journey-steps">
-                <article>
-                    <span>1</span>
-                    <h3>Briefing</h3>
-                    <p>Entendemos número de campi, perfis prioritários e desafios atuais.</p>
-                </article>
-                <article>
-                    <span>2</span>
-                    <h3>Fluxos chave</h3>
-                    <p>Mostramos cadastros, aprovações e notificações usando dados fictícios da sua instituição.</p>
-                </article>
-                <article>
-                    <span>3</span>
-                    <h3>Planos de ação</h3>
-                    <p>Entregamos um resumo com próximos passos, integrações e estimativa de adoção.</p>
-                </article>
-            </div>
-        </section>
-
-        <section class="scenario-grid" id="escenarios">
-            <article class="scenario-card">
-                <h3>Coordenador(a)</h3>
-                <ul>
-                    <li>Cadastro de professores, alunos, turmas e cursos.</li>
-                    <li>Lista de usuários on-line para suporte imediato.</li>
-                    <li>Dashboards financeiros e acadêmicos combinados.</li>
-                </ul>
-            </article>
-            <article class="scenario-card">
-                <h3>Professor(a)</h3>
-                <ul>
-                    <li>Calendário diário por turma e horário.</li>
-                    <li>Correção de atividades com gabarito e IA.</li>
-                    <li>Registro de notas/frequência com validações.</li>
-                </ul>
-            </article>
-            <article class="scenario-card">
-                <h3>Aluno(a)</h3>
-                <ul>
-                    <li>Acesso a atividades, notas e frequência.</li>
-                    <li>Chat com docentes ou assistente inteligente.</li>
-                    <li>Notificações de comunicados e pendências.</li>
-                </ul>
-            </article>
-        </section>
-
-        <section class="metrics metrics--light" id="evidencias">
-            <article class="metric-card">
-                <span class="metric-label">Implantações</span>
-                <strong>+80</strong>
-                instituições acompanhadas com squads dedicados.
-            </article>
-            <article class="metric-card">
-                <span class="metric-label">Treinamentos</span>
-                <strong>3 perfis</strong>
-                coordenação, docentes e estudantes com roteiros próprios.
-            </article>
-            <article class="metric-card">
-                <span class="metric-label">Atendimento</span>
-                <strong>IA + humano</strong>
-                chatbot, chat ao vivo e canal com especialistas.
-            </article>
-        </section>
-
-        <section class="cta-banner" id="agendar">
-            <h2>Solicite sua sessão guiada</h2>
-            <p>Preencha os dados e retornamos com horários disponíveis e roteiro personalizado.</p>
-            <form class="consult-form">
-                <div class="form-grid">
-                    <label>
-                        Nome da instituição
-                        <input type="text" name="instituicao" placeholder="Instituto Horizonte" required>
-                    </label>
-                    <label>
-                        Perfil prioritário
-                        <select name="perfil" required>
-                            <option value="">Selecione</option>
-                            <option value="coordenador">Coordenador(a)</option>
-                            <option value="professor">Professor(a)</option>
-                            <option value="aluno">Aluno(a)</option>
-                        </select>
-                    </label>
-                    <label>
-                        Número de campi
-                        <input type="number" name="campus" placeholder="Ex: 3" min="1" required>
-                    </label>
-                    <label>
-                        E-mail corporativo
-                        <input type="email" name="email" placeholder="nome@instituicao.com.br" required>
-                    </label>
-                </div>
-                <label>
-                    Objetivo da demonstração
-                    <textarea name="objetivo" rows="3" placeholder="Conte o desafio que deseja resolver..." required></textarea>
-                </label>
-                <div class="hero__cta hero__cta--center">
-                    <button type="submit" class="btn btn--primary">Solicitar sessão</button>
-                </div>
-                <span class="form-success">Recebemos sua solicitação! Nossa equipe retornará em breve.</span>
-            </form>
-        </section>
+        <!-- Área de login / portal demo -->
+        <div data-demo-root>
+            <!-- O conteúdo de login e do portal é renderizado via demo-cliente.js -->
+        </div>
     </main>
 
     <footer class="site-footer">
-        © Portal Educa • Demonstrações personalizadas para sua instituição
+        © Portal Educa • Acesso ao portal acadêmico
     </footer>
     <script src="assets/js/demo-cliente.js"></script>
     <script src="assets/js/main.js"></script>
