@@ -2291,6 +2291,156 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
   }
 
   function attachSectionHandlers(sectionId) {
+    const form = document.querySelector(`[data-form="${sectionId}"]`);
+    
+    // Handler para chat (deve ser verificado primeiro, antes dos handlers específicos)
+    if (sectionId === 'chat' && (navigationState.currentAction === 'chat-professor' || navigationState.currentAction === 'chat-ia')) {
+      if (form) {
+        // Handler para enviar mensagem
+        form.addEventListener('submit', async event => {
+          event.preventDefault();
+          const data = new FormData(form);
+          const mensagem = data.get('mensagem').trim();
+          if (!mensagem) return;
+          
+          const textarea = form.querySelector('textarea');
+          const sendBtn = form.querySelector('.demo-chat-send-btn');
+          
+          // Desabilitar input durante processamento
+          if (textarea) textarea.disabled = true;
+          if (sendBtn) sendBtn.disabled = true;
+          
+          // Adicionar mensagem do usuário
+          const novaMensagem = {
+            perfil: state.perfil,
+            texto: mensagem,
+            modo: state.chatMode,
+            timestamp: Date.now(),
+          };
+          
+          state.mensagensChat.push(novaMensagem);
+          localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
+          
+          // Auto-resize textarea
+          if (textarea) {
+            textarea.value = '';
+            textarea.style.height = 'auto';
+          }
+          
+          // Recarregar chat para mostrar mensagem do usuário
+          const content = document.getElementById('demo-content');
+          if (content) {
+            const action = state.chatMode === 'ia' ? 'chat-ia' : 'chat-professor';
+            content.innerHTML = renderActionScreen('chat', action);
+            attachSectionHandlers('chat');
+          }
+          
+          // Scroll para última mensagem
+          setTimeout(() => {
+            const messagesContainer = document.querySelector('.demo-chat-messages');
+            if (messagesContainer) {
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+          }, 100);
+          
+          // Se for chat com IA, chamar API do Gemini
+          if (state.chatMode === 'ia') {
+            try {
+              const respostaIA = await chamarGeminiAPI(mensagem);
+              
+              // Adicionar resposta da IA
+              const respostaMensagem = {
+                perfil: 'IA',
+                texto: respostaIA,
+                modo: 'ia',
+                timestamp: Date.now(),
+              };
+              
+              state.mensagensChat.push(respostaMensagem);
+              localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
+              
+              // Recarregar chat com resposta
+              if (content) {
+                content.innerHTML = renderActionScreen('chat', 'chat-ia');
+                attachSectionHandlers('chat');
+              }
+              
+              // Scroll para última mensagem
+              setTimeout(() => {
+                const messagesContainer = document.querySelector('.demo-chat-messages');
+                if (messagesContainer) {
+                  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+              }, 100);
+            } catch (error) {
+              console.error('Erro ao chamar Gemini API:', error);
+              
+              // Tratar erro de fora do nicho
+              if (error.message === 'FORA_NICHO') {
+                alert('⚠️ Este assistente é especializado apenas em questões de programação e desenvolvimento de software.\n\nPor favor, faça perguntas relacionadas a:\n- Linguagens de programação\n- Frameworks e bibliotecas\n- APIs e integrações\n- Ferramentas de desenvolvimento\n- Arquitetura de software\n- Boas práticas de programação');
+                
+                // Reabilitar input
+                if (textarea) textarea.disabled = false;
+                if (sendBtn) sendBtn.disabled = false;
+                return;
+              }
+              
+              alert('Erro ao processar sua mensagem. Por favor, tente novamente.');
+            }
+          }
+          
+          // Reabilitar input
+          if (textarea) textarea.disabled = false;
+          if (sendBtn) sendBtn.disabled = false;
+        });
+      }
+
+      // Handler para limpar chat
+      document.querySelector('[data-action="limpar-chat"]')?.addEventListener('click', () => {
+        if (confirm('Deseja limpar o histórico de mensagens deste modo?')) {
+          state.mensagensChat = state.mensagensChat.filter(msg => msg.modo !== state.chatMode);
+          localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
+          const content = document.getElementById('demo-content');
+          if (content) {
+            const action = state.chatMode === 'ia' ? 'chat-ia' : 'chat-professor';
+            content.innerHTML = renderActionScreen('chat', action);
+            attachSectionHandlers('chat');
+          }
+        }
+      });
+
+      // Auto-resize textarea
+      if (form) {
+        const textarea = form.querySelector('textarea');
+        if (textarea) {
+          textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+          });
+        }
+      }
+      
+      return; // Retornar após configurar handlers do chat
+    }
+
+    // Handler para histórico de chat
+    if (navigationState.currentAction === 'chat-historico') {
+      document.querySelectorAll('[data-action="abrir-conversa"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mode = btn.dataset.mode;
+          state.chatMode = mode;
+          localStorage.setItem('demoChatMode', mode);
+          const content = document.getElementById('demo-content');
+          if (content) {
+            const action = mode === 'ia' ? 'chat-ia' : 'chat-professor';
+            content.innerHTML = renderActionScreen('chat', action);
+            attachSectionHandlers('chat');
+          }
+        });
+      });
+      return;
+    }
+
     // Se for Coordenador e estiver em uma ação, usar handlers específicos
     if (state.perfil === 'Coordenador' && navigationState.currentAction) {
       attachCoordenadorHandlers(sectionId, navigationState.currentAction);
@@ -2370,146 +2520,6 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
       });
     }
 
-    // Handler para histórico de chat
-    if (navigationState.currentAction === 'chat-historico') {
-      document.querySelectorAll('[data-action="abrir-conversa"]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const mode = btn.dataset.mode;
-          state.chatMode = mode;
-          localStorage.setItem('demoChatMode', mode);
-          const content = document.getElementById('demo-content');
-          if (content) {
-            const action = mode === 'ia' ? 'chat-ia' : 'chat-professor';
-            content.innerHTML = renderActionScreen('chat', action);
-            attachSectionHandlers('chat');
-          }
-        });
-      });
-    }
-
-    // Handler para chat (professor ou IA)
-    if (sectionId === 'chat' && (navigationState.currentAction === 'chat-professor' || navigationState.currentAction === 'chat-ia')) {
-      // Handler para enviar mensagem
-      form.addEventListener('submit', async event => {
-        event.preventDefault();
-        const data = new FormData(form);
-        const mensagem = data.get('mensagem').trim();
-        if (!mensagem) return;
-        
-        const textarea = form.querySelector('textarea');
-        const sendBtn = form.querySelector('.demo-chat-send-btn');
-        
-        // Desabilitar input durante processamento
-        if (textarea) textarea.disabled = true;
-        if (sendBtn) sendBtn.disabled = true;
-        
-        // Adicionar mensagem do usuário
-        const novaMensagem = {
-          perfil: state.perfil,
-          texto: mensagem,
-          modo: state.chatMode,
-          timestamp: Date.now(),
-        };
-        
-        state.mensagensChat.push(novaMensagem);
-        localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
-        
-        // Auto-resize textarea
-        if (textarea) {
-          textarea.value = '';
-          textarea.style.height = 'auto';
-        }
-        
-        // Recarregar chat para mostrar mensagem do usuário
-        const content = document.getElementById('demo-content');
-        if (content) {
-          const action = state.chatMode === 'ia' ? 'chat-ia' : 'chat-professor';
-          content.innerHTML = renderActionScreen('chat', action);
-          attachSectionHandlers('chat');
-        }
-        
-        // Scroll para última mensagem
-        setTimeout(() => {
-          const messagesContainer = document.querySelector('.demo-chat-messages');
-          if (messagesContainer) {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-          }
-        }, 100);
-        
-        // Se for chat com IA, chamar API do Gemini
-        if (state.chatMode === 'ia') {
-          try {
-            const respostaIA = await chamarGeminiAPI(mensagem);
-            
-            // Adicionar resposta da IA
-            const respostaMensagem = {
-              perfil: 'IA',
-              texto: respostaIA,
-              modo: 'ia',
-              timestamp: Date.now(),
-            };
-            
-            state.mensagensChat.push(respostaMensagem);
-            localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
-            
-            // Recarregar chat com resposta
-            if (content) {
-              content.innerHTML = renderActionScreen('chat', 'chat-ia');
-              attachSectionHandlers('chat');
-            }
-            
-            // Scroll para última mensagem
-            setTimeout(() => {
-              const messagesContainer = document.querySelector('.demo-chat-messages');
-              if (messagesContainer) {
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-              }
-            }, 100);
-          } catch (error) {
-            console.error('Erro ao chamar Gemini API:', error);
-            
-            // Tratar erro de fora do nicho
-            if (error.message === 'FORA_NICHO') {
-              alert('⚠️ Este assistente é especializado apenas em questões de programação e desenvolvimento de software.\n\nPor favor, faça perguntas relacionadas a:\n- Linguagens de programação\n- Frameworks e bibliotecas\n- APIs e integrações\n- Ferramentas de desenvolvimento\n- Arquitetura de software\n- Boas práticas de programação');
-              
-              // Reabilitar input
-              if (textarea) textarea.disabled = false;
-              if (sendBtn) sendBtn.disabled = false;
-              return;
-            }
-            
-            alert('Erro ao processar sua mensagem. Por favor, tente novamente.');
-          }
-        }
-        
-        // Reabilitar input
-        if (textarea) textarea.disabled = false;
-        if (sendBtn) sendBtn.disabled = false;
-      });
-
-      // Handler para limpar chat
-      document.querySelector('[data-action="limpar-chat"]')?.addEventListener('click', () => {
-        if (confirm('Deseja limpar o histórico de mensagens deste modo?')) {
-          state.mensagensChat = state.mensagensChat.filter(msg => msg.modo !== state.chatMode);
-          localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
-          const content = document.getElementById('demo-content');
-          if (content) {
-            const action = state.chatMode === 'ia' ? 'chat-ia' : 'chat-professor';
-            content.innerHTML = renderActionScreen('chat', action);
-            attachSectionHandlers('chat');
-          }
-        }
-      });
-
-      // Auto-resize textarea
-      const textarea = form.querySelector('textarea');
-      if (textarea) {
-        textarea.addEventListener('input', function() {
-          this.style.height = 'auto';
-          this.style.height = Math.min(this.scrollHeight, 200) + 'px';
-        });
-      }
-    }
 
     if (sectionId === 'aulas') {
       // Apenas simulação visual; sem handlers adicionais no momento
