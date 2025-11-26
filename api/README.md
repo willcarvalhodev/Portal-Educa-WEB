@@ -56,20 +56,42 @@ Verifica se a API está funcionando.
 
 ## 🌐 Deploy
 
-### Render
-1. Conecte seu repositório GitHub
-2. Configure as variáveis de ambiente
-3. Deploy automático!
+### Render (Recomendado - Mais Fácil)
+
+**Opção 1: Usando render.yaml (Automático)**
+1. Acesse [render.com](https://render.com)
+2. Login com GitHub
+3. "New +" → "Blueprint"
+4. Selecione o repositório `willcarvalhodev/Portal-Educa-WEB`
+5. Render detectará automaticamente o `api/render.yaml`
+6. Clique em "Apply"
+7. ✅ Deploy automático!
+
+**Opção 2: Manual**
+1. Acesse [render.com](https://render.com)
+2. "New +" → "Web Service"
+3. Conecte o repositório
+4. Configure:
+   - Name: `portal-educa-api`
+   - Root Directory: `api`
+   - Build Command: `npm install`
+   - Start Command: `node server.js`
+5. Adicione variável: `GEMINI_API_KEY = AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k`
+6. "Create Web Service"
 
 ### Railway
-1. Conecte seu repositório
-2. Adicione a variável `GEMINI_API_KEY`
-3. Deploy!
+1. Acesse [railway.app](https://railway.app)
+2. Login com GitHub
+3. "New Project" → "Deploy from GitHub repo"
+4. Selecione: `willcarvalhodev/Portal-Educa-WEB`
+5. Configure Root Directory: `api`
+6. Adicione variável: `GEMINI_API_KEY = AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k`
+7. Deploy automático!
 
 ### Heroku
 ```bash
 heroku create portal-educa-api
-heroku config:set GEMINI_API_KEY=sua_chave
+heroku config:set GEMINI_API_KEY=AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k
 git push heroku main
 ```
 
