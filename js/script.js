@@ -212,31 +212,104 @@ document.addEventListener('DOMContentLoaded', () => {
 // ATIVAÇÃO AUTOMÁTICA DE SEÇÕES NO MOBILE
 // ============================================
 
-// Observer para detectar qual feature está visível e ativar automaticamente
+// Função para verificar se está em mobile
+function isMobile() {
+    return window.matchMedia('(max-width: 768px)').matches;
+}
+
+// Observer para detectar qual feature está visível e ativar automaticamente (apenas no mobile)
 const featureObserverOptions = {
     threshold: 0.6, // Quando 60% do elemento está visível
     rootMargin: '-20% 0px -20% 0px' // Margem para centralizar melhor
 };
 
-const featureObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            // Remover active de todos
+let featureObserver = null;
+
+// Função para inicializar o observer (apenas no mobile)
+function initFeatureObserver() {
+    const featureItems = document.querySelectorAll('.feature-item');
+    
+    // Se estiver em mobile, criar e ativar o observer
+    if (isMobile()) {
+        // Se o observer não existe, criar um novo
+        if (!featureObserver) {
+            featureObserver = new IntersectionObserver((entries) => {
+                // Verificação extra: só processar se estiver em mobile
+                if (!isMobile()) {
+                    // Se não estiver em mobile, remover todas as classes active e sair
+                    document.querySelectorAll('.feature-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    return;
+                }
+                
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Remover active de todos
+                        document.querySelectorAll('.feature-item').forEach(item => {
+                            item.classList.remove('active');
+                        });
+                        // Adicionar active no elemento visível
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, featureObserverOptions);
+        }
+        
+        // Observar todos os feature-items
+        featureItems.forEach(item => {
+            featureObserver.observe(item);
+        });
+    } else {
+        // Desktop: Sempre remover todas as classes active e desabilitar observer
+        featureItems.forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // Se o observer existir, desconectar completamente
+        if (featureObserver) {
+            featureObserver.disconnect();
+            featureObserver = null;
+        }
+    }
+}
+
+// Observar todos os feature-items apenas no mobile
+document.addEventListener('DOMContentLoaded', () => {
+    // Remover classes active imediatamente ao carregar (caso existam no HTML)
+    const featureItems = document.querySelectorAll('.feature-item');
+    featureItems.forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // Se estiver em desktop, garantir que nunca haverá observer
+    if (!isMobile()) {
+        // Desconectar qualquer observer que possa existir
+        if (featureObserver) {
+            featureObserver.disconnect();
+            featureObserver = null;
+        }
+        // Remover classes active novamente por segurança
+        featureItems.forEach(item => {
+            item.classList.remove('active');
+        });
+    } else {
+        // Só inicializar o observer se estiver em mobile
+        initFeatureObserver();
+    }
+    
+    // Observar mudanças no tamanho da janela para ativar/desativar o observer
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // Sempre remover classes active primeiro
             document.querySelectorAll('.feature-item').forEach(item => {
                 item.classList.remove('active');
             });
-            // Adicionar active no elemento visível
-            entry.target.classList.add('active');
-        }
-    });
-}, featureObserverOptions);
-
-// Observar todos os feature-items
-document.addEventListener('DOMContentLoaded', () => {
-    const featureItems = document.querySelectorAll('.feature-item');
-    
-    featureItems.forEach(item => {
-        featureObserver.observe(item);
+            // Depois inicializar conforme necessário
+            initFeatureObserver();
+        }, 150); // Debounce para evitar muitas chamadas
     });
 });
 
