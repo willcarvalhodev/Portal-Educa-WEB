@@ -1820,7 +1820,7 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
 
     // IMPORTANTE: Substitua 'SUA_API_KEY_AQUI' pela sua chave da API do Gemini
     // Obtenha em: https://makersuite.google.com/app/apikey
-    const API_KEY = 'SUA_API_KEY_AQUI'; // ⚠️ SUBSTITUA PELA SUA CHAVE DA API
+    const API_KEY = 'AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k';
     
     if (API_KEY === 'SUA_API_KEY_AQUI') {
       // Modo de desenvolvimento - resposta simulada
