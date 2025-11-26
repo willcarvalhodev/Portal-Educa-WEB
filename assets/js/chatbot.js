@@ -113,17 +113,14 @@
                 return;
             }
             
-            // Fallback para resposta simulada em caso de erro
-            const aiMessage = {
-                id: (Date.now() + 1).toString(),
-                role: 'ai',
-                text: generateAIResponse(text),
-                timestamp: Date.now()
-            };
-            messages.push(aiMessage);
-            renderMessages();
-            saveCurrentChat();
-            updateHistory();
+            // Tratar erro de backend offline
+            if (error.message === 'BACKEND_OFFLINE') {
+                alert('⚠️ Backend não disponível\n\nO servidor da API não está respondendo. Por favor:\n\n1. Verifique se o backend foi deployado no Render\n2. Acesse: https://render.com e verifique o status do serviço\n3. Aguarde alguns minutos se o deploy acabou de ser feito\n4. Verifique a URL do backend nos arquivos de configuração\n\nURL esperada: https://portal-educa-api.onrender.com/api/gemini');
+                return;
+            }
+            
+            // Mostrar erro genérico
+            alert('Erro ao processar sua mensagem. Por favor, tente novamente.\n\nDetalhes: ' + (error.message || 'Erro desconhecido'));
         }
     }
     
@@ -162,47 +159,25 @@
         } catch (error) {
             console.error('Erro na API do Gemini:', error);
             
-            // Se o backend não estiver disponível, usar fallback
-            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                console.warn('Backend não disponível, usando fallback...');
-                return await chamarGeminiAPIFallback(mensagem);
+            // Verificar se é erro de conexão (backend não disponível)
+            if (error.message.includes('Failed to fetch') || 
+                error.message.includes('NetworkError') ||
+                error.message.includes('Network request failed') ||
+                error.name === 'TypeError') {
+                
+                // Tentar verificar se o backend está online
+                try {
+                    const healthCheck = await fetch(API_URL.replace('/api/gemini', '/api/health'));
+                    if (!healthCheck.ok) {
+                        throw new Error('BACKEND_OFFLINE');
+                    }
+                } catch (e) {
+                    throw new Error('BACKEND_OFFLINE');
+                }
             }
             
             throw error;
         }
-    }
-    
-    // Fallback: validação local (sem chamada à API)
-    async function chamarGeminiAPIFallback(mensagem) {
-        // Validar nicho
-        const validacao = validarNichoProgramacao(mensagem);
-        
-        if (validacao === 'fora_nicho') {
-            throw new Error('FORA_NICHO');
-        }
-        
-        if (validacao === 'criacao') {
-            return `Este assistente foi desenvolvido utilizando a tecnologia **Google Gemini AI**, uma inteligência artificial avançada criada pela Google.
-
-A configuração, treinamento e implementação deste chatbot foram realizadas pelo **Grupo PIM LA10**, composto pelos seguintes integrantes:
-
-👥 **Equipe de Desenvolvimento:**
-- William
-- Mariane
-- Eduarda
-- Maysa
-- Taynara
-
-Este projeto faz parte do Portal Educa e utiliza a API gratuita do Gemini para fornecer suporte técnico especializado em programação e desenvolvimento de software.
-
-**Créditos:**
-- IA: Google Gemini
-- Desenvolvimento: Grupo PIM LA10`;
-        }
-        
-        // Esta função não deve ser usada em produção
-        // A API key não deve estar no frontend
-        throw new Error('Backend não disponível. Por favor, configure o backend.');
     }
     
     // Função antiga (mantida para referência, mas não usada)
