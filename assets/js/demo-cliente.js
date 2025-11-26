@@ -10,6 +10,7 @@ const DemoCliente = (() => {
     perfil: null,
     email: null,
     mensagensChat: JSON.parse(localStorage.getItem('demoChat') || '[]'),
+    chatMode: localStorage.getItem('demoChatMode') || 'professor', // 'professor' ou 'ia'
     dados: {
       professores: [
         { id: 1, nome: 'Prof. Ana Silva', email: 'ana@professor.educa' },
@@ -185,6 +186,14 @@ const DemoCliente = (() => {
     attachNavEvents();
     attachHeaderActions();
     attachSidebarToggle();
+    
+    // Scroll para última mensagem no chat
+    setTimeout(() => {
+      const messagesContainer = document.querySelector('.demo-chat-messages');
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    }, 100);
     
     // Expor funções globalmente para os botões de voltar
     window.DemoCliente = {
@@ -1581,22 +1590,97 @@ const DemoCliente = (() => {
   }
 
   function renderChat() {
-    const mensagens = state.mensagensChat;
+    const chatMode = state.chatMode || 'professor'; // 'professor' ou 'ia'
+    const mensagens = state.mensagensChat.filter(msg => msg.modo === chatMode);
+    
     return `
-      <div class="demo-card">
-        <h3>Chat institucional</h3>
-        <div class="demo-chat" data-chat-history>
-          ${mensagens.map(msg => `<p><strong>${msg.perfil}:</strong> ${msg.texto}</p>`).join('')}
-        </div>
-        <form class="demo-form" data-form="chat">
-          <label>Mensagem<textarea name="mensagem" rows="2" required></textarea></label>
-          <div class="demo-chat__actions">
-            <button class="btn btn--primary">Enviar</button>
-            <button type="button" class="btn btn--secondary" data-action="limpar-chat">Limpar histórico</button>
+      <div class="demo-chat-container">
+        <!-- Header do Chat -->
+        <div class="demo-chat-header">
+          <div class="demo-chat-header__title">
+            <h3>Chat</h3>
+            <span class="demo-chat-header__subtitle">Converse e tire suas dúvidas</span>
           </div>
-        </form>
+          <div class="demo-chat-header__actions">
+            <button type="button" class="demo-chat-header__action" data-action="limpar-chat" title="Limpar histórico">
+              <span>🗑️</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Seleção de Modo -->
+        <div class="demo-chat-mode-selector">
+          <button class="demo-chat-mode-btn ${chatMode === 'professor' ? 'is-active' : ''}" data-mode="professor">
+            <span class="demo-chat-mode-btn__icon">👨‍🏫</span>
+            <span class="demo-chat-mode-btn__label">Falar com Professor</span>
+          </button>
+          <button class="demo-chat-mode-btn ${chatMode === 'ia' ? 'is-active' : ''}" data-mode="ia">
+            <span class="demo-chat-mode-btn__icon">🤖</span>
+            <span class="demo-chat-mode-btn__label">Falar com IA</span>
+          </button>
+        </div>
+
+        <!-- Área de Mensagens -->
+        <div class="demo-chat-messages" data-chat-history>
+          ${mensagens.length === 0 
+            ? `<div class="demo-chat-empty">
+                <div class="demo-chat-empty__icon">💬</div>
+                <p class="demo-chat-empty__text">Nenhuma mensagem ainda. Comece uma conversa!</p>
+              </div>`
+            : mensagens.map(msg => `
+                <div class="demo-chat-message ${msg.perfil === state.perfil ? 'demo-chat-message--user' : 'demo-chat-message--assistant'}">
+                  <div class="demo-chat-message__avatar">
+                    ${msg.perfil === state.perfil 
+                      ? getInitials(state.perfil) 
+                      : (chatMode === 'ia' ? '🤖' : '👨‍🏫')}
+                  </div>
+                  <div class="demo-chat-message__content">
+                    <div class="demo-chat-message__author">
+                      ${msg.perfil === state.perfil ? 'Você' : (chatMode === 'ia' ? 'Assistente IA' : 'Professor')}
+                    </div>
+                    <div class="demo-chat-message__text">${msg.texto}</div>
+                    ${msg.timestamp ? `<div class="demo-chat-message__time">${formatChatTime(msg.timestamp)}</div>` : ''}
+                  </div>
+                </div>
+              `).join('')
+          }
+        </div>
+
+        <!-- Input Area -->
+        <div class="demo-chat-input-area">
+          <form class="demo-chat-form" data-form="chat">
+            <div class="demo-chat-input-wrapper">
+              <textarea 
+                name="mensagem" 
+                class="demo-chat-input" 
+                placeholder="${chatMode === 'ia' ? 'Pergunte algo para a IA...' : 'Envie uma mensagem para o professor...'}" 
+                rows="1"
+                required
+              ></textarea>
+              <button type="submit" class="demo-chat-send-btn" title="Enviar mensagem">
+                <span>➤</span>
+              </button>
+            </div>
+            <div class="demo-chat-input-hint">
+              <span>${chatMode === 'ia' ? 'A IA pode cometer erros. Verifique informações importantes.' : 'O professor responderá em breve.'}</span>
+            </div>
+          </form>
+        </div>
       </div>
     `;
+  }
+
+  function formatChatTime(timestamp) {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diff = now - date;
+    const minutes = Math.floor(diff / 60000);
+    
+    if (minutes < 1) return 'Agora';
+    if (minutes < 60) return `${minutes}min atrás`;
+    if (minutes < 1440) return `${Math.floor(minutes / 60)}h atrás`;
+    return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
   }
 
   function renderDiarioAluno() {
@@ -2025,24 +2109,67 @@ const DemoCliente = (() => {
     }
 
     if (sectionId === 'chat') {
+      // Handler para alternar modo de chat
+      document.querySelectorAll('.demo-chat-mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mode = btn.dataset.mode;
+          state.chatMode = mode;
+          localStorage.setItem('demoChatMode', mode);
+          renderSection('chat');
+        });
+      });
+
+      // Handler para enviar mensagem
       form.addEventListener('submit', event => {
         event.preventDefault();
         const data = new FormData(form);
         const mensagem = data.get('mensagem').trim();
         if (!mensagem) return;
-        state.mensagensChat.push({
+        
+        const novaMensagem = {
           perfil: state.perfil,
           texto: mensagem,
-        });
+          modo: state.chatMode,
+          timestamp: Date.now(),
+        };
+        
+        state.mensagensChat.push(novaMensagem);
         localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
+        
+        // Auto-resize textarea
+        const textarea = form.querySelector('textarea');
+        if (textarea) {
+          textarea.style.height = 'auto';
+        }
+        
         renderSection('chat');
+        
+        // Scroll para última mensagem
+        setTimeout(() => {
+          const messagesContainer = document.querySelector('.demo-chat-messages');
+          if (messagesContainer) {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          }
+        }, 100);
       });
 
+      // Handler para limpar chat
       document.querySelector('[data-action="limpar-chat"]')?.addEventListener('click', () => {
-        state.mensagensChat = [{ perfil: 'Sistema', texto: 'Histórico limpo.' }];
-        localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
-        renderSection('chat');
+        if (confirm('Deseja limpar o histórico de mensagens deste modo?')) {
+          state.mensagensChat = state.mensagensChat.filter(msg => msg.modo !== state.chatMode);
+          localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
+          renderSection('chat');
+        }
       });
+
+      // Auto-resize textarea
+      const textarea = form.querySelector('textarea');
+      if (textarea) {
+        textarea.addEventListener('input', function() {
+          this.style.height = 'auto';
+          this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+        });
+      }
     }
 
     if (sectionId === 'aulas') {
