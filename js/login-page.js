@@ -34,23 +34,28 @@ const LoginPageModule = (function() {
     function setupFlowTabs() {
         const loginPanel = document.querySelector('.login-flow__panel--login');
         const solicitarPanel = document.querySelector('.login-flow__panel--solicitar');
-        const loginCard = document.querySelector('.login-card');
         
         // Clique no painel de login
         if (loginPanel) {
-            loginPanel.addEventListener('click', function() {
-                if (!loginCard.classList.contains('login-active')) {
-                    switchFlow('login');
+            loginPanel.style.cursor = 'pointer';
+            loginPanel.addEventListener('click', function(e) {
+                // Não alterna se clicar em elementos interativos do formulário
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'LABEL') {
+                    return;
                 }
+                switchFlow('login');
             });
         }
         
         // Clique no painel de solicitar
         if (solicitarPanel) {
-            solicitarPanel.addEventListener('click', function() {
-                if (loginCard.classList.contains('login-active')) {
-                    switchFlow('solicitar');
+            solicitarPanel.style.cursor = 'pointer';
+            solicitarPanel.addEventListener('click', function(e) {
+                // Não alterna se clicar em elementos interativos do formulário
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'LABEL' || e.target.tagName === 'TEXTAREA') {
+                    return;
                 }
+                switchFlow('solicitar');
             });
         }
         
