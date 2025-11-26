@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Experiência Dev do Portal Educa focada em tecnologia e programação.">
+    <title>Portal Educa • Experiência Dev</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/icon.ico">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="dev-theme">
+    <header class="site-header">
+        <div class="site-brand">
+            <h2>Portal Educa Labs</h2>
+            <span>IA + Engenharia para Educação</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#stack">Stack</a>
+            <a href="#recursos">Recursos</a>
+            <a href="#open-source">Open</a>
+            <a href="index.html" data-flight="return">Voltar</a>
+            <a href="#demo" class="btn btn--primary">Testar Sandbox</a>
+        </nav>
+    </header>
+
+    <main class="page-wrapper">
+        <section class="hero" id="inicio">
+            <div class="hero__content">
+                <span class="hero__badge">Build the future of EdTech</span>
+                <h1 class="hero__headline">Experiência Dev com arquitetura futurista, APIs abertas e integrações prontas</h1>
+                <p class="hero__description">
+                    Explore como construímos o Portal Educa utilizando microsserviços, IA generativa e pipelines observáveis.
+                    Veja prompts, endpoints, design system e acelere sua PoC.
+                </p>
+                <div class="hero__cta">
+                    <a href="#demo" class="btn btn--primary">Abrir ambiente dev</a>
+                    <a href="https://github.com/willcarvalhodev/Portal-Educa-WEB" target="_blank" rel="noopener" class="btn btn--secondary">Ver repositório</a>
+                </div>
+                <div class="metrics">
+                    <div class="metric-card">
+                        <strong>42</strong>
+                        micro serviços em produção
+                    </div>
+                    <div class="metric-card">
+                        <strong>15ms</strong>
+                        média de resposta das APIs core
+                    </div>
+                    <div class="metric-card">
+                        <strong>0%</strong>
+                        downtime em 12 meses
+                    </div>
+                </div>
+            </div>
+            <div class="hero__visual">
+                <span class="code-pill">pipeline.yml</span>
+                <pre class="code-snippet">
+name: deploy-orion
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+      - run: pnpm turbo deploy
+                </pre>
+            </div>
+        </section>
+
+        <section class="glow-grid" id="stack">
+            <article class="glow-card">
+                <h3>Stack híbrida</h3>
+                <p>Next.js, NestJS, LangChain, Astro e workers edge distribuídos.</p>
+            </article>
+            <article class="glow-card">
+                <h3>Observabilidade</h3>
+                <p>Grafana, OpenTelemetry, tracing em tempo real e alertas no Slack.</p>
+            </article>
+            <article class="glow-card">
+                <h3>IA aplicada</h3>
+                <p>Modelos finos para análises pedagógicas usando Azure OpenAI + Pinecone.</p>
+            </article>
+        </section>
+
+        <section class="features-grid" id="recursos">
+            <article class="feature-card">
+                <div class="feature-card__icon">🧠</div>
+                <h3>Prompts documentados</h3>
+                <p>Biblioteca de prompts versionados, com testes automatizados e avaliação contínua.</p>
+            </article>
+            <article class="feature-card">
+                <div class="feature-card__icon">🛰️</div>
+                <h3>API GraphQL</h3>
+                <p>Gateway unificado com federation, webhooks e streaming de eventos.</p>
+            </article>
+            <article class="feature-card" id="open-source">
+                <div class="feature-card__icon">🧩</div>
+                <h3>Design System</h3>
+                <p>Tokens, componentes web e pacotes npm prontos para squads parceiros.</p>
+            </article>
+        </section>
+
+        <section class="cta-banner" id="demo">
+            <h2>Plugue sua stack ao Portal Educa Labs</h2>
+            <p>Receba acesso ao sandbox, documentação completa e suporte da equipe de Engenharia.</p>
+            <div class="hero__cta">
+                <a href="mailto:labs@portaleduca.com" class="btn btn--primary">Solicitar credenciais</a>
+                <a href="https://discord.gg/" target="_blank" rel="noopener" class="btn btn--secondary">Entrar no Discord</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        © Portal Educa Labs • Código, IA e educação em fluxo contínuo
+    </footer>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+
