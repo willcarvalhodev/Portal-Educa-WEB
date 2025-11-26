@@ -54,9 +54,9 @@ const NavigationModule = (function() {
             
             if (!navList) {
                 console.warn('Lista de navegação não encontrada');
-                return;
-            }
-            
+            return;
+        }
+        
             // Configura eventos apenas se os elementos existirem
             setupEventListeners();
             
@@ -81,23 +81,23 @@ const NavigationModule = (function() {
         
         // Logo clicável para voltar ao topo
         const logo = document.querySelector('.header__logo');
-        if (logo) {
-            logo.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
+if (logo) {
+    logo.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
                 if (href === '#home' || href === '#') {
-                    e.preventDefault();
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
                     // Fecha menu se estiver aberto
                     if (isMobile() && isMenuOpen()) {
                         closeMenu();
                     }
-                }
-            });
         }
-        
+    });
+}
+
         // Fechar menu ao clicar em um link (apenas mobile)
         navLinks.forEach(link => {
             link.addEventListener('click', handleNavLinkClick);
@@ -140,7 +140,7 @@ const NavigationModule = (function() {
             navList.classList.add('header__nav-list--open');
             // Previne scroll do body quando menu está aberto
             document.body.style.overflow = 'hidden';
-        } else {
+    } else {
             navList.classList.remove('header__nav-list--open');
             document.body.style.overflow = '';
         }
@@ -343,13 +343,13 @@ const AnimationModule = (function() {
      */
     function setupIntersectionObserver() {
         const options = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
         observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
                     entry.target.classList.add('fade-in-visible');
                     observer.unobserve(entry.target);
                 }
@@ -358,10 +358,10 @@ const AnimationModule = (function() {
         
         // Observa elementos que devem ser animados
         const animateElements = document.querySelectorAll('.feature-card, .about__container, .contact__container');
-        animateElements.forEach(el => {
+    animateElements.forEach(el => {
             el.classList.add('fade-in');
-            observer.observe(el);
-        });
+        observer.observe(el);
+    });
     }
     
     // API Pública
@@ -455,7 +455,8 @@ const RouterModule = (function() {
         try {
             // Mapeamento de nomes de view para arquivos
             const viewMap = {
-                'portal-main': 'views/portal.html'
+                'portal-main': 'views/portal.html',
+                'devmode': 'views/devmode.html'
             };
             
             const viewPath = viewMap[viewName];
@@ -493,6 +494,8 @@ const RouterModule = (function() {
             // Inicializa módulos específicos da view
             if (viewName === 'portal-main') {
                 initPortalModule();
+            } else if (viewName === 'devmode') {
+                initDeveloperModule();
             }
             
             console.log(`✅ View "${viewName}" carregada com sucesso`);
@@ -539,6 +542,16 @@ const RouterModule = (function() {
         // Aguarda um pouco para garantir que o DOM foi atualizado
         setTimeout(() => {
             PortalModule.init();
+        }, 100);
+    }
+    
+    /**
+     * Inicializa os módulos específicos do Modo Desenvolvedor
+     */
+    function initDeveloperModule() {
+        // Aguarda um pouco para garantir que o DOM foi atualizado
+        setTimeout(() => {
+            DeveloperModule.init();
         }, 100);
     }
     
@@ -938,7 +951,261 @@ const PortalModule = (function() {
 
 /**
  * ============================================
- * 6. INICIALIZAÇÃO PRINCIPAL
+ * 6. MÓDULO DESENVOLVEDOR
+ * Gerencia funcionalidades do modo desenvolvedor e chatbot
+ * ============================================
+ */
+const DeveloperModule = (function() {
+    'use strict';
+    
+    // Configuração da API Gemini
+    // Modelo: gemini-2.0-flash-exp (equivalente ao gemini-2.5-flash-preview-09-2025)
+    const GEMINI_MODEL = 'gemini-2.0-flash-exp';
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+    const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY'; // Substitua com sua chave da API Gemini
+    
+    // Elementos do DOM
+    let chatbotForm = null;
+    let chatbotInput = null;
+    let chatbotMessages = null;
+    let chatbotSendButton = null;
+    let chatbotStatus = null;
+    
+    // Estado do chat
+    let isProcessing = false;
+    
+    /**
+     * Inicializa o módulo desenvolvedor
+     */
+    function init() {
+        try {
+            // Busca elementos do DOM
+            chatbotForm = document.getElementById('chatbot-form');
+            chatbotInput = document.getElementById('chatbot-input');
+            chatbotMessages = document.getElementById('chatbot-messages');
+            chatbotSendButton = document.getElementById('chatbot-send-button');
+            chatbotStatus = document.getElementById('chatbot-status');
+            
+            if (!chatbotForm || !chatbotInput || !chatbotMessages) {
+                console.warn('Elementos do chatbot não encontrados');
+                return;
+            }
+            
+            initDeveloperModeChat();
+            console.log('✅ DeveloperModule inicializado com sucesso');
+            
+        } catch (error) {
+            console.error('❌ Erro ao inicializar DeveloperModule:', error);
+        }
+    }
+    
+    /**
+     * Inicializa o chatbot do modo desenvolvedor
+     */
+    function initDeveloperModeChat() {
+        // Event listener para o formulário
+        chatbotForm.addEventListener('submit', handleChatSubmit);
+        
+        // Permite enviar com Enter (mas não Shift+Enter para nova linha)
+        chatbotInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+                if (!isProcessing) {
+                    chatbotForm.dispatchEvent(new Event('submit'));
+                }
+            }
+        });
+        
+        // Atualiza status inicial
+        updateStatus('Pronto para conversar');
+    }
+    
+    /**
+     * Manipula o envio de mensagens no chat
+     * @param {Event} event - Evento de submissão do formulário
+     */
+    async function handleChatSubmit(event) {
+        event.preventDefault();
+        
+        if (isProcessing) return;
+        
+        const message = chatbotInput.value.trim();
+        
+        if (!message) {
+            return;
+        }
+        
+        // Limpa o input
+        chatbotInput.value = '';
+        
+        // Adiciona mensagem do usuário
+        addMessage(message, 'user');
+        
+        // Mostra mensagem de loading
+        const loadingMessageId = addMessage('Pensando...', 'loading');
+        
+        // Processa a mensagem
+        isProcessing = true;
+        updateStatus('Enviando mensagem...');
+        chatbotSendButton.disabled = true;
+        
+        try {
+            const response = await sendMessageToGemini(message);
+            
+            // Remove mensagem de loading
+            removeMessage(loadingMessageId);
+            
+            // Adiciona resposta da IA
+            addMessage(response, 'assistant');
+            updateStatus('Mensagem recebida');
+            
+        } catch (error) {
+            console.error('❌ Erro ao enviar mensagem:', error);
+            
+            // Remove mensagem de loading
+            removeMessage(loadingMessageId);
+            
+            // Mostra mensagem de erro
+            addMessage('Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.', 'system');
+            updateStatus('Erro ao processar mensagem');
+        } finally {
+            isProcessing = false;
+            chatbotSendButton.disabled = false;
+            chatbotInput.focus();
+        }
+    }
+    
+    /**
+     * Envia mensagem para a API Gemini com Exponential Backoff
+     * @param {string} query - Mensagem do usuário
+     * @returns {Promise<string>} Resposta da IA
+     */
+    async function sendMessageToGemini(query) {
+        const maxRetries = 3;
+        let retryCount = 0;
+        let baseDelay = 1000; // 1 segundo
+        
+        while (retryCount < maxRetries) {
+            try {
+                const url = `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`;
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: query
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            topK: 40,
+                            topP: 0.95,
+                            maxOutputTokens: 1024,
+                        }
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error?.message || `HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Extrai o texto da resposta
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    const text = data.candidates[0].content.parts[0].text;
+                    return text;
+                } else {
+                    throw new Error('Resposta da API não contém texto válido');
+                }
+                
+            } catch (error) {
+                retryCount++;
+                
+                // Se não há mais tentativas, relança o erro
+                if (retryCount >= maxRetries) {
+                    throw error;
+                }
+                
+                // Exponential Backoff: calcula o delay
+                const delay = baseDelay * Math.pow(2, retryCount - 1);
+                
+                console.warn(`Tentativa ${retryCount} falhou. Tentando novamente em ${delay}ms...`, error);
+                updateStatus(`Tentando novamente (${retryCount}/${maxRetries})...`);
+                
+                // Aguarda antes de tentar novamente
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    }
+    
+    /**
+     * Adiciona uma mensagem ao chat
+     * @param {string} text - Texto da mensagem
+     * @param {string} type - Tipo da mensagem ('user', 'assistant', 'system', 'loading')
+     * @returns {string} ID da mensagem criada
+     */
+    function addMessage(text, type = 'system') {
+        if (!chatbotMessages) return '';
+        
+        const messageId = `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        const messageDiv = document.createElement('div');
+        messageDiv.id = messageId;
+        messageDiv.className = `chatbot__message chatbot__message--${type}`;
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'chatbot__message-content';
+        
+        // Converte quebras de linha em <br>
+        const formattedText = text.replace(/\n/g, '<br>');
+        contentDiv.innerHTML = formattedText;
+        
+        messageDiv.appendChild(contentDiv);
+        chatbotMessages.appendChild(messageDiv);
+        
+        // Scroll para a última mensagem
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        
+        return messageId;
+    }
+    
+    /**
+     * Remove uma mensagem do chat
+     * @param {string} messageId - ID da mensagem a ser removida
+     */
+    function removeMessage(messageId) {
+        if (!messageId) return;
+        
+        const messageElement = document.getElementById(messageId);
+        if (messageElement) {
+            messageElement.remove();
+        }
+    }
+    
+    /**
+     * Atualiza o status do chatbot
+     * @param {string} status - Texto do status
+     */
+    function updateStatus(status) {
+        if (chatbotStatus) {
+            chatbotStatus.textContent = status || '';
+        }
+    }
+    
+    // API Pública
+    return {
+        init: init,
+        sendMessageToGemini: sendMessageToGemini
+    };
+})();
+
+/**
+ * ============================================
+ * 7. INICIALIZAÇÃO PRINCIPAL
  * ============================================
  */
 

@@ -1,0 +1,161 @@
+<!-- Header Principal do Portal -->
+<header class="header-main" role="banner">
+    <div class="header-main__container">
+        <!-- Logo / Nome do Produto -->
+        <a href="#home" class="header-main__logo" aria-label="Portal Educa - Página inicial">
+            <img src="images/icon.ico" alt="Portal Educa" class="header-main__logo-icon" width="40" height="40">
+            <span class="header-main__logo-text">Portal Educa</span>
+        </a>
+
+        <!-- Navegação Comercial -->
+        <nav class="header-main__nav" role="navigation" aria-label="Navegação comercial">
+            <!-- Menu Toggle para Mobile -->
+            <button 
+                class="header-main__menu-toggle" 
+                type="button"
+                aria-label="Alternar menu de navegação" 
+                aria-expanded="false"
+                aria-controls="header-main__nav-list"
+                id="header-main-menu-toggle">
+                <span class="header-main__menu-toggle-line"></span>
+                <span class="header-main__menu-toggle-line"></span>
+                <span class="header-main__menu-toggle-line"></span>
+            </button>
+
+            <!-- Lista de Navegação -->
+            <ul class="header-main__nav-list" id="header-main__nav-list" aria-labelledby="header-main-menu-toggle">
+                <li class="header-main__nav-item">
+                    <a href="#recursos" class="header-main__nav-link" data-section="recursos">Recursos</a>
+                </li>
+                <li class="header-main__nav-item">
+                    <a href="#depoimentos" class="header-main__nav-link" data-section="depoimentos">Depoimentos</a>
+                </li>
+                <li class="header-main__nav-item">
+                    <a href="#precos" class="header-main__nav-link" data-section="precos">Preços</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Conteúdo Principal -->
+<main class="main-content" id="main-content">
+    <div class="dev-layout">
+        <!-- Coluna 1: Conteúdo Informativo -->
+        <div class="dev-layout__column dev-layout__column--info">
+            <section class="dev-info">
+                <div class="dev-info__container">
+                    <h1 class="dev-info__title">Modo Desenvolvedor</h1>
+                    <p class="dev-info__description">
+                        Explore como este site foi construído com inteligência artificial e 
+                        baixe o aplicativo Desktop Python para desenvolvimento.
+                    </p>
+
+                    <!-- Seção: Como a IA construiu este site -->
+                    <div class="dev-info__section">
+                        <h2 class="dev-info__section-title">Como a IA construiu este site</h2>
+                        <p class="dev-info__section-text">
+                            Este site foi desenvolvido utilizando inteligência artificial para 
+                            demonstrar as capacidades de criação de interfaces web modernas. 
+                            A IA foi responsável por gerar o código HTML, CSS e JavaScript, 
+                            seguindo as melhores práticas de desenvolvimento frontend.
+                        </p>
+                        <ul class="dev-info__list">
+                            <li class="dev-info__list-item">Design responsivo com Mobile-First</li>
+                            <li class="dev-info__list-item">Metodologia BEM para CSS</li>
+                            <li class="dev-info__list-item">JavaScript modular e organizado</li>
+                            <li class="dev-info__list-item">Integração com Firebase Auth</li>
+                            <li class="dev-info__list-item">Sistema de roteamento dinâmico</li>
+                        </ul>
+                    </div>
+
+                    <!-- Seção: Prompts Utilizados -->
+                    <div class="dev-info__section">
+                        <h2 class="dev-info__section-title">Prompts Utilizados</h2>
+                        <p class="dev-info__section-text">
+                            Os prompts utilizados para criar este projeto focaram em:
+                        </p>
+                        <ul class="dev-info__list">
+                            <li class="dev-info__list-item">Criação de componentes HTML semânticos</li>
+                            <li class="dev-info__list-item">Estilização com CSS BEM e Mobile-First</li>
+                            <li class="dev-info__list-item">Implementação de funcionalidades JavaScript modulares</li>
+                            <li class="dev-info__list-item">Integração de APIs (Firebase, Gemini)</li>
+                            <li class="dev-info__list-item">Otimização de performance e acessibilidade</li>
+                        </ul>
+                    </div>
+
+                    <!-- Seção: Download App Desktop Python -->
+                    <div class="dev-info__section">
+                        <h2 class="dev-info__section-title">App Desktop Python</h2>
+                        <div class="download-card">
+                            <div class="download-card__icon">🐍</div>
+                            <h3 class="download-card__title">Portal Educa Desktop</h3>
+                            <p class="download-card__description">
+                                Baixe a versão desktop desenvolvida em Python para ter acesso 
+                                completo às funcionalidades do Portal Educa.
+                            </p>
+                            <div class="download-card__info">
+                                <span class="download-card__info-item">Versão: 1.0.0</span>
+                                <span class="download-card__info-item">Plataforma: Windows/Linux/Mac</span>
+                                <span class="download-card__info-item">Tamanho: ~50 MB</span>
+                            </div>
+                            <button class="download-card__button" id="download-button" type="button">
+                                <span class="download-card__button-icon">⬇️</span>
+                                Baixar Aplicativo
+                            </button>
+                            <p class="download-card__note">
+                                * O download estará disponível em breve
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Coluna 2: Chatbot IA -->
+        <div class="dev-layout__column dev-layout__column--chat">
+            <section class="chatbot">
+                <div class="chatbot__container">
+                    <div class="chatbot__header">
+                        <h2 class="chatbot__title">Chatbot IA</h2>
+                        <p class="chatbot__subtitle">Converse com a IA sobre desenvolvimento</p>
+                    </div>
+
+                    <!-- Área de Mensagens -->
+                    <div class="chatbot__messages" id="chatbot-messages" role="log" aria-live="polite">
+                        <div class="chatbot__message chatbot__message--system">
+                            <div class="chatbot__message-content">
+                                <p>Olá! Sou o assistente de IA. Como posso ajudar você hoje?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Área de Entrada -->
+                    <div class="chatbot__input-area">
+                        <form class="chatbot__form" id="chatbot-form" aria-label="Formulário do chatbot">
+                            <div class="chatbot__input-wrapper">
+                                <input 
+                                    type="text" 
+                                    id="chatbot-input"
+                                    class="chatbot__input" 
+                                    placeholder="Digite sua mensagem..."
+                                    autocomplete="off"
+                                    aria-label="Mensagem do chatbot"
+                                    required>
+                                <button 
+                                    type="submit" 
+                                    class="chatbot__button chatbot__button--send"
+                                    id="chatbot-send-button"
+                                    aria-label="Enviar mensagem">
+                                    <span class="chatbot__button-icon">📤</span>
+                                </button>
+                            </div>
+                            <div class="chatbot__status" id="chatbot-status"></div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+

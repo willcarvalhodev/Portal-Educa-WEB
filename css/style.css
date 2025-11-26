@@ -1198,6 +1198,438 @@ body {
 }
 
 /* ============================================
+   15. DEV MODE LAYOUT (DEVELOPER MODULE)
+   Layout de duas colunas responsivo
+   ============================================ */
+
+.dev-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl) var(--spacing-md);
+    min-height: calc(100vh - 70px);
+    background: linear-gradient(180deg, var(--color-bg-light) 0%, var(--color-bg) 50%);
+}
+
+.dev-layout__column {
+    display: flex;
+    flex-direction: column;
+}
+
+.dev-layout__column--info {
+    order: 2;
+}
+
+.dev-layout__column--chat {
+    order: 1;
+}
+
+/* Desktop: duas colunas */
+@media (min-width: 992px) {
+    .dev-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-xl);
+        padding: var(--spacing-xl);
+    }
+
+    .dev-layout__column--info {
+        order: 1;
+    }
+
+    .dev-layout__column--chat {
+        order: 2;
+    }
+}
+
+/* ============================================
+   16. DEV INFO (DEVELOPER MODULE)
+   Seções informativas sobre desenvolvimento
+   ============================================ */
+
+.dev-info {
+    width: 100%;
+}
+
+.dev-info__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.dev-info__title {
+    font-size: var(--font-size-xxxl);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: -0.02em;
+}
+
+.dev-info__description {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+}
+
+.dev-info__section {
+    background-color: var(--color-surface);
+    padding: var(--spacing-lg);
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dev-info__section-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.dev-info__section-text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+}
+
+.dev-info__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dev-info__list-item {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    padding: var(--spacing-xs) 0;
+    padding-left: var(--spacing-md);
+    position: relative;
+    line-height: 1.6;
+}
+
+.dev-info__list-item::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+/* ============================================
+   17. DOWNLOAD CARD (DEVELOPER MODULE)
+   Card para download do app Desktop
+   ============================================ */
+
+.download-card {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    padding: var(--spacing-xl);
+    border-radius: 16px;
+    text-align: center;
+    color: var(--color-bg);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.download-card__icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    display: block;
+}
+
+.download-card__title {
+    font-size: var(--font-size-xxl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-bg);
+}
+
+.download-card__description {
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.95;
+}
+
+.download-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.download-card__info-item {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
+.download-card__button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-xl);
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+    border: none;
+    border-radius: 8px;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    margin-bottom: var(--spacing-sm);
+}
+
+.download-card__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background-color: var(--color-bg-light);
+}
+
+.download-card__button-icon {
+    font-size: var(--font-size-lg);
+}
+
+.download-card__note {
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+    margin-top: var(--spacing-sm);
+    font-style: italic;
+}
+
+/* ============================================
+   18. CHATBOT (DEVELOPER MODULE)
+   Interface de chat com IA
+   ============================================ */
+
+.chatbot {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbot__container {
+    background-color: var(--color-surface);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 90px);
+    max-height: 800px;
+    overflow: hidden;
+}
+
+.chatbot__header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-bg);
+}
+
+.chatbot__title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-bg);
+}
+
+.chatbot__subtitle {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
+.chatbot__messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    background-color: var(--color-bg-light);
+}
+
+.chatbot__message {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.chatbot__message--user {
+    align-self: flex-end;
+}
+
+.chatbot__message--system,
+.chatbot__message--assistant {
+    align-self: flex-start;
+}
+
+.chatbot__message-content {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 12px;
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+.chatbot__message--user .chatbot__message-content {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+    border-bottom-right-radius: 4px;
+}
+
+.chatbot__message--system .chatbot__message-content,
+.chatbot__message--assistant .chatbot__message-content {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 4px;
+}
+
+.chatbot__message--loading .chatbot__message-content {
+    background-color: var(--color-bg-light);
+    color: var(--color-text-light);
+    font-style: italic;
+}
+
+.chatbot__input-area {
+    padding: var(--spacing-lg);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: var(--color-surface);
+}
+
+.chatbot__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.chatbot__input-wrapper {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: flex-end;
+}
+
+.chatbot__input {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-family: var(--font-family-base);
+    resize: none;
+    transition: border-color var(--transition-fast);
+    min-height: 44px;
+}
+
+.chatbot__input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.chatbot__input::placeholder {
+    color: var(--color-text-lighter);
+}
+
+.chatbot__button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+    border: none;
+    border-radius: 8px;
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.chatbot__button:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.chatbot__button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.chatbot__button-icon {
+    font-size: var(--font-size-lg);
+}
+
+.chatbot__status {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    text-align: center;
+    min-height: 20px;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade Chatbot */
+@media (max-width: 991px) {
+    .chatbot__container {
+        height: 500px;
+        max-height: 500px;
+    }
+}
+
+@media (max-width: 767px) {
+    .dev-info__title {
+        font-size: var(--font-size-xxl);
+    }
+
+    .dev-info__section {
+        padding: var(--spacing-md);
+    }
+
+    .download-card {
+        padding: var(--spacing-lg);
+    }
+
+    .chatbot__message {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .dev-layout {
+        padding: var(--spacing-md);
+        gap: var(--spacing-md);
+    }
+
+    .download-card__info {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+
+    .chatbot__container {
+        height: 400px;
+        max-height: 400px;
+    }
+}
+
+/* ============================================
    15. APP CONTAINER (ROUTING)
    ============================================ */
 
