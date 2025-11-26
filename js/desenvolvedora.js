@@ -25,3 +25,6 @@ const DesenvolvedoraModule = (function() {
     };
 })();
 
+// Disponibiliza DesenvolvedoraModule globalmente
+window.DesenvolvedoraModule = DesenvolvedoraModule;
+

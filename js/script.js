@@ -39,8 +39,19 @@ const App = (function() {
  * 2. INICIALIZAÇÃO
  * ============================================
  */
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Portal Educa - Iniciando...');
-    App.init();
-});
+(function() {
+    'use strict';
+    
+    // Aguarda o DOM estar pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Portal Educa - Iniciando...');
+            App.init();
+        });
+    } else {
+        // DOM já está pronto
+        console.log('🚀 Portal Educa - Iniciando...');
+        App.init();
+    }
+})();
 

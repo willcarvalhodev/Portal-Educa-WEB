@@ -112,3 +112,6 @@ const Router = (function() {
     };
 })();
 
+// Disponibiliza Router globalmente
+window.Router = Router;
+

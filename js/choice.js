@@ -59,3 +59,6 @@ const ChoiceModule = (function() {
     };
 })();
 
+// Disponibiliza ChoiceModule globalmente
+window.ChoiceModule = ChoiceModule;
+

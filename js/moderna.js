@@ -25,3 +25,6 @@ const ModernaModule = (function() {
     };
 })();
 
+// Disponibiliza ModernaModule globalmente
+window.ModernaModule = ModernaModule;
+
