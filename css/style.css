@@ -1911,22 +1911,40 @@ button {
     grid-template-columns: 60% 40%;
 }
 
-/* Posicionamento dos painéis */
-.login-flow__side--left {
+/* Posicionamento dos painéis no estado de login */
+.login-flow__side--teal.login-flow__side--left {
     grid-column: 1;
 }
 
-.login-flow__side--right {
+.login-flow__side--form.login-flow__side--right {
     grid-column: 2;
+}
+
+.login-flow__side--form-solicitar.login-flow__side--left {
+    display: none;
+}
+
+.login-flow__side--teal-right.login-flow__side--right {
+    display: none;
 }
 
 /* Quando solicitar ativo, inverte a ordem */
-.login-card.solicitar-active .login-flow__side--left {
+.login-card.solicitar-active .login-flow__side--form-solicitar.login-flow__side--left {
     grid-column: 1;
+    display: flex;
 }
 
-.login-card.solicitar-active .login-flow__side--right {
+.login-card.solicitar-active .login-flow__side--teal-right.login-flow__side--right {
     grid-column: 2;
+    display: flex;
+}
+
+.login-card.solicitar-active .login-flow__side--teal.login-flow__side--left {
+    display: none;
+}
+
+.login-card.solicitar-active .login-flow__side--form.login-flow__side--right {
+    display: none;
 }
 
 /* Painéis Laterais */
@@ -1954,11 +1972,6 @@ button {
     background: var(--color-teal);
     padding: var(--spacing-xl);
     color: white;
-    display: none;
-}
-
-.login-card.solicitar-active .login-flow__side--teal-right {
-    display: flex;
 }
 
 /* Painel de Formulário (Direita) */
@@ -1972,14 +1985,9 @@ button {
 .login-flow__side--form-solicitar {
     background: var(--color-bg-beige);
     padding: var(--spacing-xl);
-    display: none;
     z-index: 8;
     flex-direction: column;
     justify-content: center;
-}
-
-.login-card.solicitar-active .login-flow__side--form-solicitar {
-    display: flex;
 }
 
 /* Conteúdo do Painel Teal */
@@ -2023,39 +2031,7 @@ button {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Quando solicitar ativo - mostra formulário esquerda e teal direita */
-.login-card.solicitar-active .login-flow__side--form {
-    display: none;
-}
-
-.login-card.solicitar-active .login-flow__side--teal {
-    display: none;
-}
-
-.login-card.solicitar-active .login-flow__side--form-solicitar {
-    display: flex;
-}
-
-.login-card.solicitar-active .login-flow__side--teal-right {
-    display: flex;
-}
-
-/* Quando login ativo - mostra teal esquerda e formulário direita */
-.login-card:not(.solicitar-active) .login-flow__side--form {
-    display: flex;
-}
-
-.login-card:not(.solicitar-active) .login-flow__side--teal {
-    display: flex;
-}
-
-.login-card:not(.solicitar-active) .login-flow__side--form-solicitar {
-    display: none;
-}
-
-.login-card:not(.solicitar-active) .login-flow__side--teal-right {
-    display: none;
-}
+/* Estados de exibição já controlados pelo grid-column acima */
 
 /* Conteúdo do Formulário */
 .login-flow__side-form {
