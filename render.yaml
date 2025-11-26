@@ -3,8 +3,8 @@ services:
     name: portal-educa-api
     env: node
     rootDir: api
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: cd api && npm install
+    startCommand: cd api && node server.js
     envVars:
       - key: GEMINI_API_KEY
         value: AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k
