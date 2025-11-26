@@ -209,11 +209,28 @@ const DemoCliente = (() => {
     
     if (!toggleBtn || !sidebar || !overlay) return;
 
+    const openSidebar = () => {
+      sidebar.classList.add('is-open');
+      overlay.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeSidebar = () => {
+      sidebar.classList.remove('is-open');
+      overlay.classList.remove('is-active');
+      document.body.style.overflow = 'auto'; // Garante que a rolagem seja restaurada
+    };
+
     // Toggle sidebar
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('is-open');
       overlay.classList.toggle('is-active');
       document.body.style.overflow = sidebar.classList.contains('is-open') ? 'hidden' : '';
+      if (sidebar.classList.contains('is-open')) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
     });
 
     // Fechar ao clicar no overlay
@@ -222,6 +239,7 @@ const DemoCliente = (() => {
       overlay.classList.remove('is-active');
       document.body.style.overflow = '';
     });
+    overlay.addEventListener('click', closeSidebar);
 
     // Fechar ao clicar em um item do menu (mobile)
     const navItems = document.querySelectorAll('.demo-sidebar__item');
@@ -231,6 +249,7 @@ const DemoCliente = (() => {
           sidebar.classList.remove('is-open');
           overlay.classList.remove('is-active');
           document.body.style.overflow = '';
+          closeSidebar();
         }
       });
     });
@@ -243,6 +262,7 @@ const DemoCliente = (() => {
           sidebar.classList.remove('is-open');
           overlay.classList.remove('is-active');
           document.body.style.overflow = '';
+          closeSidebar();
         }
       });
     });
