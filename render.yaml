@@ -2,6 +2,7 @@ services:
   - type: web
     name: portal-educa-api
     env: node
+    plan: free
     rootDir: api
     buildCommand: cd api && npm install
     startCommand: cd api && node server.js
