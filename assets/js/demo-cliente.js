@@ -1731,6 +1731,156 @@ const DemoCliente = (() => {
     return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
   }
 
+  /**
+   * Valida se a pergunta é sobre programação
+   */
+  function validarNichoProgramacao(mensagem) {
+    const palavrasProgramacao = [
+      'programação', 'programar', 'código', 'código', 'desenvolvimento', 'desenvolver',
+      'javascript', 'python', 'java', 'html', 'css', 'react', 'node', 'api', 'endpoint',
+      'função', 'variável', 'array', 'objeto', 'classe', 'método', 'framework', 'biblioteca',
+      'git', 'github', 'deploy', 'backend', 'frontend', 'fullstack', 'database', 'banco de dados',
+      'sql', 'nosql', 'json', 'xml', 'rest', 'graphql', 'docker', 'kubernetes', 'aws', 'azure',
+      'algoritmo', 'estrutura de dados', 'debug', 'teste', 'testar', 'bug', 'erro', 'exception',
+      'loop', 'condicional', 'if', 'else', 'for', 'while', 'async', 'await', 'promise',
+      'componente', 'módulo', 'package', 'npm', 'yarn', 'vite', 'webpack', 'babel',
+      'typescript', 'interface', 'type', 'generics', 'decorator', 'annotation',
+      'mvc', 'mvp', 'mvvm', 'arquitetura', 'design pattern', 'singleton', 'factory',
+      'integração', 'integra', 'sistema', 'aplicação', 'app', 'software', 'hardware',
+      'servidor', 'cliente', 'request', 'response', 'http', 'https', 'tcp', 'udp',
+      'autenticação', 'autorização', 'token', 'jwt', 'oauth', 'session', 'cookie',
+      'segurança', 'criptografia', 'hash', 'encrypt', 'decrypt', 'ssl', 'tls'
+    ];
+
+    const mensagemLower = mensagem.toLowerCase();
+    
+    // Verificar perguntas sobre criação/autores
+    const perguntasCriacao = [
+      'quem criou', 'quem desenvolveu', 'quem fez', 'quem programou',
+      'autores', 'criadores', 'desenvolvedores', 'equipe', 'grupo',
+      'pim', 'la10', 'william', 'mariane', 'eduarda', 'maysa', 'taynara'
+    ];
+    
+    if (perguntasCriacao.some(p => mensagemLower.includes(p))) {
+      return 'criacao';
+    }
+    
+    // Verificar se é sobre programação
+    const temPalavraProgramacao = palavrasProgramacao.some(palavra => 
+      mensagemLower.includes(palavra)
+    );
+    
+    return temPalavraProgramacao ? 'programacao' : 'fora_nicho';
+  }
+
+  /**
+   * Chama a API do Gemini
+   */
+  async function chamarGeminiAPI(mensagem) {
+    // Validar nicho
+    const validacao = validarNichoProgramacao(mensagem);
+    
+    if (validacao === 'fora_nicho') {
+      throw new Error('FORA_NICHO');
+    }
+    
+    if (validacao === 'criacao') {
+      return `Este assistente foi desenvolvido utilizando a tecnologia **Google Gemini AI**, uma inteligência artificial avançada criada pela Google.
+
+A configuração, treinamento e implementação deste chatbot foram realizadas pelo **Grupo PIM LA10**, composto pelos seguintes integrantes:
+
+👥 **Equipe de Desenvolvimento:**
+- William
+- Mariane
+- Eduarda
+- Maysa
+- Taynara
+
+Este projeto faz parte do Portal Educa e utiliza a API gratuita do Gemini para fornecer suporte técnico especializado em programação e desenvolvimento de software.
+
+**Créditos:**
+- IA: Google Gemini
+- Desenvolvimento: Grupo PIM LA10`;
+    }
+    
+    // Configurar prompt para focar em programação
+    const systemPrompt = `Você é um assistente especializado em programação e desenvolvimento de software. 
+Sua função é ajudar desenvolvedores com:
+- Linguagens de programação (JavaScript, Python, Java, etc.)
+- Frameworks e bibliotecas
+- Arquitetura de software
+- APIs e integrações
+- Ferramentas de desenvolvimento
+- Boas práticas de programação
+- Resolução de problemas técnicos
+- Conceitos de engenharia de software
+
+Responda de forma clara, objetiva e técnica. Use exemplos de código quando apropriado.
+Se a pergunta não for sobre programação, informe educadamente que você só responde questões técnicas de desenvolvimento.`;
+
+    // IMPORTANTE: Substitua 'SUA_API_KEY_AQUI' pela sua chave da API do Gemini
+    // Obtenha em: https://makersuite.google.com/app/apikey
+    const API_KEY = 'SUA_API_KEY_AQUI'; // ⚠️ SUBSTITUA PELA SUA CHAVE DA API
+    
+    if (API_KEY === 'SUA_API_KEY_AQUI') {
+      // Modo de desenvolvimento - resposta simulada
+      return `⚠️ **Configuração necessária**: Por favor, configure sua chave da API do Gemini no arquivo demo-cliente.js.
+
+Para obter uma chave gratuita:
+1. Acesse: https://makersuite.google.com/app/apikey
+2. Crie uma conta Google (se necessário)
+3. Gere uma nova chave de API
+4. Substitua 'SUA_API_KEY_AQUI' no código pela sua chave
+
+**Resposta simulada para sua pergunta:**
+"${mensagem}"
+
+Esta é uma resposta de exemplo. Após configurar a API, você receberá respostas reais do Gemini AI especializadas em programação.`;
+    }
+
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: `${systemPrompt}\n\nPergunta do usuário: ${mensagem}\n\nResposta:`
+              }]
+            }],
+            generationConfig: {
+              temperature: 0.7,
+              topK: 40,
+              topP: 0.95,
+              maxOutputTokens: 1024,
+            },
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || 'Erro ao chamar API do Gemini');
+      }
+
+      const data = await response.json();
+      const resposta = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      
+      if (!resposta) {
+        throw new Error('Resposta vazia da API');
+      }
+
+      return resposta;
+    } catch (error) {
+      console.error('Erro na API do Gemini:', error);
+      throw error;
+    }
+  }
+
   function renderChatHistory() {
     // Agrupar mensagens por conversa (modo + data)
     const conversas = {};
@@ -2256,12 +2406,20 @@ const DemoCliente = (() => {
     // Handler para chat (professor ou IA)
     if (sectionId === 'chat' && (navigationState.currentAction === 'chat-professor' || navigationState.currentAction === 'chat-ia')) {
       // Handler para enviar mensagem
-      form.addEventListener('submit', event => {
+      form.addEventListener('submit', async event => {
         event.preventDefault();
         const data = new FormData(form);
         const mensagem = data.get('mensagem').trim();
         if (!mensagem) return;
         
+        const textarea = form.querySelector('textarea');
+        const sendBtn = form.querySelector('.demo-chat-send-btn');
+        
+        // Desabilitar input durante processamento
+        if (textarea) textarea.disabled = true;
+        if (sendBtn) sendBtn.disabled = true;
+        
+        // Adicionar mensagem do usuário
         const novaMensagem = {
           perfil: state.perfil,
           texto: mensagem,
@@ -2273,12 +2431,12 @@ const DemoCliente = (() => {
         localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
         
         // Auto-resize textarea
-        const textarea = form.querySelector('textarea');
         if (textarea) {
+          textarea.value = '';
           textarea.style.height = 'auto';
         }
         
-        // Recarregar chat
+        // Recarregar chat para mostrar mensagem do usuário
         const content = document.getElementById('demo-content');
         if (content) {
           const action = state.chatMode === 'ia' ? 'chat-ia' : 'chat-professor';
@@ -2293,6 +2451,56 @@ const DemoCliente = (() => {
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
           }
         }, 100);
+        
+        // Se for chat com IA, chamar API do Gemini
+        if (state.chatMode === 'ia') {
+          try {
+            const respostaIA = await chamarGeminiAPI(mensagem);
+            
+            // Adicionar resposta da IA
+            const respostaMensagem = {
+              perfil: 'IA',
+              texto: respostaIA,
+              modo: 'ia',
+              timestamp: Date.now(),
+            };
+            
+            state.mensagensChat.push(respostaMensagem);
+            localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
+            
+            // Recarregar chat com resposta
+            if (content) {
+              content.innerHTML = renderActionScreen('chat', 'chat-ia');
+              attachSectionHandlers('chat');
+            }
+            
+            // Scroll para última mensagem
+            setTimeout(() => {
+              const messagesContainer = document.querySelector('.demo-chat-messages');
+              if (messagesContainer) {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+              }
+            }, 100);
+          } catch (error) {
+            console.error('Erro ao chamar Gemini API:', error);
+            
+            // Tratar erro de fora do nicho
+            if (error.message === 'FORA_NICHO') {
+              alert('⚠️ Este assistente é especializado apenas em questões de programação e desenvolvimento de software.\n\nPor favor, faça perguntas relacionadas a:\n- Linguagens de programação\n- Frameworks e bibliotecas\n- APIs e integrações\n- Ferramentas de desenvolvimento\n- Arquitetura de software\n- Boas práticas de programação');
+              
+              // Reabilitar input
+              if (textarea) textarea.disabled = false;
+              if (sendBtn) sendBtn.disabled = false;
+              return;
+            }
+            
+            alert('Erro ao processar sua mensagem. Por favor, tente novamente.');
+          }
+        }
+        
+        // Reabilitar input
+        if (textarea) textarea.disabled = false;
+        if (sendBtn) sendBtn.disabled = false;
       });
 
       // Handler para limpar chat
