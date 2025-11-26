@@ -417,7 +417,376 @@ const UtilsModule = (function() {
 
 /**
  * ============================================
- * 4. INICIALIZAÇÃO PRINCIPAL
+ * 4. MÓDULO DE ROTEAMENTO
+ * Gerencia o carregamento dinâmico de views
+ * ============================================
+ */
+const RouterModule = (function() {
+    'use strict';
+    
+    let appContainer = null;
+    let currentView = null;
+    
+    /**
+     * Inicializa o módulo de roteamento
+     */
+    function init() {
+        appContainer = document.getElementById('app-container');
+        
+        if (!appContainer) {
+            console.warn('Container de views (app-container) não encontrado no DOM');
+            return;
+        }
+        
+        console.log('✅ RouterModule inicializado com sucesso');
+    }
+    
+    /**
+     * Carrega uma view dinamicamente
+     * @param {string} viewName - Nome da view (ex: 'portal-main')
+     * @returns {Promise<void>}
+     */
+    async function loadView(viewName) {
+        if (!appContainer) {
+            console.error('Container de views não está disponível');
+            return;
+        }
+        
+        try {
+            // Mapeamento de nomes de view para arquivos
+            const viewMap = {
+                'portal-main': 'views/portal.html'
+            };
+            
+            const viewPath = viewMap[viewName];
+            
+            if (!viewPath) {
+                console.error(`View "${viewName}" não encontrada no mapeamento`);
+                return;
+            }
+            
+            console.log(`📄 Carregando view: ${viewName} de ${viewPath}`);
+            
+            // Faz o fetch do HTML da view
+            const response = await fetch(viewPath);
+            
+            if (!response.ok) {
+                throw new Error(`Erro ao carregar view: ${response.status} ${response.statusText}`);
+            }
+            
+            const html = await response.text();
+            
+            // Oculta o conteúdo principal da página inicial
+            document.body.classList.add('view-loaded');
+            
+            // Injeta o HTML no container
+            appContainer.innerHTML = html;
+            
+            // Atualiza o título da página
+            const titleMatch = html.match(/<title>(.*?)<\/title>/);
+            if (titleMatch) {
+                document.title = titleMatch[1];
+            }
+            
+            currentView = viewName;
+            
+            // Inicializa módulos específicos da view
+            if (viewName === 'portal-main') {
+                initPortalModule();
+            }
+            
+            console.log(`✅ View "${viewName}" carregada com sucesso`);
+            
+        } catch (error) {
+            console.error(`❌ Erro ao carregar view "${viewName}":`, error);
+            appContainer.innerHTML = `
+                <div style="padding: 2rem; text-align: center;">
+                    <h2>Erro ao carregar a página</h2>
+                    <p>${error.message}</p>
+                </div>
+            `;
+        }
+    }
+    
+    /**
+     * Remove a view carregada e volta ao conteúdo inicial
+     */
+    function unloadView() {
+        if (!appContainer) return;
+        
+        document.body.classList.remove('view-loaded');
+        appContainer.innerHTML = '';
+        currentView = null;
+        document.title = 'Portal Educa - Gestão Escolar Inteligente';
+        
+        // Reinicializa os módulos da página inicial
+        NavigationModule.init();
+        AnimationModule.init();
+    }
+    
+    /**
+     * Retorna a view atual
+     * @returns {string|null}
+     */
+    function getCurrentView() {
+        return currentView;
+    }
+    
+    /**
+     * Inicializa os módulos específicos do Portal
+     */
+    function initPortalModule() {
+        // Aguarda um pouco para garantir que o DOM foi atualizado
+        setTimeout(() => {
+            PortalModule.init();
+        }, 100);
+    }
+    
+    // API Pública
+    return {
+        init: init,
+        loadView: loadView,
+        unloadView: unloadView,
+        getCurrentView: getCurrentView
+    };
+})();
+
+/**
+ * ============================================
+ * 5. MÓDULO DO PORTAL
+ * Gerencia funcionalidades específicas do portal (menu, login)
+ * ============================================
+ */
+const PortalModule = (function() {
+    'use strict';
+    
+    let menuToggle = null;
+    let navList = null;
+    let loginButton = null;
+    let loginButtonDesktop = null;
+    let cancelLoginButton = null;
+    let loginForm = null;
+    let commercialArea = null;
+    let loginArea = null;
+    
+    /**
+     * Inicializa o módulo do portal
+     */
+    function init() {
+        try {
+            // Busca elementos do DOM
+            menuToggle = document.querySelector('.header-main__menu-toggle');
+            navList = document.querySelector('.header-main__nav-list');
+            loginButton = document.getElementById('login-button');
+            loginButtonDesktop = document.getElementById('login-button-desktop');
+            cancelLoginButton = document.getElementById('cancel-login-button');
+            loginForm = document.getElementById('login-form');
+            commercialArea = document.getElementById('commercial-area');
+            loginArea = document.getElementById('login-area');
+            
+            if (!menuToggle || !navList) {
+                console.warn('Elementos de navegação do portal não encontrados');
+            }
+            
+            if (!loginButton && !loginButtonDesktop || !loginArea) {
+                console.warn('Elementos de login do portal não encontrados');
+            }
+            
+            setupEventListeners();
+            console.log('✅ PortalModule inicializado com sucesso');
+            
+        } catch (error) {
+            console.error('❌ Erro ao inicializar PortalModule:', error);
+        }
+    }
+    
+    /**
+     * Configura os event listeners
+     */
+    function setupEventListeners() {
+        // Menu toggle (hamburger)
+        if (menuToggle && navList) {
+            menuToggle.addEventListener('click', handleMenuToggle);
+            menuToggle.addEventListener('keydown', handleMenuToggleKeydown);
+        }
+        
+        // Botão de login (mobile e desktop)
+        if (loginButton) {
+            loginButton.addEventListener('click', handleShowLogin);
+        }
+        if (loginButtonDesktop) {
+            loginButtonDesktop.addEventListener('click', handleShowLogin);
+        }
+        
+        // Botão cancelar login
+        if (cancelLoginButton) {
+            cancelLoginButton.addEventListener('click', handleHideLogin);
+        }
+        
+        // Formulário de login
+        if (loginForm) {
+            loginForm.addEventListener('submit', handleLoginSubmit);
+        }
+        
+        // Fechar menu ao clicar fora (mobile)
+        document.addEventListener('click', handleClickOutsideMenu, true);
+        
+        // Fechar menu ao pressionar ESC
+        document.addEventListener('keydown', handleEscapeKey, true);
+    }
+    
+    /**
+     * Manipula o toggle do menu mobile
+     */
+    function handleMenuToggle(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (!menuToggle || !navList) return;
+        
+        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        const newState = !isExpanded;
+        
+        menuToggle.setAttribute('aria-expanded', String(newState));
+        
+        if (newState) {
+            navList.classList.add('header-main__nav-list--open');
+            document.body.style.overflow = 'hidden';
+        } else {
+            navList.classList.remove('header-main__nav-list--open');
+            document.body.style.overflow = '';
+        }
+    }
+    
+    /**
+     * Manipula teclado no botão do menu
+     */
+    function handleMenuToggleKeydown(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleMenuToggle(e);
+        }
+    }
+    
+    /**
+     * Fecha o menu ao clicar fora (apenas mobile)
+     */
+    function handleClickOutsideMenu(e) {
+        if (!navList || !menuToggle) return;
+        
+        const isMenuOpen = navList.classList.contains('header-main__nav-list--open');
+        if (!isMenuOpen) return;
+        
+        const clickedInsideNav = navList.contains(e.target);
+        const clickedOnToggle = menuToggle.contains(e.target);
+        
+        if (!clickedInsideNav && !clickedOnToggle) {
+            closeMenu();
+        }
+    }
+    
+    /**
+     * Fecha o menu ao pressionar ESC
+     */
+    function handleEscapeKey(e) {
+        if (e.key === 'Escape') {
+            const isMenuOpen = navList && navList.classList.contains('header-main__nav-list--open');
+            if (isMenuOpen) {
+                closeMenu();
+            }
+            
+            // Se o formulário de login estiver visível, fecha ele também
+            if (loginArea && loginArea.style.display !== 'none') {
+                handleHideLogin();
+            }
+        }
+    }
+    
+    /**
+     * Fecha o menu mobile
+     */
+    function closeMenu() {
+        if (!menuToggle || !navList) return;
+        
+        menuToggle.setAttribute('aria-expanded', 'false');
+        navList.classList.remove('header-main__nav-list--open');
+        document.body.style.overflow = '';
+    }
+    
+    /**
+     * Mostra o formulário de login e oculta a área comercial
+     */
+    function handleShowLogin() {
+        if (!commercialArea || !loginArea) return;
+        
+        commercialArea.style.display = 'none';
+        loginArea.style.display = 'block';
+        
+        // Foca no primeiro campo do formulário
+        const firstInput = loginArea.querySelector('input');
+        if (firstInput) {
+            setTimeout(() => firstInput.focus(), 100);
+        }
+        
+        // Fecha o menu mobile se estiver aberto
+        closeMenu();
+    }
+    
+    /**
+     * Oculta o formulário de login e mostra a área comercial
+     */
+    function handleHideLogin() {
+        if (!commercialArea || !loginArea) return;
+        
+        commercialArea.style.display = 'block';
+        loginArea.style.display = 'none';
+        
+        // Reseta o formulário
+        if (loginForm) {
+            loginForm.reset();
+        }
+    }
+    
+    /**
+     * Manipula o envio do formulário de login
+     */
+    function handleLoginSubmit(e) {
+        e.preventDefault();
+        
+        if (!loginForm) return;
+        
+        const formData = new FormData(loginForm);
+        const email = formData.get('email');
+        const password = formData.get('password');
+        
+        // Validação básica
+        if (!email || !password) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+        
+        // Aqui você pode adicionar a lógica de autenticação
+        console.log('📧 Login tentativa:', { email, password });
+        
+        // Exemplo: simulação de login
+        alert('Funcionalidade de login será implementada em breve!');
+        
+        // Por enquanto, apenas reseta o formulário
+        // loginForm.reset();
+    }
+    
+    // API Pública
+    return {
+        init: init,
+        closeMenu: closeMenu,
+        handleShowLogin: handleShowLogin,
+        handleHideLogin: handleHideLogin
+    };
+})();
+
+/**
+ * ============================================
+ * 6. INICIALIZAÇÃO PRINCIPAL
  * ============================================
  */
 
@@ -432,6 +801,7 @@ const UtilsModule = (function() {
         
         // Inicializa todos os módulos
         try {
+            RouterModule.init();
             NavigationModule.init();
             AnimationModule.init();
             UtilsModule.init();

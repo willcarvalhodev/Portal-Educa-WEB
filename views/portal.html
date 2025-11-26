@@ -1,0 +1,125 @@
+<!-- Header Principal do Portal -->
+    <header class="header-main" role="banner">
+        <div class="header-main__container">
+            <!-- Logo / Nome do Produto -->
+            <a href="#home" class="header-main__logo" aria-label="Portal Educa - Página inicial">
+                <img src="images/icon.ico" alt="Portal Educa" class="header-main__logo-icon" width="40" height="40">
+                <span class="header-main__logo-text">Portal Educa</span>
+            </a>
+
+            <!-- Navegação Comercial -->
+            <nav class="header-main__nav" role="navigation" aria-label="Navegação comercial">
+                <!-- Menu Toggle para Mobile -->
+                <button 
+                    class="header-main__menu-toggle" 
+                    type="button"
+                    aria-label="Alternar menu de navegação" 
+                    aria-expanded="false"
+                    aria-controls="header-main__nav-list"
+                    id="header-main-menu-toggle">
+                    <span class="header-main__menu-toggle-line"></span>
+                    <span class="header-main__menu-toggle-line"></span>
+                    <span class="header-main__menu-toggle-line"></span>
+                </button>
+
+                <!-- Lista de Navegação -->
+                <ul class="header-main__nav-list" id="header-main__nav-list" aria-labelledby="header-main-menu-toggle">
+                    <li class="header-main__nav-item">
+                        <a href="#recursos" class="header-main__nav-link" data-section="recursos">Recursos</a>
+                    </li>
+                    <li class="header-main__nav-item">
+                        <a href="#depoimentos" class="header-main__nav-link" data-section="depoimentos">Depoimentos</a>
+                    </li>
+                    <li class="header-main__nav-item">
+                        <a href="#precos" class="header-main__nav-link" data-section="precos">Preços</a>
+                    </li>
+                    <!-- Botão de Login Institucional (visível no menu mobile) -->
+                    <li class="header-main__nav-item header-main__nav-item--button">
+                        <button 
+                            type="button"
+                            class="header-main__button header-main__button--login"
+                            id="login-button"
+                            aria-label="Abrir formulário de login institucional">
+                            Login Institucional
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Botão de Login Institucional (visível no desktop) -->
+                <button 
+                    type="button"
+                    class="header-main__button header-main__button--login header-main__button--desktop"
+                    id="login-button-desktop"
+                    aria-label="Abrir formulário de login institucional">
+                    Login Institucional
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content" id="main-content">
+        <!-- Área Comercial (conteúdo inicial) -->
+        <div class="main-content__commercial" id="commercial-area">
+            <section class="commercial-hero">
+                <div class="commercial-hero__container">
+                    <h1 class="commercial-hero__title">Bem-vindo ao Portal Educa</h1>
+                    <p class="commercial-hero__description">
+                        A plataforma completa de gestão escolar que transforma a educação com inteligência artificial.
+                    </p>
+                    <div class="commercial-hero__actions">
+                        <a href="#recursos" class="commercial-hero__button commercial-hero__button--primary">
+                            Conheça Nossos Recursos
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Formulário de Login (oculto inicialmente) -->
+        <div class="main-content__login" id="login-area" style="display: none;">
+            <section class="login-form">
+                <div class="login-form__container">
+                    <h2 class="login-form__title">Login Institucional</h2>
+                    <p class="login-form__description">
+                        Acesse sua conta institucional do Portal Educa
+                    </p>
+                    <form class="login-form__form" id="login-form" aria-label="Formulário de login institucional">
+                        <div class="login-form__field">
+                            <label for="login-email" class="login-form__label">E-mail Institucional</label>
+                            <input 
+                                type="email" 
+                                id="login-email" 
+                                name="email"
+                                class="login-form__input" 
+                                placeholder="seu.email@instituicao.edu.br"
+                                required
+                                aria-required="true"
+                                autocomplete="email">
+                        </div>
+                        <div class="login-form__field">
+                            <label for="login-password" class="login-form__label">Senha</label>
+                            <input 
+                                type="password" 
+                                id="login-password" 
+                                name="password"
+                                class="login-form__input" 
+                                placeholder="Digite sua senha"
+                                required
+                                aria-required="true"
+                                autocomplete="current-password">
+                        </div>
+                        <div class="login-form__actions">
+                            <button type="submit" class="login-form__button login-form__button--submit">
+                                Entrar
+                            </button>
+                            <button type="button" class="login-form__button login-form__button--cancel" id="cancel-login-button">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
