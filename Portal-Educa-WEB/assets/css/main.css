@@ -2709,8 +2709,10 @@ body.is-flight {
         left: 0;
     }
 
+    /* Desabilitar hover no mobile - apenas toggle funciona */
     .cliente-theme .demo-sidebar:hover {
         width: 280px;
+        left: -280px; /* Manter fechado no mobile mesmo no hover */
     }
 
     .cliente-theme .demo-app__content {
