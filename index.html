@@ -1,20 +1,142 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portal Educa - Gestão Escolar Inteligente">
-    <title>Portal Educa</title>
+    <meta name="description" content="Portal Educa - Gestão Escolar Inteligente alimentada por IA">
+    <meta name="keywords" content="gestão escolar, educação, portal educa, IA educação">
+    <meta name="author" content="Portal Educa">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://willcarvalhodev.github.io/Portal-Educa-WEB/">
+    <meta property="og:title" content="Portal Educa - Gestão Escolar Inteligente">
+    <meta property="og:description" content="Transforme a gestão educacional com IA">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://willcarvalhodev.github.io/Portal-Educa-WEB/">
+    <meta property="twitter:title" content="Portal Educa - Gestão Escolar Inteligente">
+    <meta property="twitter:description" content="Transforme a gestão educacional com IA">
+    
+    <!-- Título e Favicon -->
+    <title>Portal Educa - Gestão Escolar Inteligente</title>
     <link rel="icon" type="image/x-icon" href="images/icon.ico">
+    
+    <!-- Estilos -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <main>
-        <div class="container">
-            <h1>Portal Educa</h1>
-            <p>Bem-vindo ao Portal Educa. Este é um novo começo.</p>
+    <!-- Header / Navegação -->
+    <header class="header">
+        <div class="header__container">
+            <div class="header__logo">
+                <img src="images/icon.ico" alt="Portal Educa" class="header__logo-icon">
+                <span class="header__logo-text">Portal Educa</span>
+            </div>
+            <nav class="header__nav">
+                <button class="header__menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <span class="header__menu-toggle-line"></span>
+                    <span class="header__menu-toggle-line"></span>
+                    <span class="header__menu-toggle-line"></span>
+                </button>
+                <ul class="header__nav-list">
+                    <li class="header__nav-item">
+                        <a href="#home" class="header__nav-link">Início</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="#sobre" class="header__nav-link">Sobre</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="#recursos" class="header__nav-link">Recursos</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="#contato" class="header__nav-link">Contato</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main">
+        <!-- Seção Hero / Home -->
+        <section id="home" class="hero">
+            <div class="hero__container">
+                <h1 class="hero__title">Portal Educa</h1>
+                <p class="hero__subtitle">Gestão Escolar Inteligente alimentada por IA</p>
+                <p class="hero__description">Transforme a gestão educacional com tecnologia de ponta</p>
+                <div class="hero__actions">
+                    <a href="#sobre" class="hero__button hero__button--primary">Saiba Mais</a>
+                    <a href="#recursos" class="hero__button hero__button--secondary">Recursos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Sobre -->
+        <section id="sobre" class="about">
+            <div class="about__container">
+                <h2 class="about__title">Sobre o Portal Educa</h2>
+                <p class="about__description">
+                    O Portal Educa é uma plataforma completa de gestão educacional que utiliza 
+                    inteligência artificial para otimizar processos e melhorar a experiência 
+                    de todos os envolvidos no processo educacional.
+                </p>
+            </div>
+        </section>
+
+        <!-- Seção Recursos -->
+        <section id="recursos" class="features">
+            <div class="features__container">
+                <h2 class="features__title">Recursos</h2>
+                <div class="features__grid">
+                    <article class="feature-card">
+                        <div class="feature-card__icon">📊</div>
+                        <h3 class="feature-card__title">Gestão Inteligente</h3>
+                        <p class="feature-card__description">
+                            Automatize processos administrativos com IA
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <div class="feature-card__icon">🎓</div>
+                        <h3 class="feature-card__title">Acompanhamento Pedagógico</h3>
+                        <p class="feature-card__description">
+                            Monitore e otimize o desempenho dos alunos
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <div class="feature-card__icon">📱</div>
+                        <h3 class="feature-card__title">Acesso Mobile</h3>
+                        <p class="feature-card__description">
+                            Acesse de qualquer lugar, a qualquer momento
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Contato -->
+        <section id="contato" class="contact">
+            <div class="contact__container">
+                <h2 class="contact__title">Entre em Contato</h2>
+                <p class="contact__description">
+                    Tem dúvidas ou sugestões? Entre em contato conosco!
+                </p>
+            </div>
+        </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <p class="footer__text">
+                &copy; <span class="footer__year"></span> Portal Educa. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
     <script src="js/script.js"></script>
 </body>
 </html>
