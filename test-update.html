@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Atualização - Portal Educa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .box {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        h1 { text-align: center; }
+        .timestamp {
+            font-size: 24px;
+            text-align: center;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>✅ Teste de Atualização GitHub Pages</h1>
+        <p style="text-align: center;">Se você está vendo esta página, o GitHub Pages está funcionando!</p>
+        <div class="timestamp" id="timestamp"></div>
+        <p style="text-align: center;">
+            <strong>Última atualização:</strong><br>
+            <span id="last-update">2025-01-26 23:30:00</span>
+        </p>
+        <p style="text-align: center; margin-top: 30px;">
+            <a href="index.html" style="color: white; text-decoration: underline;">← Voltar para a página principal</a>
+        </p>
+    </div>
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toLocaleString('pt-BR');
+        console.log('✅ GitHub Pages está funcionando!');
+        console.log('Timestamp:', new Date().toISOString());
+    </script>
+</body>
+</html>
+
