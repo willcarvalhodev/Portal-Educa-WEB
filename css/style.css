@@ -1222,6 +1222,14 @@ button {
     font-size: var(--font-size-sm);
     cursor: pointer;
     transition: all var(--transition-base);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.footer-moderna__back:link,
+.footer-moderna__back:visited {
+    color: var(--color-bg);
+    text-decoration: none;
 }
 
 .footer-moderna__back:hover {
@@ -1327,6 +1335,14 @@ button {
     font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-base);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.header-desenvolvedora__back:link,
+.header-desenvolvedora__back:visited {
+    color: var(--color-bg);
+    text-decoration: none;
 }
 
 .header-desenvolvedora__back:hover {
