@@ -1906,6 +1906,29 @@ button {
     gap: 0;
 }
 
+/* Quando solicitar ativo, inverte o grid */
+.login-card.solicitar-active .login-flow {
+    grid-template-columns: 60% 40%;
+}
+
+/* Posicionamento dos painéis */
+.login-flow__side--left {
+    grid-column: 1;
+}
+
+.login-flow__side--right {
+    grid-column: 2;
+}
+
+/* Quando solicitar ativo, inverte a ordem */
+.login-card.solicitar-active .login-flow__side--left {
+    grid-column: 1;
+}
+
+.login-card.solicitar-active .login-flow__side--right {
+    grid-column: 2;
+}
+
 /* Painéis Laterais */
 .login-flow__side {
     width: 100%;
@@ -2000,7 +2023,7 @@ button {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Quando solicitar ativo */
+/* Quando solicitar ativo - mostra formulário esquerda e teal direita */
 .login-card.solicitar-active .login-flow__side--form {
     display: none;
 }
@@ -2009,8 +2032,20 @@ button {
     display: none;
 }
 
-/* Quando login ativo */
+.login-card.solicitar-active .login-flow__side--form-solicitar {
+    display: flex;
+}
+
+.login-card.solicitar-active .login-flow__side--teal-right {
+    display: flex;
+}
+
+/* Quando login ativo - mostra teal esquerda e formulário direita */
 .login-card:not(.solicitar-active) .login-flow__side--form {
+    display: flex;
+}
+
+.login-card:not(.solicitar-active) .login-flow__side--teal {
     display: flex;
 }
 
