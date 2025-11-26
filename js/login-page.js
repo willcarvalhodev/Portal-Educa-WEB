@@ -22,11 +22,25 @@ const LoginPageModule = (function() {
             setupFlowTabs();
             setupEventListeners();
             setupPasswordToggle();
+            activateRevealTransitions();
             console.log('✅ LoginPageModule inicializado');
             
         } catch (error) {
             console.error('❌ Erro ao inicializar LoginPageModule:', error);
         }
+    }
+    
+    /**
+     * Ativa transições de revelação para o formulário de login
+     */
+    function activateRevealTransitions() {
+        // Aguarda um pequeno delay para garantir que o DOM está renderizado
+        setTimeout(() => {
+            const loginContainer = document.querySelector('.login-main');
+            if (loginContainer && window.RevealTransitions) {
+                window.RevealTransitions.activate(loginContainer, 50);
+            }
+        }, 100);
     }
     
     /**

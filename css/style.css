@@ -2799,3 +2799,24 @@ button {
     animation: slideIn var(--transition-base) ease-out;
 }
 
+/* ============================================
+   TRANSIÇÕES DE REVELAÇÃO (REVEAL TRANSITIONS)
+   ============================================ */
+
+.reveal-transition {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal-transition.is-hidden {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: none;
+}
+
+.reveal-transition.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+

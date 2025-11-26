@@ -15,10 +15,24 @@ const ModernaModule = (function() {
             setupEventListeners();
             setupSmoothScroll();
             updateCurrentYear();
+            activateRevealTransitions();
             console.log('✅ ModernaModule inicializado');
         } catch (error) {
             console.error('❌ Erro ao inicializar ModernaModule:', error);
         }
+    }
+    
+    /**
+     * Ativa transições de revelação para elementos da página
+     */
+    function activateRevealTransitions() {
+        // Aguarda um pequeno delay para garantir que o DOM está renderizado
+        setTimeout(() => {
+            const mainContainer = document.querySelector('.main-moderna');
+            if (mainContainer && window.RevealTransitions) {
+                window.RevealTransitions.activate(mainContainer, 50);
+            }
+        }, 100);
     }
     
     /**
