@@ -210,14 +210,15 @@ body {
 }
 
 .logo-icon {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     object-fit: contain;
     transition: transform 0.3s ease;
+    flex-shrink: 0;
 }
 
 .logo:hover .logo-icon {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 @keyframes logoRotate {
