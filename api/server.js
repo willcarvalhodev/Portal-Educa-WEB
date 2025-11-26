@@ -159,13 +159,35 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
         if (response.ok) {
           const data = await response.json();
           console.log(`Modelo ${modelName} funcionou!`);
+          console.log('Estrutura da resposta:', JSON.stringify(data, null, 2));
           
-          const resposta = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          // Tentar diferentes caminhos para a resposta
+          let resposta = data.candidates?.[0]?.content?.parts?.[0]?.text;
           
-          if (resposta) {
+          // Se não encontrou, tentar caminho alternativo
+          if (!resposta && data.candidates?.[0]?.content?.parts) {
+            const parts = data.candidates[0].content.parts;
+            for (const part of parts) {
+              if (part.text) {
+                resposta = part.text;
+                break;
+              }
+            }
+          }
+          
+          // Se ainda não encontrou, verificar se há bloqueio
+          if (!resposta && data.candidates?.[0]?.finishReason) {
+            const finishReason = data.candidates[0].finishReason;
+            if (finishReason === 'SAFETY' || finishReason === 'RECITATION') {
+              lastError = `Modelo ${modelName} bloqueou a resposta por segurança`;
+              continue;
+            }
+          }
+          
+          if (resposta && resposta.trim().length > 0) {
             return res.status(200).json({ resposta });
           } else {
-            console.warn(`Modelo ${modelName} retornou resposta vazia`);
+            console.warn(`Modelo ${modelName} retornou resposta vazia. Estrutura completa:`, JSON.stringify(data, null, 2));
             lastError = `Resposta vazia do modelo ${modelName}`;
             continue; // Tentar próximo modelo
           }
