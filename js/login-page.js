@@ -106,9 +106,18 @@ const LoginPageModule = (function() {
             // Painéis que estão saindo primeiro
             if (formSide) {
                 formSide.classList.add('login-flow__side--exiting');
+                // Força repaint
+                formSide.offsetHeight;
+                setTimeout(() => {
+                    formSide.classList.add('exited');
+                }, 10);
             }
             if (tealSide) {
                 tealSide.classList.add('login-flow__side--exiting');
+                tealSide.offsetHeight;
+                setTimeout(() => {
+                    tealSide.classList.add('exited');
+                }, 10);
             }
             
             // Após início da saída, mostra os painéis entrando
@@ -116,50 +125,71 @@ const LoginPageModule = (function() {
                 if (formSolicitar) {
                     formSolicitar.style.display = 'flex';
                     formSolicitar.classList.add('login-flow__side--entering');
+                    // Força repaint antes de adicionar 'entered'
+                    formSolicitar.offsetHeight;
+                    setTimeout(() => {
+                        formSolicitar.classList.add('entered');
+                    }, 10);
                 }
                 if (tealRight) {
                     tealRight.style.display = 'flex';
                     tealRight.classList.add('login-flow__side--entering');
-                }
-                
-                // Esconde painéis saindo
-                if (formSide) {
-                    formSide.style.display = 'none';
-                    formSide.classList.remove('login-flow__side--exiting');
-                }
-                if (tealSide) {
-                    tealSide.style.display = 'none';
-                    tealSide.classList.remove('login-flow__side--exiting');
+                    tealRight.offsetHeight;
+                    setTimeout(() => {
+                        tealRight.classList.add('entered');
+                    }, 10);
                 }
                 
                 // Adiciona classe ao card
                 loginCard?.classList.add('solicitar-active');
                 
-            }, 300);
+            }, 500);
+            
+            // Remove classes e esconde painéis saindo após transição
+            setTimeout(() => {
+                if (formSide) {
+                    formSide.style.display = 'none';
+                    formSide.classList.remove('login-flow__side--exiting', 'exited');
+                }
+                if (tealSide) {
+                    tealSide.style.display = 'none';
+                    tealSide.classList.remove('login-flow__side--exiting', 'exited');
+                }
+            }, 2500);
             
             // Remove classe de entrada após animação completa e restaura posicionamento
             setTimeout(() => {
                 if (formSolicitar) {
-                    formSolicitar.classList.remove('login-flow__side--entering');
+                    formSolicitar.classList.remove('login-flow__side--entering', 'entered');
                     formSolicitar.style.position = '';
                     formSolicitar.style.width = '';
                     formSolicitar.style.left = '';
+                    formSolicitar.style.transform = '';
                 }
                 if (tealRight) {
-                    tealRight.classList.remove('login-flow__side--entering');
+                    tealRight.classList.remove('login-flow__side--entering', 'entered');
                     tealRight.style.position = '';
                     tealRight.style.width = '';
                     tealRight.style.left = '';
+                    tealRight.style.transform = '';
                 }
-            }, 1200);
+            }, 2500);
             
         } else {
             // Painéis que estão saindo primeiro
             if (formSolicitar) {
                 formSolicitar.classList.add('login-flow__side--exiting');
+                formSolicitar.offsetHeight;
+                setTimeout(() => {
+                    formSolicitar.classList.add('exited');
+                }, 10);
             }
             if (tealRight) {
                 tealRight.classList.add('login-flow__side--exiting');
+                tealRight.offsetHeight;
+                setTimeout(() => {
+                    tealRight.classList.add('exited');
+                }, 10);
             }
             
             // Após início da saída, mostra os painéis entrando
@@ -167,42 +197,54 @@ const LoginPageModule = (function() {
                 if (formSide) {
                     formSide.style.display = 'flex';
                     formSide.classList.add('login-flow__side--entering');
+                    formSide.offsetHeight;
+                    setTimeout(() => {
+                        formSide.classList.add('entered');
+                    }, 10);
                 }
                 if (tealSide) {
                     tealSide.style.display = 'flex';
                     tealSide.classList.add('login-flow__side--entering');
-                }
-                
-                // Esconde painéis saindo
-                if (formSolicitar) {
-                    formSolicitar.style.display = 'none';
-                    formSolicitar.classList.remove('login-flow__side--exiting');
-                }
-                if (tealRight) {
-                    tealRight.style.display = 'none';
-                    tealRight.classList.remove('login-flow__side--exiting');
+                    tealSide.offsetHeight;
+                    setTimeout(() => {
+                        tealSide.classList.add('entered');
+                    }, 10);
                 }
                 
                 // Remove classe do card
                 loginCard?.classList.remove('solicitar-active');
                 
-            }, 300);
+            }, 500);
+            
+            // Remove classes e esconde painéis saindo após transição
+            setTimeout(() => {
+                if (formSolicitar) {
+                    formSolicitar.style.display = 'none';
+                    formSolicitar.classList.remove('login-flow__side--exiting', 'exited');
+                }
+                if (tealRight) {
+                    tealRight.style.display = 'none';
+                    tealRight.classList.remove('login-flow__side--exiting', 'exited');
+                }
+            }, 2500);
             
             // Remove classe de entrada após animação completa e restaura posicionamento
             setTimeout(() => {
                 if (formSide) {
-                    formSide.classList.remove('login-flow__side--entering');
+                    formSide.classList.remove('login-flow__side--entering', 'entered');
                     formSide.style.position = '';
                     formSide.style.width = '';
                     formSide.style.left = '';
+                    formSide.style.transform = '';
                 }
                 if (tealSide) {
-                    tealSide.classList.remove('login-flow__side--entering');
+                    tealSide.classList.remove('login-flow__side--entering', 'entered');
                     tealSide.style.position = '';
                     tealSide.style.width = '';
                     tealSide.style.left = '';
+                    tealSide.style.transform = '';
                 }
-            }, 1200);
+            }, 2500);
         }
         
         activeFlow = flow;
