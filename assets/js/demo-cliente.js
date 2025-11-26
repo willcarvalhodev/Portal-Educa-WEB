@@ -448,6 +448,11 @@ const DemoCliente = (() => {
 
     // Se for chat, mostrar ações específicas
     if (moduleId === 'chat') {
+      // Ajustar label baseado no perfil
+      const chatLabel = state.perfil === 'Professor' ? 'Falar com Aluno' : 'Falar com Professor';
+      const chatIcon = state.perfil === 'Professor' ? '👨‍🎓' : '👨‍🏫';
+      const chatDescription = state.perfil === 'Professor' ? 'Converse com um aluno' : 'Converse com um professor';
+      
       return `
         <div class="demo-module-actions">
           <div class="demo-module-actions__header">
@@ -458,9 +463,9 @@ const DemoCliente = (() => {
           </div>
           <div class="demo-module-actions__grid">
             <div class="demo-module-action-card" data-action="chat-professor" data-module="${moduleId}">
-              <div class="demo-module-action-card__icon">👨‍🏫</div>
-              <h3>Falar com Professor</h3>
-              <p>Converse com um professor</p>
+              <div class="demo-module-action-card__icon">${chatIcon}</div>
+              <h3>${chatLabel}</h3>
+              <p>${chatDescription}</p>
             </div>
             <div class="demo-module-action-card" data-action="chat-ia" data-module="${moduleId}">
               <div class="demo-module-action-card__icon">🤖</div>
@@ -530,7 +535,7 @@ const DemoCliente = (() => {
       cadastrar: 'Cadastrar',
       listar: 'Listar',
       apagar: 'Apagar',
-      'chat-professor': 'Falar com Professor',
+      'chat-professor': state.perfil === 'Professor' ? 'Falar com Aluno' : 'Falar com Professor',
       'chat-ia': 'Falar com IA',
       'chat-historico': 'Histórico de Conversas',
     };
@@ -1637,8 +1642,16 @@ const DemoCliente = (() => {
   function renderChat() {
     const chatMode = state.chatMode || 'professor'; // 'professor' ou 'ia'
     const mensagens = state.mensagensChat.filter(msg => msg.modo === chatMode);
-    const modoLabel = chatMode === 'ia' ? 'Assistente IA' : 'Professor';
-    const modoIcon = chatMode === 'ia' ? '🤖' : '👨‍🏫';
+    let modoLabel, modoIcon;
+    
+    if (chatMode === 'ia') {
+      modoLabel = 'Assistente IA';
+      modoIcon = '🤖';
+    } else {
+      // Ajustar label baseado no perfil
+      modoLabel = state.perfil === 'Professor' ? 'Aluno' : 'Professor';
+      modoIcon = state.perfil === 'Professor' ? '👨‍🎓' : '👨‍🏫';
+    }
     
     return `
       <div class="demo-chat-container">
@@ -1667,11 +1680,11 @@ const DemoCliente = (() => {
                   <div class="demo-chat-message__avatar">
                     ${msg.perfil === state.perfil 
                       ? getInitials(state.perfil) 
-                      : (chatMode === 'ia' ? '🤖' : '👨‍🏫')}
+                      : (chatMode === 'ia' ? '🤖' : (state.perfil === 'Professor' ? '👨‍🎓' : '👨‍🏫'))}
                   </div>
                   <div class="demo-chat-message__content">
                     <div class="demo-chat-message__author">
-                      ${msg.perfil === state.perfil ? 'Você' : (chatMode === 'ia' ? 'Assistente IA' : 'Professor')}
+                      ${msg.perfil === state.perfil ? 'Você' : (chatMode === 'ia' ? 'Assistente IA' : (state.perfil === 'Professor' ? 'Aluno' : 'Professor'))}
                     </div>
                     <div class="demo-chat-message__text">${msg.texto}</div>
                     ${msg.timestamp ? `<div class="demo-chat-message__time">${formatChatTime(msg.timestamp)}</div>` : ''}
@@ -1688,7 +1701,7 @@ const DemoCliente = (() => {
               <textarea 
                 name="mensagem" 
                 class="demo-chat-input" 
-                placeholder="${chatMode === 'ia' ? 'Pergunte algo para a IA...' : 'Envie uma mensagem para o professor...'}" 
+                placeholder="${chatMode === 'ia' ? 'Pergunte algo para a IA...' : (state.perfil === 'Professor' ? 'Envie uma mensagem para o aluno...' : 'Envie uma mensagem para o professor...')}" 
                 rows="1"
                 required
               ></textarea>
@@ -1697,7 +1710,7 @@ const DemoCliente = (() => {
               </button>
             </div>
             <div class="demo-chat-input-hint">
-              <span>${chatMode === 'ia' ? 'A IA pode cometer erros. Verifique informações importantes.' : 'O professor responderá em breve.'}</span>
+              <span>${chatMode === 'ia' ? 'A IA pode cometer erros. Verifique informações importantes.' : (state.perfil === 'Professor' ? 'O aluno responderá em breve.' : 'O professor responderá em breve.')}</span>
             </div>
           </form>
         </div>
@@ -1759,8 +1772,14 @@ const DemoCliente = (() => {
             </div>`
           : `<div class="demo-chat-history__list">
               ${conversasArray.map((conversa, index) => {
-                const modoLabel = conversa.modo === 'ia' ? 'Assistente IA' : 'Professor';
-                const modoIcon = conversa.modo === 'ia' ? '🤖' : '👨‍🏫';
+                let modoLabel, modoIcon;
+                if (conversa.modo === 'ia') {
+                  modoLabel = 'Assistente IA';
+                  modoIcon = '🤖';
+                } else {
+                  modoLabel = state.perfil === 'Professor' ? 'Aluno' : 'Professor';
+                  modoIcon = state.perfil === 'Professor' ? '👨‍🎓' : '👨‍🏫';
+                }
                 const ultimaMensagem = conversa.mensagens[conversa.mensagens.length - 1];
                 const totalMensagens = conversa.mensagens.length;
                 
