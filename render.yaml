@@ -1,11 +1,11 @@
 services:
   - type: web
     name: portal-educa-api
-    env: node
+    runtime: node
     plan: free
     rootDir: api
-    buildCommand: cd api && npm install
-    startCommand: cd api && node server.js
+    buildCommand: npm install
+    startCommand: npm start
     envVars:
       - key: GEMINI_API_KEY
         value: AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k
