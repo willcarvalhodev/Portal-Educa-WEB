@@ -922,6 +922,10 @@ body.is-flight {
     z-index: 20;
 }
 
+.chatbot-toggle {
+    display: none;
+}
+
 .chatbot-brand {
     display: flex;
     align-items: center;
@@ -1166,6 +1170,18 @@ body.is-flight {
         color: var(--color-neon);
         cursor: pointer;
         font-size: 1.25rem;
+        margin-right: var(--spacing-sm);
+        transition: all var(--transition-fast);
+    }
+
+    .chatbot-toggle:hover {
+        background: rgba(128, 255, 234, 0.2);
+        transform: scale(1.05);
+    }
+
+    .chatbot-header {
+        display: flex;
+        align-items: center;
     }
 
     .chatbot-panel {
