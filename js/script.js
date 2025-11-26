@@ -34,7 +34,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 top: 0,
                 behavior: 'smooth'
             });
-            history.pushState(null, null, '/');
+            // Não alterar a URL para evitar problemas no GitHub Pages
             return;
         }
         
@@ -57,19 +57,31 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Tratar logo - voltar ao topo
+// Tratar logo - voltar ao topo quando já estiver na mesma página
 const logo = document.querySelector('.logo');
 if (logo) {
     logo.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
-        if (href === '/' || href === '#home' || href === '#') {
+        const currentPage = window.location.pathname.split('/').pop() || '';
+        const currentPageName = currentPage === '' || currentPage === '/' ? 'index.html' : currentPage;
+        
+        // Se o href for index.html e já estiver na página index, apenas rolar para o topo
+        if (href && href.includes('index.html') && (currentPageName === 'index.html' || currentPage === '')) {
             e.preventDefault();
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
-            history.pushState(null, null, '/');
         }
+        // Se o href for / ou vazio e estiver na página index, apenas rolar para o topo
+        else if (href && (href === '/' || href === '' || href === '#home' || href === '#') && (currentPageName === 'index.html' || currentPage === '')) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        // Caso contrário, deixar o link funcionar normalmente (navegar para outra página)
     });
 }
 
