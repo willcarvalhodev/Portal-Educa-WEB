@@ -1854,11 +1854,13 @@ button {
 .login-card {
     background: var(--color-bg);
     border-radius: var(--radius-lg);
-    padding: var(--spacing-xxl);
+    padding: var(--spacing-xl) var(--spacing-xxl);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
     animation: fadeIn var(--transition-slow) ease-out;
     overflow: hidden;
     position: relative;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 /* Círculo Animado com Gradiente */
@@ -1957,7 +1959,7 @@ button {
 /* Login Flow Content */
 .login-flow__content {
     position: relative;
-    min-height: 400px;
+    min-height: auto;
     opacity: 0;
     visibility: hidden;
     transform: translateX(20px);
@@ -1978,7 +1980,7 @@ button {
 
 .login-flow__panel-header {
     text-align: center;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
     animation: fadeIn 0.4s ease-out;
 }
 
@@ -1995,15 +1997,62 @@ button {
 }
 
 .login-flow__form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+    align-items: start;
+}
+
+.login-flow__form .login-flow__field {
+    grid-column: span 2;
+}
+
+.login-flow__form .login-flow__field:has(textarea) {
+    grid-column: span 2;
+}
+
+.login-flow__form .login-flow__error {
+    grid-column: span 2;
+}
+
+.login-flow__form .login-flow__submit {
+    grid-column: span 2;
+    margin-top: var(--spacing-sm);
+}
+
+/* Layout para formulário de login (2 campos lado a lado) */
+#login-form .login-flow__field {
+    grid-column: span 1;
+}
+
+#login-form .login-flow__error {
+    grid-column: span 2;
+}
+
+#login-form .login-flow__submit {
+    grid-column: span 2;
+}
+
+/* Layout para formulário de solicitar (campos em 2 colunas) */
+#solicitar-form .login-flow__field:nth-child(1),
+#solicitar-form .login-flow__field:nth-child(2) {
+    grid-column: span 1;
+}
+
+#solicitar-form .login-flow__field:nth-child(3),
+#solicitar-form .login-flow__field:nth-child(4) {
+    grid-column: span 1;
+}
+
+#solicitar-form .login-flow__field:has(textarea) {
+    grid-column: span 2;
 }
 
 .login-flow__field {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xs);
+    margin-bottom: 0;
 }
 
 .login-flow__label {
@@ -2182,7 +2231,7 @@ button {
 
 .login-container {
     width: 100%;
-    max-width: 500px;
+    max-width: 900px;
 }
 
 /* Estilos legados mantidos abaixo para compatibilidade */
