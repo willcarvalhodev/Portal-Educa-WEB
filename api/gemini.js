@@ -84,14 +84,10 @@ Sua função é ajudar desenvolvedores com:
 Responda de forma clara, objetiva e técnica. Use exemplos de código quando apropriado.
 Se a pergunta não for sobre programação, informe educadamente que você só responde questões técnicas de desenvolvimento.`;
 
-    // Tentar modelos disponíveis (ordem: mais recente primeiro)
-    // Removido gemini-pro-vision (não disponível na API v1beta)
+    // Usar apenas os modelos recomendados: gemini-2.5-flash e gemini-2.5-pro
     const modelos = [
-      'gemini-1.5-flash',
-      'gemini-1.5-pro',
-      'gemini-1.5-flash-latest',
-      'gemini-1.5-pro-latest',
-      'gemini-pro'
+      'gemini-2.5-flash',  // Otimizado para velocidade e custo
+      'gemini-2.5-pro'      // Mais poderoso para problemas complexos
     ];
     
     let lastError = null;
