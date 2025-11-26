@@ -75,13 +75,16 @@ const LoginPageModule = (function() {
         // Alterna o conteúdo
         const solicitarContent = document.querySelector('.login-flow__content--solicitar');
         const loginContent = document.querySelector('.login-flow__content--login');
+        const loginCard = document.querySelector('.login-card');
         
         if (flow === 'solicitar') {
             solicitarContent?.classList.add('login-flow__content--active');
             loginContent?.classList.remove('login-flow__content--active');
+            loginCard?.classList.remove('login-active');
         } else {
             loginContent?.classList.add('login-flow__content--active');
             solicitarContent?.classList.remove('login-flow__content--active');
+            loginCard?.classList.add('login-active');
         }
         
         // Limpa erros ao alternar

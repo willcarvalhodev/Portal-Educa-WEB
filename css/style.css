@@ -38,6 +38,10 @@
     --color-warning: #ed8936;
     --color-info: #4299e1;
     
+    /* Gradientes do Círculo Animado */
+    --circle-gradient-start: #667eea;
+    --circle-gradient-end: #764ba2;
+    
     /* Espaçamentos */
     --spacing-xs: 0.5rem;    /* 8px */
     --spacing-sm: 1rem;      /* 16px */
@@ -1854,11 +1858,37 @@ button {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
     animation: fadeIn var(--transition-slow) ease-out;
     overflow: hidden;
+    position: relative;
+}
+
+/* Círculo Animado com Gradiente */
+.animated-circle {
+    content: "";
+    position: absolute;
+    width: 2000px;
+    height: 2000px;
+    border-radius: 50%;
+    background: linear-gradient(-45deg, var(--circle-gradient-start), var(--circle-gradient-end));
+    top: -10%;
+    right: 48%;
+    transform: translateY(-50%);
+    z-index: 6;
+    transition: 1.2s cubic-bezier(0.68, -0.25, 0.265, 1.35);
+    pointer-events: none;
+    opacity: 0.15;
+    filter: blur(40px);
+}
+
+.login-card.login-active .animated-circle {
+    transform: translate(100%, -50%);
+    right: 52%;
 }
 
 /* Login Flow Tabs */
 .login-flow {
     width: 100%;
+    position: relative;
+    z-index: 10;
 }
 
 .login-flow__tabs {
