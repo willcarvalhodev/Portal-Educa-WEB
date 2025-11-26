@@ -2307,15 +2307,13 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
         
         // Handler para enviar mensagem
         formClone.addEventListener('submit', async event => {
-        // Handler para enviar mensagem
-        form.addEventListener('submit', async event => {
           event.preventDefault();
-          const data = new FormData(form);
+          const data = new FormData(formClone);
           const mensagem = data.get('mensagem').trim();
           if (!mensagem) return;
           
-          const textarea = form.querySelector('textarea');
-          const sendBtn = form.querySelector('.demo-chat-send-btn');
+          const textarea = formClone.querySelector('textarea');
+          const sendBtn = formClone.querySelector('.demo-chat-send-btn');
           
           // Desabilitar input durante processamento
           if (textarea) textarea.disabled = true;
