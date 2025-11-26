@@ -128,6 +128,54 @@
     }
     
     async function chamarGeminiAPI(mensagem) {
+        // URL do backend (ajuste conforme necessário)
+        // Para desenvolvimento local: 'http://localhost:3000'
+        // Para produção: 'https://seu-backend.herokuapp.com' ou 'https://seu-backend.render.com'
+        const API_URL = 'https://portal-educa-api.onrender.com/api/gemini';
+        // Fallback para desenvolvimento local (descomente se necessário)
+        // const API_URL = 'http://localhost:3000/api/gemini';
+        
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mensagem }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                
+                if (errorData.error === 'FORA_NICHO') {
+                    throw new Error('FORA_NICHO');
+                }
+                
+                throw new Error(errorData.message || errorData.error || 'Erro ao chamar API');
+            }
+
+            const data = await response.json();
+            
+            if (!data.resposta) {
+                throw new Error('Resposta vazia da API');
+            }
+
+            return data.resposta;
+        } catch (error) {
+            console.error('Erro na API do Gemini:', error);
+            
+            // Se o backend não estiver disponível, usar fallback
+            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                console.warn('Backend não disponível, usando fallback...');
+                return await chamarGeminiAPIFallback(mensagem);
+            }
+            
+            throw error;
+        }
+    }
+    
+    // Fallback: validação local (sem chamada à API)
+    async function chamarGeminiAPIFallback(mensagem) {
         // Validar nicho
         const validacao = validarNichoProgramacao(mensagem);
         
@@ -154,26 +202,19 @@ Este projeto faz parte do Portal Educa e utiliza a API gratuita do Gemini para f
 - Desenvolvimento: Grupo PIM LA10`;
         }
         
-        // Configurar prompt para focar em programação
-        const systemPrompt = `Você é um assistente especializado em programação e desenvolvimento de software. 
-Sua função é ajudar desenvolvedores com:
-- Linguagens de programação (JavaScript, Python, Java, etc.)
-- Frameworks e bibliotecas
-- Arquitetura de software
-- APIs e integrações
-- Ferramentas de desenvolvimento
-- Boas práticas de programação
-- Resolução de problemas técnicos
-- Conceitos de engenharia de software
-
-Responda de forma clara, objetiva e técnica. Use exemplos de código quando apropriado.
-Se a pergunta não for sobre programação, informe educadamente que você só responde questões técnicas de desenvolvimento.`;
-
+        // Esta função não deve ser usada em produção
+        // A API key não deve estar no frontend
+        throw new Error('Backend não disponível. Por favor, configure o backend.');
+    }
+    
+    // Função antiga (mantida para referência, mas não usada)
+    async function chamarGeminiAPIDireto(mensagem) {
+        // Esta função não deve ser usada - API key não deve estar no frontend
         const API_KEY = 'AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k';
 
         try {
             const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
                 {
                     method: 'POST',
                     headers: {

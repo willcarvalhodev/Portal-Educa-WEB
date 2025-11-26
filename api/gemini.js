@@ -1,0 +1,182 @@
+/**
+ * API Backend para integração com Google Gemini
+ * Protege a API key e melhora a segurança
+ */
+
+// Para Vercel/Netlify Functions
+export default async function handler(req, res) {
+  // Permitir apenas POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método não permitido' });
+  }
+
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  try {
+    const { mensagem } = req.body;
+
+    if (!mensagem || typeof mensagem !== 'string' || mensagem.trim().length === 0) {
+      return res.status(400).json({ error: 'Mensagem é obrigatória' });
+    }
+
+    // Validar nicho (programação)
+    const validacao = validarNichoProgramacao(mensagem);
+    
+    if (validacao === 'fora_nicho') {
+      return res.status(400).json({ 
+        error: 'FORA_NICHO',
+        message: 'Este assistente é especializado apenas em questões de programação e desenvolvimento de software.'
+      });
+    }
+    
+    if (validacao === 'criacao') {
+      return res.status(200).json({
+        resposta: `Este assistente foi desenvolvido utilizando a tecnologia **Google Gemini AI**, uma inteligência artificial avançada criada pela Google.
+
+A configuração, treinamento e implementação deste chatbot foram realizadas pelo **Grupo PIM LA10**, composto pelos seguintes integrantes:
+
+👥 **Equipe de Desenvolvimento:**
+- William
+- Mariane
+- Eduarda
+- Maysa
+- Taynara
+
+Este projeto faz parte do Portal Educa e utiliza a API gratuita do Gemini para fornecer suporte técnico especializado em programação e desenvolvimento de software.
+
+**Créditos:**
+- IA: Google Gemini
+- Desenvolvimento: Grupo PIM LA10`
+      });
+    }
+
+    // API Key (deve estar em variável de ambiente)
+    const API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k';
+
+    // Configurar prompt
+    const systemPrompt = `Você é um assistente especializado em programação e desenvolvimento de software. 
+Sua função é ajudar desenvolvedores com:
+- Linguagens de programação (JavaScript, Python, Java, etc.)
+- Frameworks e bibliotecas
+- Arquitetura de software
+- APIs e integrações
+- Ferramentas de desenvolvimento
+- Boas práticas de programação
+- Resolução de problemas técnicos
+- Conceitos de engenharia de software
+
+Responda de forma clara, objetiva e técnica. Use exemplos de código quando apropriado.
+Se a pergunta não for sobre programação, informe educadamente que você só responde questões técnicas de desenvolvimento.`;
+
+    // Tentar modelos disponíveis
+    const modelos = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
+    
+    let lastError = null;
+    
+    for (const modelName of modelos) {
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${API_KEY}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              contents: [{
+                parts: [{
+                  text: `${systemPrompt}\n\nPergunta do usuário: ${mensagem}\n\nResposta:`
+                }]
+              }],
+              generationConfig: {
+                temperature: 0.7,
+                topK: 40,
+                topP: 0.95,
+                maxOutputTokens: 1024,
+              },
+            }),
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const resposta = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          
+          if (resposta) {
+            return res.status(200).json({ resposta });
+          }
+        } else if (response.status !== 404) {
+          // Se não for 404, é outro erro
+          const errorData = await response.json();
+          lastError = errorData.error?.message || `Erro ${response.status}`;
+          break; // Não tentar outros modelos
+        }
+        // Se for 404, continuar para o próximo modelo
+      } catch (error) {
+        lastError = error.message;
+        continue;
+      }
+    }
+
+    // Se chegou aqui, todos os modelos falharam
+    return res.status(500).json({ 
+      error: 'Erro ao processar mensagem',
+      message: lastError || 'Nenhum modelo disponível'
+    });
+
+  } catch (error) {
+    console.error('Erro no backend:', error);
+    return res.status(500).json({ 
+      error: 'Erro interno do servidor',
+      message: error.message 
+    });
+  }
+}
+
+function validarNichoProgramacao(mensagem) {
+  const palavrasProgramacao = [
+    'programação', 'programar', 'código', 'desenvolvimento', 'desenvolver',
+    'javascript', 'python', 'java', 'html', 'css', 'react', 'node', 'api', 'endpoint',
+    'função', 'variável', 'array', 'objeto', 'classe', 'método', 'framework', 'biblioteca',
+    'git', 'github', 'deploy', 'backend', 'frontend', 'fullstack', 'database', 'banco de dados',
+    'sql', 'nosql', 'json', 'xml', 'rest', 'graphql', 'docker', 'kubernetes', 'aws', 'azure',
+    'algoritmo', 'estrutura de dados', 'debug', 'teste', 'testar', 'bug', 'erro', 'exception',
+    'loop', 'condicional', 'if', 'else', 'for', 'while', 'async', 'await', 'promise',
+    'componente', 'módulo', 'package', 'npm', 'yarn', 'vite', 'webpack', 'babel',
+    'typescript', 'interface', 'type', 'generics', 'decorator', 'annotation',
+    'mvc', 'mvp', 'mvvm', 'arquitetura', 'design pattern', 'singleton', 'factory',
+    'integração', 'integra', 'sistema', 'aplicação', 'app', 'software', 'hardware',
+    'servidor', 'cliente', 'request', 'response', 'http', 'https', 'tcp', 'udp',
+    'autenticação', 'autorização', 'token', 'jwt', 'oauth', 'session', 'cookie',
+    'segurança', 'criptografia', 'hash', 'encrypt', 'decrypt', 'ssl', 'tls'
+  ];
+
+  const mensagemLower = mensagem.toLowerCase();
+  
+  // Verificar perguntas sobre criação/autores
+  const perguntasCriacao = [
+    'quem criou', 'quem desenvolveu', 'quem fez', 'quem programou',
+    'autores', 'criadores', 'desenvolvedores', 'equipe', 'grupo',
+    'pim', 'la10', 'william', 'mariane', 'eduarda', 'maysa', 'taynara'
+  ];
+  
+  if (perguntasCriacao.some(p => mensagemLower.includes(p))) {
+    return 'criacao';
+  }
+  
+  // Verificar se é sobre programação
+  const temPalavraProgramacao = palavrasProgramacao.some(palavra => 
+    mensagemLower.includes(palavra)
+  );
+  
+  return temPalavraProgramacao ? 'programacao' : 'fora_nicho';
+}
+

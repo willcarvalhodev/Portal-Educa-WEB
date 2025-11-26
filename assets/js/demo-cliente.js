@@ -1777,6 +1777,55 @@ const DemoCliente = (() => {
    * Chama a API do Gemini
    */
   async function chamarGeminiAPI(mensagem) {
+    // URL do backend (ajuste conforme necessário)
+    // Para desenvolvimento local: 'http://localhost:3000'
+    // Para produção: 'https://seu-backend.herokuapp.com' ou 'https://seu-backend.render.com'
+    const API_URL = 'https://portal-educa-api.onrender.com/api/gemini';
+    // Fallback para desenvolvimento local (descomente se necessário)
+    // const API_URL = 'http://localhost:3000/api/gemini';
+    
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ mensagem }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        
+        if (errorData.error === 'FORA_NICHO') {
+          throw new Error('FORA_NICHO');
+        }
+        
+        throw new Error(errorData.message || errorData.error || 'Erro ao chamar API');
+      }
+
+      const data = await response.json();
+      
+      if (!data.resposta) {
+        throw new Error('Resposta vazia da API');
+      }
+
+      return data.resposta;
+    } catch (error) {
+      console.error('Erro na API do Gemini:', error);
+      console.error('Mensagem original:', mensagem);
+      
+      // Se o backend não estiver disponível, tentar direto (fallback)
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        console.warn('Backend não disponível, usando fallback direto...');
+        return await chamarGeminiAPIDireto(mensagem);
+      }
+      
+      throw error;
+    }
+  }
+  
+  // Fallback: chamada direta (não recomendado para produção)
+  async function chamarGeminiAPIDireto(mensagem) {
     // Validar nicho
     const validacao = validarNichoProgramacao(mensagem);
     
@@ -1803,98 +1852,9 @@ Este projeto faz parte do Portal Educa e utiliza a API gratuita do Gemini para f
 - Desenvolvimento: Grupo PIM LA10`;
     }
     
-    // Configurar prompt para focar em programação
-    const systemPrompt = `Você é um assistente especializado em programação e desenvolvimento de software. 
-Sua função é ajudar desenvolvedores com:
-- Linguagens de programação (JavaScript, Python, Java, etc.)
-- Frameworks e bibliotecas
-- Arquitetura de software
-- APIs e integrações
-- Ferramentas de desenvolvimento
-- Boas práticas de programação
-- Resolução de problemas técnicos
-- Conceitos de engenharia de software
-
-Responda de forma clara, objetiva e técnica. Use exemplos de código quando apropriado.
-Se a pergunta não for sobre programação, informe educadamente que você só responde questões técnicas de desenvolvimento.`;
-
-    // IMPORTANTE: Substitua 'SUA_API_KEY_AQUI' pela sua chave da API do Gemini
-    // Obtenha em: https://makersuite.google.com/app/apikey
-    const API_KEY = 'AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k';
-
-    try {
-      // Tentar primeiro com gemini-1.5-flash (mais recente e rápido)
-      // Se falhar, tentar com gemini-pro
-      let response;
-      let modelName = 'gemini-1.5-flash';
-      
-      const requestBody = {
-        contents: [{
-          parts: [{
-            text: `${systemPrompt}\n\nPergunta do usuário: ${mensagem}\n\nResposta:`
-          }]
-        }],
-        generationConfig: {
-          temperature: 0.7,
-          topK: 40,
-          topP: 0.95,
-          maxOutputTokens: 1024,
-        },
-      };
-      
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      };
-      
-      response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${API_KEY}`,
-        requestOptions
-      );
-
-      // Se falhar com gemini-1.5-flash, tentar com gemini-pro
-      if (!response.ok && response.status === 404) {
-        console.log('Modelo gemini-1.5-flash não encontrado, tentando gemini-pro...');
-        modelName = 'gemini-pro';
-        response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${API_KEY}`,
-          requestOptions
-        );
-      }
-      
-      if (!response.ok) {
-        let errorMessage = 'Erro ao chamar API do Gemini';
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.error?.message || errorData.error || errorMessage;
-          console.error('Erro detalhado da API:', errorData);
-        } catch (e) {
-          const errorText = await response.text();
-          console.error('Erro da API (texto):', errorText);
-          errorMessage = `Erro ${response.status}: ${response.statusText}`;
-        }
-        throw new Error(errorMessage);
-      }
-
-      const data = await response.json();
-      console.log('Resposta da API:', data);
-      
-      const resposta = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      
-      if (!resposta) {
-        console.error('Estrutura da resposta:', data);
-        throw new Error('Resposta vazia ou formato inesperado da API');
-      }
-
-      return resposta;
-    } catch (error) {
-      console.error('Erro na API do Gemini:', error);
-      console.error('Mensagem original:', mensagem);
-      throw error;
-    }
+    // Esta função não deve ser usada em produção
+    // A API key não deve estar no frontend
+    throw new Error('Backend não disponível. Por favor, configure o backend.');
   }
 
   function renderChatHistory() {
