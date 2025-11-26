@@ -25,55 +25,53 @@
     </header>
 
     <main class="chatbot-shell">
-        <aside class="chatbot-sidebar">
-            <button class="sidebar-item sidebar-item--active" type="button">Nova conversa</button>
-            <button class="sidebar-item" type="button">Prompt de integrações</button>
-            <button class="sidebar-item" type="button">Checklist deploy</button>
-            <button class="sidebar-item" type="button">Diagnóstico CustomTkinter</button>
+        <aside class="chatbot-sidebar" id="chatbot-sidebar">
+            <div class="chatbot-sidebar__header">
+                <button class="chatbot-sidebar__new-chat" id="new-chat-btn">
+                    <span>+</span> Nova conversa
+                </button>
+            </div>
+            <div class="chatbot-sidebar__history" id="chat-history-list">
+                <!-- Histórico será preenchido via JS -->
+            </div>
         </aside>
 
         <section class="chatbot-panel">
-            <div class="chatbot-stream">
-                <div class="chat-message message-user">
-                    <span class="message-author">Você</span>
-                    <p>Preciso de um exemplo de integração Python com o Portal Educa.</p>
-                </div>
-                <div class="chat-message message-ai">
-                    <span class="message-author">Educa AI</span>
-                    <p>Claro! Segue um exemplo com requests:</p>
-                    <pre class="code-snippet">import requests
-
-BASE_URL = "https://api.portaleduca.dev"
-token = "SEU_TOKEN"
-
-payload = {"matricula": "2025A001"}
-response = requests.post(
-    f"{BASE_URL}/webhooks/sincronizar",
-    json=payload,
-    headers={"Authorization": f"Bearer {token}"}
-)
-print(response.json())</pre>
-                </div>
-                <div class="chat-message message-ai">
-                    <span class="message-author">Educa AI</span>
-                    <p>Posso gerar scripts CustomTkinter, revisar prompts ou sugerir endpoints. O que você quer testar agora?</p>
+            <div class="chatbot-stream" id="chatbot-messages">
+                <div class="chatbot-empty" id="chatbot-empty">
+                    <div class="chatbot-empty__icon">🤖</div>
+                    <h3>Portal Educa AI</h3>
+                    <p>Como posso ajudar você hoje?</p>
+                    <div class="chatbot-suggestions">
+                        <button class="suggestion-btn" data-suggestion="Como integrar Python com o Portal Educa?">Integração Python</button>
+                        <button class="suggestion-btn" data-suggestion="Exemplo de prompt para CustomTkinter">CustomTkinter</button>
+                        <button class="suggestion-btn" data-suggestion="Checklist de deploy">Deploy</button>
+                        <button class="suggestion-btn" data-suggestion="Endpoints disponíveis">Endpoints</button>
+                    </div>
                 </div>
             </div>
 
-            <form class="chatbot-input">
-                <div class="input-wrapper">
-                    <textarea rows="1" placeholder="Pergunte algo sobre integrações, prompts ou CustomTkinter..." required></textarea>
-                    <div class="input-actions">
-                        <button type="button" class="ghost-btn">Anexar</button>
-                        <button type="submit" class="btn btn--primary">Enviar</button>
-                    </div>
+            <form class="chatbot-input" id="chatbot-form">
+                <div class="chatbot-input__wrapper">
+                    <textarea 
+                        id="chatbot-textarea" 
+                        rows="1" 
+                        placeholder="Pergunte algo sobre integrações, prompts ou CustomTkinter..." 
+                        required
+                    ></textarea>
+                    <button type="submit" class="chatbot-send-btn" id="chatbot-send-btn" title="Enviar mensagem">
+                        <span>➤</span>
+                    </button>
                 </div>
-                <span class="input-hint">Educa AI usa prompts treinados com base nos fluxos do Portal.</span>
+                <div class="chatbot-input__hint">
+                    <span>Educa AI pode cometer erros. Verifique informações importantes.</span>
+                </div>
             </form>
         </section>
     </main>
 
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/chatbot.js"></script>
 </body>
 </html>
 
