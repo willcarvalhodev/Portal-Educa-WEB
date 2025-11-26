@@ -29,18 +29,30 @@ const LoginPageModule = (function() {
     }
     
     /**
-     * Configura as abas do fluxo de login
+     * Configura os painéis lado a lado
      */
     function setupFlowTabs() {
-        const tabs = document.querySelectorAll('.login-flow__tab');
-        const tabsContainer = document.querySelector('.login-flow__tabs');
+        const loginPanel = document.querySelector('.login-flow__panel--login');
+        const solicitarPanel = document.querySelector('.login-flow__panel--solicitar');
+        const loginCard = document.querySelector('.login-card');
         
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                const flow = this.getAttribute('data-flow');
-                switchFlow(flow);
+        // Clique no painel de login
+        if (loginPanel) {
+            loginPanel.addEventListener('click', function() {
+                if (!loginCard.classList.contains('login-active')) {
+                    switchFlow('login');
+                }
             });
-        });
+        }
+        
+        // Clique no painel de solicitar
+        if (solicitarPanel) {
+            solicitarPanel.addEventListener('click', function() {
+                if (loginCard.classList.contains('login-active')) {
+                    switchFlow('solicitar');
+                }
+            });
+        }
         
         // Define o flow inicial como 'solicitar'
         switchFlow('solicitar');
@@ -54,37 +66,12 @@ const LoginPageModule = (function() {
         if (flow === activeFlow) return;
         
         activeFlow = flow;
-        
-        // Atualiza as abas
-        const tabs = document.querySelectorAll('.login-flow__tab');
-        const tabsContainer = document.querySelector('.login-flow__tabs');
-        
-        tabs.forEach(tab => {
-            if (tab.getAttribute('data-flow') === flow) {
-                tab.classList.add('login-flow__tab--active');
-            } else {
-                tab.classList.remove('login-flow__tab--active');
-            }
-        });
-        
-        // Atualiza o atributo data-active para o indicador
-        if (tabsContainer) {
-            tabsContainer.setAttribute('data-active', flow);
-        }
-        
-        // Alterna o conteúdo
-        const solicitarContent = document.querySelector('.login-flow__content--solicitar');
-        const loginContent = document.querySelector('.login-flow__content--login');
         const loginCard = document.querySelector('.login-card');
         
-        if (flow === 'solicitar') {
-            solicitarContent?.classList.add('login-flow__content--active');
-            loginContent?.classList.remove('login-flow__content--active');
-            loginCard?.classList.remove('login-active');
-        } else {
-            loginContent?.classList.add('login-flow__content--active');
-            solicitarContent?.classList.remove('login-flow__content--active');
+        if (flow === 'login') {
             loginCard?.classList.add('login-active');
+        } else {
+            loginCard?.classList.remove('login-active');
         }
         
         // Limpa erros ao alternar
