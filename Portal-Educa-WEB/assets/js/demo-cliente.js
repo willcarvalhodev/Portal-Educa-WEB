@@ -185,13 +185,28 @@ const DemoCliente = (() => {
       </section>
     `;
 
-    // Usar requestAnimationFrame para garantir que o DOM está completamente renderizado
-    requestAnimationFrame(() => {
+    // Usar múltiplas estratégias para garantir que o DOM está pronto
+    const initHandlers = () => {
+      attachNavEvents();
+      attachHeaderActions();
+      attachSidebarToggle();
+    };
+
+    // Tentar imediatamente
+    if (document.readyState === 'complete') {
+      setTimeout(initHandlers, 100);
+    } else {
+      // Usar requestAnimationFrame duplo
       requestAnimationFrame(() => {
-        attachNavEvents();
-        attachHeaderActions();
-        attachSidebarToggle();
+        requestAnimationFrame(() => {
+          setTimeout(initHandlers, 50);
+        });
       });
+    }
+
+    // Fallback adicional
+    window.addEventListener('load', () => {
+      setTimeout(initHandlers, 200);
     });
     
     // Expor funções globalmente para os botões de voltar
@@ -388,17 +403,32 @@ const DemoCliente = (() => {
     const newToggleBtn = toggleBtn.cloneNode(true);
     toggleBtn.parentNode.replaceChild(newToggleBtn, toggleBtn);
 
-    // Toggle sidebar
-    newToggleBtn.addEventListener('click', (e) => {
+    // Garantir que o botão seja clicável
+    newToggleBtn.style.pointerEvents = 'auto';
+    newToggleBtn.style.cursor = 'pointer';
+    newToggleBtn.style.zIndex = '10001';
+
+    // Múltiplos tipos de eventos para garantir compatibilidade mobile
+    const handleToggle = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      console.log('🖱️ Toggle clicado!');
+      e.stopImmediatePropagation();
+      console.log('🖱️ Toggle clicado!', e.type);
       if (sidebar.classList.contains('is-open')) {
         closeSidebar();
       } else {
         openSidebar();
       }
-    });
+      return false;
+    };
+
+    // Adicionar múltiplos listeners para garantir compatibilidade
+    newToggleBtn.addEventListener('click', handleToggle, { capture: true });
+    newToggleBtn.addEventListener('touchend', handleToggle, { capture: true, passive: false });
+    newToggleBtn.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      handleToggle(e);
+    }, { capture: true });
 
     // Fechar ao clicar no overlay
     overlay.addEventListener('click', (e) => {

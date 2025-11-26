@@ -2580,7 +2580,7 @@ body.is-flight {
 .cliente-theme .demo-sidebar-toggle {
     display: none;
     position: relative;
-    z-index: 1001;
+    z-index: 10001 !important;
     width: 48px;
     height: 48px;
     min-width: 48px;
@@ -2589,12 +2589,15 @@ body.is-flight {
     color: var(--color-text-inverse);
     border: none;
     box-shadow: 0 4px 16px rgba(33, 150, 243, 0.3);
-    cursor: pointer;
+    cursor: pointer !important;
+    pointer-events: auto !important;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     transition: transform var(--transition-base);
     flex-shrink: 0;
+    -webkit-tap-highlight-color: rgba(33, 150, 243, 0.3);
+    touch-action: manipulation;
 }
 
 .cliente-theme .demo-sidebar-toggle:hover {
@@ -2800,6 +2803,12 @@ body.is-flight {
         position: sticky;
         top: 0;
         z-index: 100;
+        pointer-events: none;
+    }
+
+    /* Permitir cliques no botão toggle dentro do header */
+    .cliente-theme .demo-app__header .demo-sidebar-toggle {
+        pointer-events: auto !important;
     }
 
     .cliente-theme .demo-app__title {
