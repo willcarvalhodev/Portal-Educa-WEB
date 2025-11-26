@@ -139,19 +139,22 @@ const LoginPageModule = (function() {
         setLoading(true, 'login');
         
         // Faz login
-        const result = await window.AuthModule.login(email, password);
-        
-        // Remove loading
-        setLoading(false, 'login');
-        
-        if (result.success) {
+        try {
+            await window.AuthModule.login(email, password);
+            
+            // Remove loading
+            setLoading(false, 'login');
+            
             // Sucesso - redireciona para seleção de perfil
             // Por enquanto, redireciona para a página de escolha
             // Na FASE 6 será redirecionado para perfil.html
             window.location.href = 'index.html';
-        } else {
+        } catch (error) {
+            // Remove loading
+            setLoading(false, 'login');
+            
             // Mostra erro
-            showError(result.error, 'general', 'login');
+            showError(error.message || 'Erro ao fazer login. Tente novamente.', 'general', 'login');
         }
     }
     
