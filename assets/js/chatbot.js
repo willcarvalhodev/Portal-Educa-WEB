@@ -71,7 +71,7 @@
         updateHistory();
     }
 
-    function sendMessage(text) {
+    async function sendMessage(text) {
         if (!currentChatId) {
             currentChatId = Date.now().toString();
         }
@@ -90,8 +90,30 @@
         messages.push(userMessage);
         renderMessages();
 
-        // Simulate AI response
-        setTimeout(() => {
+        // Chamar API do Gemini
+        try {
+            const respostaIA = await chamarGeminiAPI(text);
+            
+            const aiMessage = {
+                id: (Date.now() + 1).toString(),
+                role: 'ai',
+                text: respostaIA,
+                timestamp: Date.now()
+            };
+            messages.push(aiMessage);
+            renderMessages();
+            saveCurrentChat();
+            updateHistory();
+        } catch (error) {
+            console.error('Erro ao chamar Gemini API:', error);
+            
+            // Tratar erro de fora do nicho
+            if (error.message === 'FORA_NICHO') {
+                alert('⚠️ Este assistente é especializado apenas em questões de programação e desenvolvimento de software.\n\nPor favor, faça perguntas relacionadas a:\n- Linguagens de programação\n- Frameworks e bibliotecas\n- APIs e integrações\n- Ferramentas de desenvolvimento\n- Arquitetura de software\n- Boas práticas de programação');
+                return;
+            }
+            
+            // Fallback para resposta simulada em caso de erro
             const aiMessage = {
                 id: (Date.now() + 1).toString(),
                 role: 'ai',
@@ -102,7 +124,133 @@
             renderMessages();
             saveCurrentChat();
             updateHistory();
-        }, 1000);
+        }
+    }
+    
+    async function chamarGeminiAPI(mensagem) {
+        // Validar nicho
+        const validacao = validarNichoProgramacao(mensagem);
+        
+        if (validacao === 'fora_nicho') {
+            throw new Error('FORA_NICHO');
+        }
+        
+        if (validacao === 'criacao') {
+            return `Este assistente foi desenvolvido utilizando a tecnologia **Google Gemini AI**, uma inteligência artificial avançada criada pela Google.
+
+A configuração, treinamento e implementação deste chatbot foram realizadas pelo **Grupo PIM LA10**, composto pelos seguintes integrantes:
+
+👥 **Equipe de Desenvolvimento:**
+- William
+- Mariane
+- Eduarda
+- Maysa
+- Taynara
+
+Este projeto faz parte do Portal Educa e utiliza a API gratuita do Gemini para fornecer suporte técnico especializado em programação e desenvolvimento de software.
+
+**Créditos:**
+- IA: Google Gemini
+- Desenvolvimento: Grupo PIM LA10`;
+        }
+        
+        // Configurar prompt para focar em programação
+        const systemPrompt = `Você é um assistente especializado em programação e desenvolvimento de software. 
+Sua função é ajudar desenvolvedores com:
+- Linguagens de programação (JavaScript, Python, Java, etc.)
+- Frameworks e bibliotecas
+- Arquitetura de software
+- APIs e integrações
+- Ferramentas de desenvolvimento
+- Boas práticas de programação
+- Resolução de problemas técnicos
+- Conceitos de engenharia de software
+
+Responda de forma clara, objetiva e técnica. Use exemplos de código quando apropriado.
+Se a pergunta não for sobre programação, informe educadamente que você só responde questões técnicas de desenvolvimento.`;
+
+        const API_KEY = 'AIzaSyCqENZk9QG7d_S4I77kYgmHZbOXeNe0X-k';
+
+        try {
+            const response = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `${systemPrompt}\n\nPergunta do usuário: ${mensagem}\n\nResposta:`
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            topK: 40,
+                            topP: 0.95,
+                            maxOutputTokens: 1024,
+                        },
+                    }),
+                }
+            );
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error?.message || 'Erro ao chamar API do Gemini');
+            }
+
+            const data = await response.json();
+            const resposta = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            
+            if (!resposta) {
+                throw new Error('Resposta vazia da API');
+            }
+
+            return resposta;
+        } catch (error) {
+            console.error('Erro na API do Gemini:', error);
+            throw error;
+        }
+    }
+    
+    function validarNichoProgramacao(mensagem) {
+        const palavrasProgramacao = [
+            'programação', 'programar', 'código', 'código', 'desenvolvimento', 'desenvolver',
+            'javascript', 'python', 'java', 'html', 'css', 'react', 'node', 'api', 'endpoint',
+            'função', 'variável', 'array', 'objeto', 'classe', 'método', 'framework', 'biblioteca',
+            'git', 'github', 'deploy', 'backend', 'frontend', 'fullstack', 'database', 'banco de dados',
+            'sql', 'nosql', 'json', 'xml', 'rest', 'graphql', 'docker', 'kubernetes', 'aws', 'azure',
+            'algoritmo', 'estrutura de dados', 'debug', 'teste', 'testar', 'bug', 'erro', 'exception',
+            'loop', 'condicional', 'if', 'else', 'for', 'while', 'async', 'await', 'promise',
+            'componente', 'módulo', 'package', 'npm', 'yarn', 'vite', 'webpack', 'babel',
+            'typescript', 'interface', 'type', 'generics', 'decorator', 'annotation',
+            'mvc', 'mvp', 'mvvm', 'arquitetura', 'design pattern', 'singleton', 'factory',
+            'integração', 'integra', 'sistema', 'aplicação', 'app', 'software', 'hardware',
+            'servidor', 'cliente', 'request', 'response', 'http', 'https', 'tcp', 'udp',
+            'autenticação', 'autorização', 'token', 'jwt', 'oauth', 'session', 'cookie',
+            'segurança', 'criptografia', 'hash', 'encrypt', 'decrypt', 'ssl', 'tls'
+        ];
+
+        const mensagemLower = mensagem.toLowerCase();
+        
+        // Verificar perguntas sobre criação/autores
+        const perguntasCriacao = [
+            'quem criou', 'quem desenvolveu', 'quem fez', 'quem programou',
+            'autores', 'criadores', 'desenvolvedores', 'equipe', 'grupo',
+            'pim', 'la10', 'william', 'mariane', 'eduarda', 'maysa', 'taynara'
+        ];
+        
+        if (perguntasCriacao.some(p => mensagemLower.includes(p))) {
+            return 'criacao';
+        }
+        
+        // Verificar se é sobre programação
+        const temPalavraProgramacao = palavrasProgramacao.some(palavra => 
+            mensagemLower.includes(palavra)
+        );
+        
+        return temPalavraProgramacao ? 'programacao' : 'fora_nicho';
     }
 
     function generateAIResponse(userText) {

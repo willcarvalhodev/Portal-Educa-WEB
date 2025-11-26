@@ -2291,11 +2291,22 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
   }
 
   function attachSectionHandlers(sectionId) {
-    const form = document.querySelector(`[data-form="${sectionId}"]`);
-    
     // Handler para chat (deve ser verificado primeiro, antes dos handlers específicos)
     if (sectionId === 'chat' && (navigationState.currentAction === 'chat-professor' || navigationState.currentAction === 'chat-ia')) {
-      if (form) {
+      // Aguardar um pouco para garantir que o DOM está pronto
+      setTimeout(() => {
+        const form = document.querySelector('[data-form="chat"]');
+        if (!form) {
+          console.warn('Formulário do chat não encontrado');
+          return;
+        }
+        
+        // Remover listeners anteriores se existirem
+        const formClone = form.cloneNode(true);
+        form.parentNode.replaceChild(formClone, form);
+        
+        // Handler para enviar mensagem
+        formClone.addEventListener('submit', async event => {
         // Handler para enviar mensagem
         form.addEventListener('submit', async event => {
           event.preventDefault();
@@ -2393,32 +2404,39 @@ Se a pergunta não for sobre programação, informe educadamente que você só r
           if (textarea) textarea.disabled = false;
           if (sendBtn) sendBtn.disabled = false;
         });
-      }
-
-      // Handler para limpar chat
-      document.querySelector('[data-action="limpar-chat"]')?.addEventListener('click', () => {
-        if (confirm('Deseja limpar o histórico de mensagens deste modo?')) {
-          state.mensagensChat = state.mensagensChat.filter(msg => msg.modo !== state.chatMode);
-          localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
-          const content = document.getElementById('demo-content');
-          if (content) {
-            const action = state.chatMode === 'ia' ? 'chat-ia' : 'chat-professor';
-            content.innerHTML = renderActionScreen('chat', action);
-            attachSectionHandlers('chat');
-          }
-        }
-      });
-
-      // Auto-resize textarea
-      if (form) {
-        const textarea = form.querySelector('textarea');
+        
+        // Auto-resize textarea
+        const textarea = formClone.querySelector('textarea');
         if (textarea) {
           textarea.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 200) + 'px';
           });
         }
-      }
+      }, 50);
+
+      // Handler para limpar chat
+      setTimeout(() => {
+        const limparBtn = document.querySelector('[data-action="limpar-chat"]');
+        if (limparBtn) {
+          // Remover listener anterior se existir
+          const newLimparBtn = limparBtn.cloneNode(true);
+          limparBtn.parentNode.replaceChild(newLimparBtn, limparBtn);
+          
+          newLimparBtn.addEventListener('click', () => {
+            if (confirm('Deseja limpar o histórico de mensagens deste modo?')) {
+              state.mensagensChat = state.mensagensChat.filter(msg => msg.modo !== state.chatMode);
+              localStorage.setItem('demoChat', JSON.stringify(state.mensagensChat));
+              const content = document.getElementById('demo-content');
+              if (content) {
+                const action = state.chatMode === 'ia' ? 'chat-ia' : 'chat-professor';
+                content.innerHTML = renderActionScreen('chat', action);
+                attachSectionHandlers('chat');
+              }
+            }
+          });
+        }
+      }, 50);
       
       return; // Retornar após configurar handlers do chat
     }
