@@ -2225,7 +2225,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-xl) var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md);
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
